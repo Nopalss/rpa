@@ -75,10 +75,7 @@ $histogram = [
                         </div>
                     </div>
                 </div>
-
                 <!-- end card -->
-
-
                 <!-- begin:: card schedule -->
                 <div class="col-xl-8 mt-10">
                     <div class="card shadow">
@@ -92,7 +89,6 @@ $histogram = [
                         <div class="card-body pt-2">
                             <div id="chart_2"></div>
                             <!-- select card -->
-
                             <select name="" id="" class="form-control text-center">
                                 <option value="main">Main</option>
                                 <option value="mobil">Mobil</option>
@@ -100,7 +96,6 @@ $histogram = [
 
                         </div>
                     </div>
-
                 </div>
                 <div class="col-xl-4 row mt-10 mb-4">
                     <div class="col-12 p-0 mb-4">
