@@ -82,13 +82,13 @@ var KTApexChartsDemo = function () {
 		var options = {
 			series: [{
 				name: 'series1',
-				data: [31, 40, 28, 51, 42, 109, 100]
+				data: [31, 40, 28, 51, 42, 109, 100, 10, 50, 10, 29, 80]
 			}, {
 				name: 'series2',
-				data: [11, 32, 45, 32, 34, 52, 41]
+				data: [11, 32, 45, 32, 34, 52, 41, 70, 30, 50, 10, 29, 80]
 			}],
 			chart: {
-				height: 350,
+				height: 1000,
 				type: 'area'
 			},
 			dataLabels: {
@@ -99,7 +99,147 @@ var KTApexChartsDemo = function () {
 			},
 			xaxis: {
 				type: 'datetime',
-				categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+				categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z", "2018-09-19T07:30:00.000Z", "2018-09-19T08:30:00.000Z", "2018-09-19T09:30:00.000Z", "2018-09-19T10:30:00.000Z", "2018-09-19T11:30:00.000Z"]
+			},
+			tooltip: {
+				x: {
+					format: 'dd/MM/yy HH:mm'
+				},
+			},
+			colors: [primary, success]
+		};
+
+		var chart = new ApexCharts(document.querySelector(apexChart), options);
+		chart.render();
+	}
+	var _demo19 = function () {
+		const apexChart = "#chart_19";
+		var options = {
+			series: [{
+				name: 'series1',
+				data: [31, 40, 28, 51, 42, 109, 100, 10, 50, 10, 29, 80]
+			}, {
+				name: 'series2',
+				data: [11, 32, 45, 32, 34, 52, 41, 70, 30, 50, 10, 29, 80]
+			}],
+			chart: {
+				height: '100%',
+				type: 'area'
+			},
+			dataLabels: {
+				enabled: false
+			},
+			stroke: {
+				curve: 'smooth'
+			},
+			xaxis: {
+				type: 'datetime',
+				categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z", "2018-09-19T07:30:00.000Z", "2018-09-19T08:30:00.000Z", "2018-09-19T09:30:00.000Z", "2018-09-19T10:30:00.000Z", "2018-09-19T11:30:00.000Z"]
+			},
+			tooltip: {
+				x: {
+					format: 'dd/MM/yy HH:mm'
+				},
+			},
+			colors: [primary, success]
+		};
+
+		var chart = new ApexCharts(document.querySelector(apexChart), options);
+		chart.render();
+	}
+	var _demo20 = function () {
+		const apexChart = "#chart_20";
+		var options = {
+			series: [{
+				name: 'series1',
+				data: [31, 40, 28, 51, 42, 109, 100, 10, 50, 10, 29, 80]
+			}, {
+				name: 'series2',
+				data: [11, 32, 45, 32, 34, 52, 41, 70, 30, 50, 10, 29, 80]
+			}],
+			chart: {
+				height: '100%',
+				type: 'area'
+			},
+			dataLabels: {
+				enabled: false
+			},
+			stroke: {
+				curve: 'smooth'
+			},
+			xaxis: {
+				type: 'datetime',
+				categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z", "2018-09-19T07:30:00.000Z", "2018-09-19T08:30:00.000Z", "2018-09-19T09:30:00.000Z", "2018-09-19T10:30:00.000Z", "2018-09-19T11:30:00.000Z"]
+			},
+			tooltip: {
+				x: {
+					format: 'dd/MM/yy HH:mm'
+				},
+			},
+			colors: [primary, success]
+		};
+
+		var chart = new ApexCharts(document.querySelector(apexChart), options);
+		chart.render();
+	}
+	var _demo21 = function () {
+		const apexChart = "#chart_21";
+		var options = {
+			series: [{
+				name: 'series1',
+				data: [31, 40, 28, 51, 42, 109, 100, 10, 50, 10, 29, 80]
+			}, {
+				name: 'series2',
+				data: [11, 32, 45, 32, 34, 52, 41, 70, 30, 50, 10, 29, 80]
+			}],
+			chart: {
+				height: '100%',
+				type: 'area'
+			},
+			dataLabels: {
+				enabled: false
+			},
+			stroke: {
+				curve: 'smooth'
+			},
+			xaxis: {
+				type: 'datetime',
+				categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z", "2018-09-19T07:30:00.000Z", "2018-09-19T08:30:00.000Z", "2018-09-19T09:30:00.000Z", "2018-09-19T10:30:00.000Z", "2018-09-19T11:30:00.000Z"]
+			},
+			tooltip: {
+				x: {
+					format: 'dd/MM/yy HH:mm'
+				},
+			},
+			colors: [primary, success]
+		};
+
+		var chart = new ApexCharts(document.querySelector(apexChart), options);
+		chart.render();
+	}
+	var _demo22 = function () {
+		const apexChart = "#chart_22";
+		var options = {
+			series: [{
+				name: 'series1',
+				data: [31, 40, 28, 51, 42, 109, 100, 10, 50, 10, 29, 80]
+			}, {
+				name: 'series2',
+				data: [11, 32, 45, 32, 34, 52, 41, 70, 30, 50, 10, 29, 80]
+			}],
+			chart: {
+				height: '100%',
+				type: 'area'
+			},
+			dataLabels: {
+				enabled: false
+			},
+			stroke: {
+				curve: 'smooth'
+			},
+			xaxis: {
+				type: 'datetime',
+				categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z", "2018-09-19T07:30:00.000Z", "2018-09-19T08:30:00.000Z", "2018-09-19T09:30:00.000Z", "2018-09-19T10:30:00.000Z", "2018-09-19T11:30:00.000Z"]
 			},
 			tooltip: {
 				x: {
@@ -123,7 +263,7 @@ var KTApexChartsDemo = function () {
 				data: [11, 32, 45, 32, 34, 52, 41]
 			}],
 			chart: {
-				height: 350,
+				height: '100%',
 				type: 'area'
 			},
 			dataLabels: {
@@ -158,7 +298,77 @@ var KTApexChartsDemo = function () {
 				data: [11, 32, 45, 32, 34, 52, 41]
 			}],
 			chart: {
-				height: 350,
+				height: '100%',
+				type: 'area'
+			},
+			dataLabels: {
+				enabled: false
+			},
+			stroke: {
+				curve: 'smooth'
+			},
+			xaxis: {
+				type: 'datetime',
+				categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+			},
+			tooltip: {
+				x: {
+					format: 'dd/MM/yy HH:mm'
+				},
+			},
+			colors: [primary, success]
+		};
+
+		var chart = new ApexCharts(document.querySelector(apexChart), options);
+		chart.render();
+	}
+	var _demo17 = function () {
+		const apexChart = "#chart_17";
+		var options = {
+			series: [{
+				name: 'series1',
+				data: [31, 40, 28, 51, 42, 109, 100]
+			}, {
+				name: 'series2',
+				data: [11, 32, 45, 32, 34, 52, 41]
+			}],
+			chart: {
+				height: '100%',
+				type: 'area'
+			},
+			dataLabels: {
+				enabled: false
+			},
+			stroke: {
+				curve: 'smooth'
+			},
+			xaxis: {
+				type: 'datetime',
+				categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+			},
+			tooltip: {
+				x: {
+					format: 'dd/MM/yy HH:mm'
+				},
+			},
+			colors: [primary, success]
+		};
+
+		var chart = new ApexCharts(document.querySelector(apexChart), options);
+		chart.render();
+	}
+	var _demo18 = function () {
+		const apexChart = "#chart_18";
+		var options = {
+			series: [{
+				name: 'series1',
+				data: [31, 40, 28, 51, 42, 109, 100]
+			}, {
+				name: 'series2',
+				data: [11, 32, 45, 32, 34, 52, 41]
+			}],
+			chart: {
+				height: '100%',
 				type: 'area'
 			},
 			dataLabels: {
@@ -1151,6 +1361,12 @@ var KTApexChartsDemo = function () {
 			_demo14();
 			_demo15();
 			_demo16();
+			_demo17();
+			_demo18();
+			_demo19();
+			_demo20();
+			_demo21();
+			_demo22();
 		}
 	};
 }();

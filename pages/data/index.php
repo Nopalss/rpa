@@ -68,24 +68,6 @@ require __DIR__ . '/../../includes/navbar.php';
                             <div class="col-lg-12 col-xl-12">
                                 <div class="row align-items-center">
                                     <div class="col-md-3 my-2 my-md-0">
-                                        <div class="input-icon">
-                                            <input type="text" class="form-control" placeholder="Search..." id="kt_datatable_search_query" />
-                                            <span><i class="flaticon2-search-1 text-muted"></i></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3 my-2 my-md-0">
-                                        <div class="d-flex align-items-center">
-                                            <label class="mr-3 mb-0 d-none d-md-block">Status:</label>
-                                            <select class="form-control" id="kt_datatable_search_status">
-                                                <option value="">All</option>
-                                                <option value="Verified">Verified</option>
-                                                <option value="Unverified">Unverified</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3 my-2 my-md-0">
                                         <div class=" d-flex align-items-center">
                                             <div class="input-group date">
                                                 <input type="text" class="form-control" name="date" readonly placeholder="mm/dd/yyyy" id="kt_datepicker_3" />
@@ -95,6 +77,16 @@ require __DIR__ . '/../../includes/navbar.php';
                                                     </span>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 my-2 my-md-0">
+                                        <div class="d-flex align-items-center">
+                                            <label class="mr-3 mb-0 d-none d-md-block">Status:</label>
+                                            <select class="form-control" id="kt_datatable_search_status">
+                                                <option value="">All</option>
+                                                <option value="Verified">Verified</option>
+                                                <option value="Unverified">Unverified</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

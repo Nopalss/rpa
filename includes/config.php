@@ -7,7 +7,7 @@ session_start();
 // $pass = "";
 // $db = "cms_database";
 
-define('BASE_URL', 'http://rap.test/');
+define('BASE_URL', 'http://rpa.test/');
 $users = [
     "report" => "232323",
     "jon" => "654321",

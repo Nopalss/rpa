@@ -10,7 +10,7 @@ require_once __DIR__ . '/config.php';
 <head>
     <base href="">
     <meta charset="utf-8" />
-    <title>CMS JABBAR23 </title>
+    <title>RPA </title>
     <meta name="description" content="Updates and statistics" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
@@ -35,5 +35,5 @@ require_once __DIR__ . '/config.php';
     <link href="<?= BASE_URL ?>assets/css/themes/layout/brand/dark.css" rel="stylesheet" type="text/css" />
     <link href="<?= BASE_URL ?>assets/css/themes/layout/aside/dark.css" rel="stylesheet" type="text/css" /> <!--end::Layout Themes-->
 
-    <link rel="shortcut icon" href="<?= BASE_URL ?>assets/media/favicon.ico" />
+    <!-- <link rel="shortcut icon" href="<?= BASE_URL ?>assets/media/favicon.ico" /> -->
 </head>
