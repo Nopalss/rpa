@@ -5,6 +5,13 @@ require __DIR__ . '/../../includes/header.php';
 require __DIR__ . '/../../includes/aside.php';
 require __DIR__ . '/../../includes/navbar.php';
 
+$line = '';
+$date = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $line = $_POST['line'];
+    $date = $_POST['date'];
+}
+
 ?>
 
 <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
@@ -41,12 +48,6 @@ require __DIR__ . '/../../includes/navbar.php';
                         </h3>
                     </div>
                     <div class="card-toolbar">
-                        <!--end::Dropdown-->
-                        <a href="<?= BASE_URL ?>pages/registrasi/export_excel.php" class="btn btn-light-success mr-5 font-weight-bolder">
-                            <span class="svg-icon svg-icon-md text-center"><!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
-                                <i class="far fa-file-excel"></i>
-                            </span>Import Excel
-                        </a>
                         <!--begin::Button-->
                         <a href="<?= BASE_URL ?>pages/registrasi/create.php" class="btn btn-primary font-weight-bolder">
                             <span class="svg-icon svg-icon-md"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Code\Plus.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -64,37 +65,55 @@ require __DIR__ . '/../../includes/navbar.php';
                     <!--begin: Search Form-->
                     <!--begin::Search Form-->
                     <div class="mb-7">
-                        <div class="row align-items-center">
-                            <div class="col-lg-12 col-xl-12">
-                                <div class="row align-items-center">
-                                    <div class="col-md-3 my-2 my-md-0">
-                                        <div class=" d-flex align-items-center">
-                                            <div class="input-group date">
-                                                <input type="text" class="form-control" name="date" readonly placeholder="mm/dd/yyyy" id="kt_datepicker_3" />
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text">
-                                                        <i class="la la-calendar"></i>
-                                                    </span>
+
+
+                        <form method="post">
+                            <div class="row align-items-center">
+                                <div class="col-lg-12 col-xl-12">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-3 my-2 my-md-0">
+                                            <div class=" d-flex align-items-center">
+                                                <div class="input-group date">
+                                                    <input type="text" class="form-control" name="date" required name="date" readonly placeholder="mm/dd/yyyy" id="kt_datepicker_3" />
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">
+                                                            <i class="la la-calendar"></i>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-3 my-2 my-md-0">
-                                        <div class="d-flex align-items-center">
-                                            <label class="mr-3 mb-0 d-none d-md-block">Status:</label>
-                                            <select class="form-control" id="kt_datatable_search_status">
-                                                <option value="">All</option>
-                                                <option value="Verified">Verified</option>
-                                                <option value="Unverified">Unverified</option>
-                                            </select>
+                                        <div class="col-md-3 my-2 my-md-0">
+                                            <div class="d-flex align-items-center">
+                                                <label class="mr-3 mb-0 d-none d-md-block">line:</label>
+                                                <select class="form-control" required name="line">
+                                                    <option value="">All</option>
+                                                    <option value="C12">C12</option>
+                                                    <option value="C15">C15</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 my-2 my-md-0">
+                                            <button class="btn btn-light-primary">Submit</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                     <!--begin: Datatable-->
-                    <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable"></div>
+
+                    <?php if ($_SERVER['REQUEST_METHOD'] === "POST"): ?>
+                        <h4 class="mb-3">Data <?= $line . " " . $date ?> </h4>
+                        <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable"></div>
+                        <div class="text-right">
+                            <a href="<?= BASE_URL ?>pages/registrasi/export_excel.php" class="btn mt-5 mr-0 btn-light-success  font-weight-bolder">
+                                <span class="svg-icon svg-icon-md text-center"><!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
+                                    <i class="fas fa-file-csv"></i>
+                                </span>Import CSV
+                            </a>
+                        </div>
+                    <?php endif; ?>
                     <!--end: Datatable-->
                 </div>
             </div>

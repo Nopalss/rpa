@@ -40,10 +40,9 @@ var KTDatatableLocalSortDemo = function () {
                 input: $('#kt_datatable_search_query'),
                 key: 'generalSearch'
             },
-
             // columns definition
             columns: [{
-                field: 'RecordID',
+                field: 'Id',
                 title: '#',
                 sortable: 'asc',
                 width: 30,

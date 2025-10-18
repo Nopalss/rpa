@@ -11,7 +11,7 @@ require_once __DIR__ . '/config.php';
         <!--begin::Copyright-->
         <div class="text-dark order-2 order-md-1">
             <span class="text-muted font-weight-bold mr-2"><?= date('Y') ?>&copy;</span>
-            <a href="" target="_blank" class="text-dark-75 text-hover-primary">Jabbar23</a>
+            <a href="" target="_blank" class="text-dark-75 text-hover-primary">Epson</a>
         </div>
         <!--end::Copyright-->
 
@@ -203,7 +203,10 @@ require_once __DIR__ . '/config.php';
 <!--begin::Page Scripts(used by this page)-->
 <script src="<?= BASE_URL ?>assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js"></script>
 <script src="<?= BASE_URL ?>assets/js/pages/features/charts/apexcharts.js"></script>
-<script src="<?= BASE_URL ?>assets/js/pages/crud/ktdatatable/base/local-sort.js"></script>
+<!-- <script src="<?= BASE_URL ?>assets/js/pages/crud/ktdatatable/base/local-sort.js"></script> -->
+
+
+<script src="<?= BASE_URL ?>assets/js/table/<?= $_SESSION['menu'] ?>-table.js"></script>
 
 <!--end::Page Scripts-->
 </body>
