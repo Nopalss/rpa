@@ -21,63 +21,38 @@ $histogram = [
 ];
 ?>
 
-
-<div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
-    <!--begin::Subheader-->
-    <div class="subheader py-2 py-lg-6  subheader-solid " id="kt_subheader">
-        <div class=" container-fluid  d-flex align-items-center justify-conten bt-between flex-wrap flex-sm-nowrap">
-            <!--begin::Info-->
-            <div class="d-flex align-items-center flex-wrap mr-1">
-
-                <!--begin::Page Heading-->
-                <div class="d-flex align-items-baseline flex-wrap mr-5">
-                    <!--begin::Page Title-->
-                    <h5 class="text-dark font-weight-bold my-1 mr-5">
-                        Dashboard </h5>
-                </div>
-                <!--end::Page Heading-->
-            </div>
-            <!--end::Info-->
-        </div>
-    </div>
-    <!--end::Subheader-->
-
+<div class="content  d-flex flex-column flex-column-fluid pt-0" id="kt_content">
     <!--begin::Entry-->
     <div class="d-flex flex-column-fluid">
         <!--begin::Container-->
-        <div class=" container ">
+        <div class=" container">
             <div class="row">
-                <div class="col-sm-6 col-lg-4 mb-4">
-                    <div class="bg-white  m-2 p-2 rounded shadow-sm h-100 ">
+                <div class="col-sm-6 col-lg-4 mb-2">
+                    <div class="bg-white  m-2 p-2 rounded shadow-sm">
                         <div class="d-flex flex-column">
-                            <p class="p-2 mb-2 font-weight-bold">Report</p>
-                            <div id="chart_19"></div>
-                        </div>
-                    </div>
-                </div>
-                <!-- card -->
-                <div class="col-sm-6 col-lg-4 mb-4">
-                    <div class="bg-white m-2 p-2 rounded shadow-sm h-100 ">
-                        <div class="d-flex flex-column">
-                            <p class="p-2 mb-2 font-weight-bold">Report</p>
-                            <div id="chart_20"></div>
+                            <p class="mb-3 pl-5 font-weight-bold">Site 1</p>
+                            <div id="chart_19" style="height: 50px"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- end card -->
-
-                <div class="col-sm-12 col-lg-4 mb-4">
-                    <div class="bg-white m-2 p-2  rounded shadow-sm h-100 ">
+                <div class="col-sm-6 col-lg-4 mb-2">
+                    <div class="bg-white  m-2 p-2 rounded shadow-sm">
                         <div class="d-flex flex-column">
-                            <p class="p-2 mb-2 font-weight-bold">Report</p>
-                            <div id="chart_21"></div>
+                            <p class="mb-3 pl-5 font-weight-bold">Site 2</p>
+                            <div id="chart_20" style="height: 50px"></div>
                         </div>
                     </div>
                 </div>
-                <!-- end card -->
-                <!-- begin:: card schedule -->
-                <div class="col-xl-8 mt-10">
+                <div class="col-sm-12 col-lg-4 mb-2">
+                    <div class="bg-white  m-2 p-2 rounded shadow-sm">
+                        <div class="d-flex flex-column">
+                            <p class="mb-3 pl-5 font-weight-bold">Site 3</p>
+                            <div id="chart_21" style="height: 50px"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-8 mb-2">
                     <div class="card shadow">
                         <div class="card-header pb-2  d-flex justify-content-between align-items-center ">
                             <h3 class="card-title d-flex align-items-center mb-2">
@@ -97,36 +72,20 @@ $histogram = [
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-4 row mt-10 mb-4">
+                <div class="col-xl-4 row pl-8 mb-4 mt-0">
                     <div class="col-12 p-0 mb-4">
                         <div class="bg-white  m-2 p-2 rounded shadow-sm h-100">
                             <div class="d-flex flex-column">
-                                <p class="p-2 mb-2 font-weight-bold">Report</p>
-                                <div id="chart_15"></div>
+                                <p class="p-2 mb-2 font-weight-bold">Site 4</p>
+                                <div id="chart_15" style="height: 50px"></div>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 p-0 mb-4">
-                        <div class="bg-white  m-2 p-2  rounded shadow-sm h-100 ">
+                        <div class="bg-white  m-2 p-2 rounded shadow-sm h-100">
                             <div class="d-flex flex-column">
-                                <p class="p-2 mb-2 font-weight-bold">Report</p>
-                                <div id="chart_16"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 p-0 mb-4">
-                        <div class="bg-white  m-2 p-2 rounded shadow-sm h-100 ">
-                            <div class="d-flex flex-column">
-                                <p class="p-2 mb-2 font-weight-bold">Report</p>
-                                <div id="chart_17"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 p-0 mb-4">
-                        <div class="bg-white  m-2 p-2 rounded shadow-sm h-100 ">
-                            <div class="d-flex flex-column">
-                                <p class="p-2 mb-2 font-weight-bold">Report</p>
-                                <div id="chart_18"></div>
+                                <p class="p-2 mb-2 font-weight-bold">Site 5</p>
+                                <div id="chart_16" style="height: 50px"></div>
                             </div>
                         </div>
                     </div>
@@ -215,6 +174,123 @@ $histogram = [
                             <!-- asite 2 -->
                             <div class="row mb-7">
                                 <p class="col-xl-12 h6 mb-3 text-muted">Side 2</p>
+                                <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
+                                    <label class="mr-2" for="">Line</label>
+                                    <select name="" id="" class="form-control form-control-sm">
+                                        <option value="">Select</option>
+                                        <?php foreach ($line as $l): ?>
+                                            <option value="<?= $l ?>"><?= $l ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
+                                    <label class="mr-2" for="">Model</label>
+                                    <select name="" id="" class="form-control form-control-sm">
+                                        <option value="">Select</option>
+                                        <?php foreach ($model as $m): ?>
+                                            <option value="<?= $m ?>"><?= $m ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="col-xl  mb-3">
+                                    <select name="" id="" class="form-control form-control-sm">
+                                        <option value="">Select</option>
+                                        <?php foreach ($histogram as $h): ?>
+                                            <option value="<?= $h ?>"><?= $h ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="col-xl-3 d-flex justify-content-center align-items-center">
+                                    <button class="btn btn-info mr-2">Alert</button>
+                                    <span class="switch switch-outline switch-icon switch-success">
+                                        <label>
+                                            <input type="checkbox" checked="checked" name="select" />
+                                            <span></span>
+                                        </label>
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- asite 3 -->
+                            <div class="row mb-7">
+                                <p class="col-xl-12 h6 mb-3 text-muted">Side 3</p>
+                                <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
+                                    <label class="mr-2" for="">Line</label>
+                                    <select name="" id="" class="form-control form-control-sm">
+                                        <option value="">Select</option>
+                                        <?php foreach ($line as $l): ?>
+                                            <option value="<?= $l ?>"><?= $l ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
+                                    <label class="mr-2" for="">Model</label>
+                                    <select name="" id="" class="form-control form-control-sm">
+                                        <option value="">Select</option>
+                                        <?php foreach ($model as $m): ?>
+                                            <option value="<?= $m ?>"><?= $m ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="col-xl  mb-3">
+                                    <select name="" id="" class="form-control form-control-sm">
+                                        <option value="">Select</option>
+                                        <?php foreach ($histogram as $h): ?>
+                                            <option value="<?= $h ?>"><?= $h ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="col-xl-3 d-flex justify-content-center align-items-center">
+                                    <button class="btn btn-info mr-2">Alert</button>
+                                    <span class="switch switch-outline switch-icon switch-success">
+                                        <label>
+                                            <input type="checkbox" checked="checked" name="select" />
+                                            <span></span>
+                                        </label>
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- asite 4 -->
+                            <div class="row mb-7">
+                                <p class="col-xl-12 h6 mb-3 text-muted">Side 4</p>
+                                <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
+                                    <label class="mr-2" for="">Line</label>
+                                    <select name="" id="" class="form-control form-control-sm">
+                                        <option value="">Select</option>
+                                        <?php foreach ($line as $l): ?>
+                                            <option value="<?= $l ?>"><?= $l ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
+                                    <label class="mr-2" for="">Model</label>
+                                    <select name="" id="" class="form-control form-control-sm">
+                                        <option value="">Select</option>
+                                        <?php foreach ($model as $m): ?>
+                                            <option value="<?= $m ?>"><?= $m ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="col-xl  mb-3">
+                                    <select name="" id="" class="form-control form-control-sm">
+                                        <option value="">Select</option>
+                                        <?php foreach ($histogram as $h): ?>
+                                            <option value="<?= $h ?>"><?= $h ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="col-xl-3 d-flex justify-content-center align-items-center">
+                                    <button class="btn btn-info mr-2">Alert</button>
+                                    <span class="switch switch-outline switch-icon switch-success">
+                                        <label>
+                                            <input type="checkbox" checked="checked" name="select" />
+                                            <span></span>
+                                        </label>
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- asite 5 -->
+                            <div class="row mb-7">
+                                <p class="col-xl-12 h6 mb-3 text-muted">Side 5</p>
                                 <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
                                     <label class="mr-2" for="">Line</label>
                                     <select name="" id="" class="form-control form-control-sm">

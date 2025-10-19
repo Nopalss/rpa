@@ -11,9 +11,9 @@ $role = 'admin';
     <!--begin::Header Mobile-->
     <div id="kt_header_mobile" class="header-mobile align-items-center  header-mobile-fixed ">
         <!--begin::Logo-->
-        <a href="">
+        <!-- <a href="">
             <img alt="Logo" src="<?= BASE_URL ?>assets/media/logos/logo.png" class="max-w-65px" />
-        </a>
+        </a> -->
         <!--end::Logo-->
 
         <!--begin::Toolbar-->
