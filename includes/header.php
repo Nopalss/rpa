@@ -31,9 +31,9 @@ require_once __DIR__ . '/config.php';
     <!--begin::Layout Themes(used by all pages)-->
 
     <link href="<?= BASE_URL ?>assets/css/themes/layout/header/base/light.css" rel="stylesheet" type="text/css" />
-    <link href="<?= BASE_URL ?>assets/css/themes/layout/header/menu/light.css" rel="stylesheet" type="text/css" />
+    <!-- <link href="<?= BASE_URL ?>assets/css/themes/layout/header/menu/light.css" rel="stylesheet" type="text/css" /> -->
     <link href="<?= BASE_URL ?>assets/css/themes/layout/brand/dark.css" rel="stylesheet" type="text/css" />
-    <link href="<?= BASE_URL ?>assets/css/themes/layout/aside/dark.css" rel="stylesheet" type="text/css" /> <!--end::Layout Themes-->
+    <link href="<?= BASE_URL ?>assets/css/themes/layout/aside/dark.css" rel="stylesheet" type="text/css" />
 
     <!-- <link rel="shortcut icon" href="<?= BASE_URL ?>assets/media/favicon.ico" /> -->
 </head>

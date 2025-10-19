@@ -36,7 +36,6 @@ $histogram = [
                         </div>
                     </div>
                 </div>
-
                 <div class="col-sm-6 col-lg-4 mb-2">
                     <div class="bg-white  m-2 p-2 rounded shadow-sm">
                         <div class="d-flex flex-column">

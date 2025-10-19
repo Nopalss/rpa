@@ -13,7 +13,7 @@
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" /> <!--end::Fonts-->
     <!--begin::Page Custom Styles(used by this page)-->
-    <link href="assets/css/pages/login/classic/login-4.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/pages/login/login-4.css" rel="stylesheet" type="text/css" />
     <!--end::Page Custom Styles-->
 
     <!--begin::Global Theme Styles(used by all pages)-->
@@ -144,11 +144,6 @@
     <script src="assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
     <script src="assets/js/scripts.bundle.js"></script>
     <!--end::Global Theme Bundle-->
-
-
-    <!--begin::Page Scripts(used by this page)-->
-    <!-- <script src="assets/js/pages/custom/login/login-general.js"></script> -->
-    <!--end::Page Scripts-->
 </body>
 <!--end::Body-->
 <!-- sweetalert -->
