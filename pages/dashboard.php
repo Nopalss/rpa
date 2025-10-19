@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../includes/config.php';
 require __DIR__ . '/../includes/header.php';
 $_SESSION['menu'] = 'dashboard';
+$_SESSION['halaman'] = 'dashboard';
 require __DIR__ . '/../includes/aside.php';
 require __DIR__ . '/../includes/navbar.php';
 $line = [
@@ -134,7 +135,7 @@ $histogram = [
                             </div>
                             <!-- asite 1 -->
                             <div class="row mb-7">
-                                <p class="col-xl-12 h6 mb-3 text-muted">Side 1</p>
+                                <p class="col-xl-12 h6 mb-3 text-muted">Site 1</p>
                                 <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
                                     <label class="mr-2" for="">Line</label>
                                     <select name="" id="" class="form-control form-control-sm">
@@ -173,7 +174,7 @@ $histogram = [
                             </div>
                             <!-- asite 2 -->
                             <div class="row mb-7">
-                                <p class="col-xl-12 h6 mb-3 text-muted">Side 2</p>
+                                <p class="col-xl-12 h6 mb-3 text-muted">Site 2</p>
                                 <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
                                     <label class="mr-2" for="">Line</label>
                                     <select name="" id="" class="form-control form-control-sm">
@@ -212,7 +213,7 @@ $histogram = [
                             </div>
                             <!-- asite 3 -->
                             <div class="row mb-7">
-                                <p class="col-xl-12 h6 mb-3 text-muted">Side 3</p>
+                                <p class="col-xl-12 h6 mb-3 text-muted">Site 3</p>
                                 <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
                                     <label class="mr-2" for="">Line</label>
                                     <select name="" id="" class="form-control form-control-sm">
@@ -251,7 +252,7 @@ $histogram = [
                             </div>
                             <!-- asite 4 -->
                             <div class="row mb-7">
-                                <p class="col-xl-12 h6 mb-3 text-muted">Side 4</p>
+                                <p class="col-xl-12 h6 mb-3 text-muted">Site 4</p>
                                 <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
                                     <label class="mr-2" for="">Line</label>
                                     <select name="" id="" class="form-control form-control-sm">
@@ -290,7 +291,7 @@ $histogram = [
                             </div>
                             <!-- asite 5 -->
                             <div class="row mb-7">
-                                <p class="col-xl-12 h6 mb-3 text-muted">Side 5</p>
+                                <p class="col-xl-12 h6 mb-3 text-muted">Site 5</p>
                                 <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
                                     <label class="mr-2" for="">Line</label>
                                     <select name="" id="" class="form-control form-control-sm">
