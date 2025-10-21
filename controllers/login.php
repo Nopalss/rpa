@@ -2,6 +2,13 @@
 require_once __DIR__ . "/../includes/config.php";
 require_once __DIR__ . "/../helper/setAlert.php";
 require_once __DIR__ . "/../helper/redirect.php";
+if (isset($_SESSION['username'])) {
+    // if (isset($_SESSION['role']) && $_SESSION['role'] == "teknisi") {
+    //     redirect("pages/schedule/");
+    // }
+    redirect("pages/dashboard.php");
+}
+
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $username = htmlspecialchars(trim($_POST['username']), ENT_QUOTES, 'UTF-8');
@@ -14,25 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         setAlert('error', "Login Gagal!", 'Username atau Password Salah!', 'danger', 'Coba Lagi');
         redirect("");
     }
-    // // Jika sudah login, arahkan ke dashboard
-    // if (isset($_SESSION['username'])) {
-    //     if (isset($_SESSION['role']) && $_SESSION['role'] == "teknisi") {
-    //         redirect("pages/schedule/");
-    //     }
-    //     redirect("pages/dashboard.php");
-    // }
-
-    // if (isset($_POST['login'])) {
-    //     $username = htmlspecialchars(trim($_POST['username']), ENT_QUOTES, 'UTF-8');
-    //     $password = trim($_POST['password']);
-
-    //     if (empty($username) || empty($password)) {
-    //         $_SESSION['alert'] = [
-    //             'icon' => 'warning',
-    //             'title' => 'Username atau password harus diisi',
-    //             'text' => 'Silakan coba lagi',
-    //             'style' => 'danger'
-    //         ];
+    //          setAlert('warning', "Username atau password harus diisi", 'Silakan coba lagi!', 'danger', 'Coba Lagi');
     //         redirect("");
     //     }
     //     try {
@@ -93,5 +82,4 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     //         ];
     //         redirect("");
     //     }
-    // }
 }
