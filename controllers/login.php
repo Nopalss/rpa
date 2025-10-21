@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $stmt = $pdo->prepare("SELECT * FROM tbl_user WHERE username = :username LIMIT 1");
         $stmt->execute(([':username' => $username]));
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($user && $user['password'] == $password) {
+        if ($user && password_verify($password, $user['password'])) {
             $_SESSION['username'] = $user['username'];
             $_SESSION['rule'] = $user['rule'];
             setAlert('success', "Login Berhasil", 'Selamat datang kembali!', 'success', 'OKe');
