@@ -7,6 +7,8 @@ $user = "root";
 $pass = "";
 $db = "rpa_core";
 
+date_default_timezone_set('Asia/Jakarta');
+
 // define('BASE_URL', 'http://rpa.test/');
 define('BASE_URL', 'http://localhost/rpa/');
 

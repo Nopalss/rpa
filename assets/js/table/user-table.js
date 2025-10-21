@@ -12,7 +12,7 @@ var KTDatatableLocalSortDemo = function () {
                 type: 'remote',
                 source: {
                     read: {
-                        // url: HOST_URL + '/api/datatables/demos/default.php',
+                        url: HOST_URL + '/api/user-table.php',
                     },
                 },
                 pageSize: 10,
@@ -41,15 +41,24 @@ var KTDatatableLocalSortDemo = function () {
 
             // columns definition
             columns: [{
+                field: 'user_id',
+                title: '#',
+                width: 30,
+                type: 'number',
+                selector: false,
+                textAlign: 'center',
+            },
+            {
                 field: 'username',
                 title: 'Username',
+                textAlign: 'center',
             }, {
-                field: 'name',
-                title: 'Name',
-            }, {
-                field: 'phone',
-                title: 'Phone',
-                format: 'MM/DD/YYYY',
+                field: 'rule',
+                textAlign: 'center',
+                title: 'Rule',
+                template: function (row) {
+                    return `<span class="text-capitalize">${row.rule}</span>`;
+                }
             }, {
                 field: 'Actions',
                 title: 'Actions',
@@ -57,14 +66,9 @@ var KTDatatableLocalSortDemo = function () {
                 width: 125,
                 overflow: 'visible',
                 autoHide: false,
-                template: function () {
-                    return '\
-                        <a href="javascript:;" class="btn btn-sm btn-success btn-text-primary btn-icon mr-2" title="CSV">\
-                            <span class="svg-icon svg-icon-md">\
-                              <i class="fas fa-file-csv"></i>\
-                            </span>\
-                        </a>\
-                        <a href="javascript:;" class="btn btn-sm btn-warning btn-text-primary btn-icon mr-2" title="Edit details">\
+                template: function (row) {
+                    return `\
+                        <a href="${HOST_URL}pages/setting/user/update.php?id=${row.user_id}" class="btn btn-sm btn-warning btn-text-primary btn-icon mr-2" title="Edit details">\
                             <span class="svg-icon svg-icon-md">\
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
@@ -75,7 +79,7 @@ var KTDatatableLocalSortDemo = function () {
                                 </svg>\
                             </span>\
                         </a>\
-                        <a href="javascript:;" class="btn btn-sm btn-danger btn-text-primary btn-icon" title="Delete">\
+                        <a onclick="confirmDeleteTemplate('${row.user_id}', 'controllers/setting/user/delete.php')"class="btn btn-sm btn-danger btn-text-primary btn-icon" title="Delete">\
                             <span class="svg-icon svg-icon-md">\
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
@@ -86,7 +90,7 @@ var KTDatatableLocalSortDemo = function () {
                                 </svg>\
                             </span>\
                         </a>\
-                    ';
+                    `;
                 },
             }],
         });

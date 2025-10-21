@@ -1,7 +1,7 @@
 <!--begin::Body-->
 <?php
 require_once __DIR__ . '/config.php';
-$role = 'admin';
+$role = $_SESSION['rule'];
 
 ?>
 

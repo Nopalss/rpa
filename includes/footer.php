@@ -52,10 +52,10 @@ require_once __DIR__ . '/config.php';
             </div>
             <div class="d-flex flex-column">
                 <a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
-                    <?= $_SESSION['name'] ?>
+                    <?= $_SESSION['username'] ?>
                 </a>
                 <div class="text-muted mt-1">
-                    <?= $_SESSION['role'] ?>
+                    <?= $_SESSION['rule'] ?>
                 </div>
                 <div class="navi mt-2">
                     <a onclick="logoutConfirm()" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Sign Out</a>
@@ -191,7 +191,7 @@ require_once __DIR__ . '/config.php';
 </script>
 <!--end::Global Config-->
 <script>
-    var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";
+    var HOST_URL = "<?= BASE_URL ?>";
 </script>
 
 <!--begin::Global Theme Bundle(used by all pages)-->
@@ -224,6 +224,79 @@ require_once __DIR__ . '/config.php';
         }).then((result) => {
             if (result.isConfirmed) {
                 window.location.href = "<?= BASE_URL . "includes/signout.php" ?>";
+            }
+        });
+    }
+
+    function togglePassword(selector, btn) {
+        const input = $(selector);
+        const icon = $(btn).find("i");
+
+        if (input.attr("type") === "password") {
+            input.attr("type", "text");
+            icon.removeClass("far fa-eye").addClass("far fa-eye-slash");
+        } else {
+            input.attr("type", "password");
+            icon.removeClass("far fa-eye-slash").addClass("far fa-eye");
+        }
+    }
+
+    //  delete template
+    function confirmDeleteTemplate(id, url, title = "Yakin mau hapus?", text = "Data akan dihapus permanen!") {
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Lanjut',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Munculin modal input password
+                Swal.fire({
+                    title: 'Masukkan Password',
+                    input: 'password',
+                    inputPlaceholder: 'Password Anda',
+                    inputAttributes: {
+                        maxlength: 50,
+                        autocapitalize: 'off',
+                        autocorrect: 'off'
+                    },
+                    showCancelButton: true,
+                    confirmButtonText: 'Hapus',
+                    cancelButtonText: 'Batal',
+                    preConfirm: (password) => {
+                        if (!password) {
+                            Swal.showValidationMessage('Password wajib diisi!');
+                            return false;
+                        }
+                        return password;
+                    }
+                }).then((res) => {
+                    if (res.isConfirmed) {
+                        // Kirim password ke backend (POST) biar bisa diverifikasi
+                        const form = document.createElement("form");
+                        form.method = "POST";
+                        form.action = `${HOST_URL}${url}`;
+
+                        const inputId = document.createElement("input");
+                        inputId.type = "hidden";
+                        inputId.name = "id";
+                        inputId.value = id;
+
+                        const inputPw = document.createElement("input");
+                        inputPw.type = "hidden";
+                        inputPw.name = "password";
+                        inputPw.value = res.value;
+
+                        form.appendChild(inputId);
+                        form.appendChild(inputPw);
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
+                });
             }
         });
     }
