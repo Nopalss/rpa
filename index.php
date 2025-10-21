@@ -1,5 +1,5 @@
 <?php
-// require __DIR__ . "/controllers/LoginController.php";
+require __DIR__ . "/controllers/login.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">

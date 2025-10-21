@@ -198,15 +198,18 @@ require_once __DIR__ . '/config.php';
 <script src="<?= BASE_URL ?>assets/plugins/global/plugins.bundle.js"></script>
 <script src="<?= BASE_URL ?>assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
 <script src="<?= BASE_URL ?>assets/js/scripts.bundle.js"></script>
-<script src="<?= BASE_URL ?>assets/js/pages/crud/forms/widgets/bootstrap-timepicker.js"></script>
-<!--end::Page Scripts-->
-<!--begin::Page Scripts(used by this page)-->
-<script src="<?= BASE_URL ?>assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js"></script>
-<script src="<?= BASE_URL ?>assets/js/pages/features/charts/apexcharts.js"></script>
+
+<?php if ($_SESSION['menu'] != "dashboard"): ?>
+    <!-- <script src="<?= BASE_URL ?>assets/js/pages/crud/forms/widgets/bootstrap-timepicker.js"></script> -->
+    <script src="<?= BASE_URL ?>assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js"></script>
+    <script src="<?= BASE_URL ?>assets/js/table/<?= $_SESSION['menu'] ?>-table.js"></script>
+<?php endif; ?>
+<?php if ($_SESSION['menu'] == "dashboard"): ?>
+    <script src="<?= BASE_URL ?>assets/js/pages/features/charts/apexcharts.js"></script>
+<?php endif; ?>
 <!-- <script src="<?= BASE_URL ?>assets/js/pages/crud/ktdatatable/base/local-sort.js"></script> -->
 
 
-<script src="<?= BASE_URL ?>assets/js/table/<?= $_SESSION['menu'] ?>-table.js"></script>
 
 <!--end::Page Scripts-->
 </body>
