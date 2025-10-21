@@ -210,6 +210,24 @@ require_once __DIR__ . '/config.php';
 <!-- <script src="<?= BASE_URL ?>assets/js/pages/crud/ktdatatable/base/local-sort.js"></script> -->
 
 
+<!-- script -->
+<script>
+    function logoutConfirm() {
+        Swal.fire({
+            title: 'Logout?',
+            text: 'Anda yakin ingin keluar dari aplikasi?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Logout',
+            cancelButtonText: 'Batal',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "<?= BASE_URL . "includes/signout.php" ?>";
+            }
+        });
+    }
+</script>
 
 <!--end::Page Scripts-->
 </body>

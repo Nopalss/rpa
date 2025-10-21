@@ -1,14 +1,18 @@
 <?php
 require_once __DIR__ . "/../includes/config.php";
+require_once __DIR__ . "/../helper/setAlert.php";
+require_once __DIR__ . "/../helper/redirect.php";
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $username = htmlspecialchars(trim($_POST['username']), ENT_QUOTES, 'UTF-8');
     $password = trim($_POST['password']);
     if (isset($users[$username]) && $password === $users[$username]) {
-        header("Location: " . BASE_URL . "pages/dashboard.php");
-        exit;
+        $_SESSION['username'] = $username;
+        setAlert('success', "Login Berhasil", 'Selamat datang kembali!', 'success', 'OKe');
+        redirect("pages/dashboard.php");
     } else {
-        echo "Invalid username or password!";
+        setAlert('error', "Login Gagal!", 'Username atau Password Salah!', 'danger', 'Coba Lagi');
+        redirect("");
     }
     // // Jika sudah login, arahkan ke dashboard
     // if (isset($_SESSION['username'])) {
