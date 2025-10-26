@@ -119,7 +119,7 @@ $role = $_SESSION['rule'];
                                             <span class="menu-text">Data</span></a>
                                         </li>
                                         <!-- Preference -->
-                                        <?php if ($_SESSION['menu'] == 'add_line' || $_SESSION['menu'] == 'add_model' || $_SESSION['menu'] == 'add_application' || $_SESSION['menu'] == 'add_path_csv' ||  $_SESSION['menu'] == 'add_csv_name'  || $_SESSION['menu'] == 'add_csv_header' || $_SESSION['menu'] == 'add_model_setting'): ?>
+                                        <?php if ($_SESSION['menu'] == 'add_line' || $_SESSION['menu'] == 'add_model' || $_SESSION['menu'] == 'add_application' || $_SESSION['menu'] == 'add_path_csv' ||  $_SESSION['menu'] == 'add_csv_name'  || $_SESSION['menu'] == 'add_csv_header' || $_SESSION['menu'] == 'model_setting'): ?>
                                             <li class="menu-item  menu-item-submenu menu-item-open" aria-haspopup="true" data-menu-toggle="hover"><a href="javascript:;" class="menu-link menu-toggle">
                                                 <?php else: ?>
                                             <li class="menu-item  menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"><a href="javascript:;" class="menu-link menu-toggle">

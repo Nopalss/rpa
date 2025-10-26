@@ -11,7 +11,7 @@ require_once __DIR__ . '/config.php';
         <!--begin::Copyright-->
         <div class="text-dark order-2 order-md-1">
             <span class="text-muted font-weight-bold mr-2"><?= date('Y') ?>&copy;</span>
-            <a href="" target="_blank" class="text-dark-75 text-hover-primary">Epson</a>
+            <a href="" target="_blank" class="text-dark-75 text-hover-primary">RPA</a>
         </div>
         <!--end::Copyright-->
 
@@ -202,7 +202,7 @@ require_once __DIR__ . '/config.php';
 <?php if ($_SESSION['menu'] != "dashboard"): ?>
     <!-- <script src="<?= BASE_URL ?>assets/js/pages/crud/forms/widgets/bootstrap-timepicker.js"></script> -->
     <script src="<?= BASE_URL ?>assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js"></script>
-    <script src="<?= BASE_URL ?>assets/js/table/<?= $_SESSION['menu'] ?>-table.js"></script>
+    <script src="<?= BASE_URL ?>assets/js/table/add_model-table.js"></script>
 <?php endif; ?>
 <?php if ($_SESSION['menu'] == "dashboard"): ?>
     <script src="<?= BASE_URL ?>assets/js/pages/features/charts/apexcharts.js"></script>
@@ -300,6 +300,65 @@ require_once __DIR__ . '/config.php';
             }
         });
     }
+
+
+    // fungsi path
+    $(document).ready(function() {
+        const $appName = $("#application_name");
+        const $appPath = $("#application_path");
+
+        if ($appName.length && $appPath.length) {
+            // Event realtime saat user mengetik
+            $appName.on("input change", function() {
+                $appPath.val($(this).val());
+            });
+        } else {
+            console.error("Elemen #application_name atau #application_path tidak ditemukan");
+        }
+    });
+
+    function syncAppPath() {
+        $("#application_path").val($("#application_name").val());
+    }
+
+    $(document).ready(function() {
+        $("#application_name").on("input change", syncAppPath);
+    });
+
+
+    // fungsi create csv
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('#addCsvBtn')) {
+            e.preventDefault();
+
+            // Ambil nilai dari input utama
+            const appName = document.getElementById('application_name')?.value.trim() || '';
+            const csvPath = document.getElementById('csv_path')?.value.trim() || '';
+
+            // Validasi minimal
+            if (!appName) {
+                alert('Application Name harus diisi dulu.');
+                return;
+            }
+
+            // Isi hidden input di form tersembunyi
+            document.getElementById('application_name_hidden').value = appName;
+            document.getElementById('csv_path_hidden').value = csvPath;
+
+            // Klik input file
+            const input = document.getElementById('csvFileInput');
+            if (input) input.click();
+            else console.error('csvFileInput not found');
+        }
+    });
+
+    document.addEventListener('change', function(e) {
+        if (e.target && e.target.id === 'csvFileInput') {
+            const form = document.getElementById('csvForm');
+            if (form) form.submit();
+            else console.error('csvForm not found');
+        }
+    });
 </script>
 
 <!--end::Page Scripts-->

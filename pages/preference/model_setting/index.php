@@ -5,6 +5,7 @@ $_SESSION['halaman'] = 'model setting';
 require __DIR__ . '/../../../includes/header.php';
 require __DIR__ . '/../../../includes/aside.php';
 require __DIR__ . '/../../../includes/navbar.php';
+unset($_SESSION['form_add_csv']);
 ?>
 
 <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
@@ -22,7 +23,7 @@ require __DIR__ . '/../../../includes/navbar.php';
                     </div>
                     <div class="card-toolbar">
                         <!--begin::Button-->
-                        <a href="<?= BASE_URL ?>pages/registrasi/create.php" class="btn btn-primary font-weight-bolder">
+                        <a href="<?= BASE_URL ?>pages/preference/model_setting/create.php" class="btn btn-primary font-weight-bolder">
                             <span class="svg-icon svg-icon-md"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Code\Plus.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                         <rect x="0" y="0" width="24" height="24" />

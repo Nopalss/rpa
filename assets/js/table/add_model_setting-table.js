@@ -41,7 +41,7 @@ var KTDatatableLocalSortDemo = function () {
 
             // columns definition
             columns: [{
-                field: 'model',
+                field: '',
                 title: 'model',
             }, {
                 field: 'created_by',

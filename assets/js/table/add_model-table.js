@@ -40,32 +40,37 @@ var KTDatatableLocalSortDemo = function () {
             },
 
             // columns definition
-            columns: [{
-                field: 'model',
-                title: 'Model',
-            }, {
-                field: 'created_by',
-                title: 'Created By',
-            }, {
-                field: 'created_at',
-                title: 'Created At',
-                format: 'MM/DD/YYYY',
-            }, {
-                field: 'modify_by',
-                title: 'Modify By ',
-            }, {
-                field: 'modify_at',
-                title: 'Modify At ',
-                format: 'MM/DD/YYYY',
-            }, {
-                field: 'Actions',
-                title: 'Actions',
-                sortable: false,
-                width: 125,
-                overflow: 'visible',
-                autoHide: false,
-                template: function () {
-                    return '\
+            columns: [
+                {
+                    field: 'id',
+                    title: '#',
+                },
+                {
+                    field: 'apllication',
+                    title: 'Application',
+                }, {
+                    field: 'created_by',
+                    title: 'Created By',
+                }, {
+                    field: 'created_at',
+                    title: 'Created At',
+                    format: 'MM/DD/YYYY',
+                }, {
+                    field: 'modify_by',
+                    title: 'Modify By ',
+                }, {
+                    field: 'modify_at',
+                    title: 'Modify At ',
+                    format: 'MM/DD/YYYY',
+                }, {
+                    field: 'Actions',
+                    title: 'Actions',
+                    sortable: false,
+                    width: 125,
+                    overflow: 'visible',
+                    autoHide: false,
+                    template: function () {
+                        return '\
                         <a href="javascript:;" class="btn btn-sm btn-success btn-text-primary btn-icon mr-2" title="CSV">\
                             <span class="svg-icon svg-icon-md">\
                               <i class="fas fa-file-csv"></i>\
@@ -94,8 +99,8 @@ var KTDatatableLocalSortDemo = function () {
                             </span>\
                         </a>\
                     ';
-                },
-            }],
+                    },
+                }],
         });
 
         $('#kt_datatable_search_status').on('change', function () {
