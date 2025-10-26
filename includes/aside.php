@@ -136,23 +136,23 @@ $role = $_SESSION['rule'];
                                                         <li class="menu-item  menu-item-parent" aria-haspopup="true">
                                                             <span class="menu-link"><span class="menu-text">Preference</span></span>
                                                         </li>
-                                                        <?php if ($_SESSION['menu'] == 'add_line'): ?>
+                                                        <!-- <?php if ($_SESSION['menu'] == 'add_line'): ?>
                                                             <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_line/" class="menu-link ">
                                                                 <?php else: ?>
                                                             <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_line/" class="menu-link ">
                                                                 <?php endif; ?>
                                                                 <i class="menu-bullet menu-bullet-dot"><span></span></i>
                                                                 <span class="menu-text">Add Line</span></a>
+                                                            </li> -->
+                                                        <?php if ($_SESSION['menu'] == 'add_model'): ?>
+                                                            <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_model/" class="menu-link ">
+                                                                <?php else: ?>
+                                                            <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_model/" class="menu-link ">
+                                                                <?php endif; ?>
+                                                                <i class="menu-bullet menu-bullet-dot"><span></span></i>
+                                                                <span class="menu-text">Add Model</span></a>
                                                             </li>
-                                                            <?php if ($_SESSION['menu'] == 'add_model'): ?>
-                                                                <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_model/" class="menu-link ">
-                                                                    <?php else: ?>
-                                                                <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_model/" class="menu-link ">
-                                                                    <?php endif; ?>
-                                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                                                                    <span class="menu-text">Add Model</span></a>
-                                                                </li>
-                                                                <?php if ($_SESSION['menu'] == 'add_application'): ?>
+                                                            <!-- <?php if ($_SESSION['menu'] == 'add_application'): ?>
                                                                     <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_application/" class="menu-link ">
                                                                         <?php else: ?>
                                                                     <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_application/" class="menu-link ">
@@ -167,31 +167,31 @@ $role = $_SESSION['rule'];
                                                                             <?php endif; ?>
                                                                             <i class="menu-bullet menu-bullet-dot"><span></span></i>
                                                                             <span class="menu-text">Add Path CSV</span></a>
-                                                                        </li>
-                                                                        <?php if ($_SESSION['menu'] == 'add_csv_name'): ?>
-                                                                            <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_csv_name/" class="menu-link ">
-                                                                                <?php else: ?>
-                                                                            <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_csv_name/" class="menu-link ">
-                                                                                <?php endif; ?>
-                                                                                <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                                                                                <span class="menu-text">Add CSV Name</span></a>
-                                                                            </li>
-                                                                            <?php if ($_SESSION['menu'] == 'add_csv_header'): ?>
+                                                                        </li> -->
+                                                            <?php if ($_SESSION['menu'] == 'add_csv_setting'): ?>
+                                                                <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_csv_setting/" class="menu-link ">
+                                                                    <?php else: ?>
+                                                                <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_csv_setting/" class="menu-link ">
+                                                                    <?php endif; ?>
+                                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
+                                                                    <span class="menu-text">Add CSV Setting</span></a>
+                                                                </li>
+                                                                <!-- <?php if ($_SESSION['menu'] == 'add_csv_header'): ?>
                                                                                 <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_csv_header/" class="menu-link ">
                                                                                     <?php else: ?>
                                                                                 <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_csv_header/" class="menu-link ">
                                                                                     <?php endif; ?>
                                                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>
                                                                                     <span class="menu-text">Add CSV Header</span></a>
-                                                                                </li>
-                                                                                <?php if ($_SESSION['menu'] == 'add_model_setting'): ?>
-                                                                                    <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_model_setting/" class="menu-link ">
-                                                                                        <?php else: ?>
-                                                                                    <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_model_setting/" class="menu-link ">
-                                                                                        <?php endif; ?>
-                                                                                        <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                                                                                        <span class="menu-text">Add Model Setting</span></a>
-                                                                                    </li>
+                                                                                </li> -->
+                                                                <?php if ($_SESSION['menu'] == 'model_setting'): ?>
+                                                                    <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/model_setting/" class="menu-link ">
+                                                                        <?php else: ?>
+                                                                    <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/model_setting/" class="menu-link ">
+                                                                        <?php endif; ?>
+                                                                        <i class="menu-bullet menu-bullet-dot"><span></span></i>
+                                                                        <span class="menu-text">Model Setting</span></a>
+                                                                    </li>
                                                     </ul>
                                                 </div>
                                             </li>

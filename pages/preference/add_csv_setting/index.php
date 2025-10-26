@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../../includes/config.php';
-$_SESSION['menu'] = 'add_csv_name';
-$_SESSION['halaman'] = 'CSV name';
+$_SESSION['menu'] = 'add_csv_setting';
+$_SESSION['halaman'] = 'CSV Setting';
 
 require __DIR__ . '/../../../includes/header.php';
 require __DIR__ . '/../../../includes/aside.php';
@@ -20,7 +20,7 @@ require __DIR__ . '/../../../includes/navbar.php';
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
                         <h3 class="card-label">
-                            Data CSV Name
+                            Data CSV Setting
                         </h3>
                     </div>
                     <div class="card-toolbar">
@@ -32,7 +32,7 @@ require __DIR__ . '/../../../includes/navbar.php';
                                         <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10" />
                                         <path d="M11,11 L11,7 C11,6.44771525 11.4477153,6 12,6 C12.5522847,6 13,6.44771525 13,7 L13,11 L17,11 C17.5522847,11 18,11.4477153 18,12 C18,12.5522847 17.5522847,13 17,13 L13,13 L13,17 C13,17.5522847 12.5522847,18 12,18 C11.4477153,18 11,17.5522847 11,17 L11,13 L7,13 C6.44771525,13 6,12.5522847 6,12 C6,11.4477153 6.44771525,11 7,11 L11,11 Z" fill="#000000" />
                                     </g>
-                                </svg><!--end::Svg Icon--></span>Add CSV Name
+                                </svg><!--end::Svg Icon--></span>Add CSV Setting
                         </a>
                         <!--end::Button-->
                     </div>

@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../../../includes/config.php';
-$_SESSION['menu'] = 'add_model_setting';
+$_SESSION['menu'] = 'model_setting';
 $_SESSION['halaman'] = 'model setting';
 require __DIR__ . '/../../../includes/header.php';
 require __DIR__ . '/../../../includes/aside.php';

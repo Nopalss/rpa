@@ -12,7 +12,7 @@ var KTDatatableLocalSortDemo = function () {
                 type: 'remote',
                 source: {
                     read: {
-                        // url: HOST_URL + '/api/datatables/demos/default.php',
+                        url: HOST_URL + '/api/line-table.php',
                     },
                 },
                 pageSize: 10,
@@ -41,15 +41,18 @@ var KTDatatableLocalSortDemo = function () {
 
             // columns definition
             columns: [{
-                field: 'line',
-                title: 'line',
+                field: 'line_id',
+                title: '#',
             }, {
-                field: 'created_by',
-                title: 'Created By',
+                field: 'line_name',
+                title: 'Line Name',
             }, {
-                field: 'created_at',
-                title: 'Created At',
+                field: 'create_at',
+                title: 'Create At',
                 format: 'MM/DD/YYYY',
+            }, {
+                field: 'create_by',
+                title: 'Create By ',
             }, {
                 field: 'modify_by',
                 title: 'Modify By ',
