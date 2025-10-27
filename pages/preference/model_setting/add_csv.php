@@ -54,10 +54,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
     $i = 1;
     $application_name = $_POST['application_name'];
     $csv_path = $_POST['csv_path'];
-    $_SESSION['form_add_csv'] = [
-        "application_name" => $application_name,
-        "csv_path" => $csv_path
-    ];
+    $file_name = $_FILES['csv_file']['name'];
+    if (!isset($_SESSION['form_add_csv'])) {
+        $_SESSION['form_add_csv'] = [
+            "application_name" => $application_name,
+            "csv_path" => $csv_path
+        ];
+    }
     require __DIR__ . '/../../../includes/header.php';
     require __DIR__ . '/../../../includes/aside.php';
     require __DIR__ . '/../../../includes/navbar.php';
@@ -73,14 +76,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
             <div class="f-flex justify-content-center align-items-center">
                 <div class="col-lg-9">
                     <div class="card">
+                        <div class="card-header">
+                            <h4>Add CSV</h4>
+                        </div>
                         <div class="card-body">
-                            <div class="">
-                                <h5>Application: <?= $application_name ?></h5>
-                                <p>Path: <?= $csv_path ?></p>
-                            </div>
+                            <table class="table table-borderless">
+                                <tr>
+                                    <th class="h6" style="width:10% ;">Application</th>
+                                    <td style="width:2% ;">:</td>
+                                    <td class="h6 font-weight-normal"><?= $application_name ?></td>
+                                </tr>
+                                <tr>
+                                    <th class="h6">Path</th>
+                                    <td>:</td>
+                                    <td class="h6 font-weight-normal"><?= $csv_path ?></td>
+                                </tr>
+                                <tr>
+                                    <th class="h6">File Name</th>
+                                    <td>:</td>
+                                    <td class="h6 font-weight-normal"><?= $file_name ?></td>
+                                </tr>
+                            </table>
                             <form action="<?= BASE_URL ?>controllers/preference/add_csv.php" method="post">
                                 <input type="hidden" name="application_name" value="<?= $application_name ?>">
                                 <input type="hidden" name="csv_path" value="<?= $csv_path ?>">
+                                <input type="hidden" name="file_name" value="<?= $file_name ?>">
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
@@ -107,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
                                 </table>
                                 <div class="w-full text-right">
                                     <a href="javascript:history.back()" class="btn btn-danger">Cancel</a>
-                                    <button class="btn btn-primary" type="submit">Create</button>
+                                    <button class="btn btn-primary" type="submit">Submit</button>
                                 </div>
                             </form>
                         </div>
