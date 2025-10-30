@@ -57,7 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
 
     $i = 1;
     $application_name = $_POST['application_name'];
+    $application_id = $_POST['application_id'] ?? null;
     $csv_path = $_POST['csv_path'];
+    $action = $_POST['action'];
     $file_name = $_FILES['csv_file']['name'];
     if (!isset($_SESSION['form_add_csv'])) {
         $_SESSION['form_add_csv'] = [
@@ -112,7 +114,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
                                     </td>
                                 </tr>
                             </table>
-                            <form action="<?= BASE_URL ?>controllers/preference/add_csv.php" method="post">
+                            <form action="<?= BASE_URL ?>controllers/preference/<?= $action ?>_csv.php" method="post">
+                                <input type="hidden" name="application_id" value="<?= $application_id ?>">
                                 <input type="hidden" name="application_name" value="<?= $application_name ?>">
                                 <input type="hidden" name="csv_path" value="<?= $csv_path ?>">
                                 <input type="hidden" name="file_name" value="<?= $file_name ?>">

@@ -17,14 +17,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
         $pdo->beginTransaction();
-        $sql = "INSERT INTO tbl_application (id, name, path,created_by, modify_by) 
-                VALUES (:id, :name, :path,:created_by, :modify_by)";
+        $sql = "UPDATE tbl_application 
+                SET 
+                    name = :name, 
+                    path = :path, 
+                    modify_by = :modify_by, 
+                    modify_at = NOW()
+                WHERE 
+                    id = :id";
+
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             ":id" => $application_id,
             ":name" => $application_name,
             ":path" => $csv_path,
-            ":created_by" => $_SESSION['username'],
             ":modify_by" => $_SESSION['username']
         ]);
 
@@ -57,8 +63,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($pdo->inTransaction()) {
             $pdo->rollBack();
         }
-        handlePdoError($e, 'pages/preference/model_setting/create.php');
+        handlePdoError($e, 'pages/preference/model_setting/');
+        echo $e;
     }
 } else {
-    redirect('pages/preference/model_setting/create.php');
+    redirect('pages/preference/model_setting/');
 }

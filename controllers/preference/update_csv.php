@@ -7,10 +7,11 @@ require_once __DIR__ . '/../../helper/handlePdoError.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $application_name = sanitize($_POST['application_name'] ?? '');
+        $application_id = sanitize($_POST['application_id'] ?? '');
         $csv_path = sanitize($_POST['csv_path'] ?? '');
         $file_name = sanitize($_POST['file_name'] ?? '');
 
-        if (empty($application_name) || empty($csv_path) || empty($file_name)) {
+        if (empty($application_name) || empty($application_id) || empty($csv_path) || empty($file_name)) {
             throw new Exception("Application name dan CSV path wajib diisi!");
         }
 
@@ -22,16 +23,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $pdo->beginTransaction();
-        // insert table Application
         if (!isset($_SESSION['form_add_csv']['application_id'])) {
-            $sql = "INSERT INTO tbl_temp_application (name, path) 
-                VALUES (:name, :path)";
+            // insert table Application
+            $sql = "INSERT INTO tbl_temp_application (id, name, path) 
+                VALUES (:id, :name, :path)";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
+                ":id" => $application_id,
                 ":name" => $application_name,
                 ":path" => $csv_path,
             ]);
-            $application_id = $pdo->lastInsertId();
         } else {
             $application_id = $_SESSION['form_add_csv']['application_id'];
         }
@@ -75,13 +76,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
 
         setAlert('success', "Selamat!", 'Data Berhasil Disimpan!', 'success', 'Oke');
-        redirect('pages/preference/model_setting/create.php');
+        redirect("pages/preference/model_setting/update.php?id=$application_id");
     } catch (PDOException $e) {
         if ($pdo->inTransaction()) {
             $pdo->rollBack();
         }
-        handlePdoError($e, 'pages/preference/model_setting/create.php');
+        handlePdoError($e, "pages/preference/model_setting/update.php?id=$application_id");
     }
 } else {
-    redirect('pages/preference/model_setting/create.php');
+    redirect("pages/preference/model_setting/");
 }

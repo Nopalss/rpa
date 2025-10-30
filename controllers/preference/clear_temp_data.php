@@ -21,7 +21,7 @@ try {
     $pdo->beginTransaction();
 
     // 1️ Ambil semua file_id berdasarkan application_id
-    $stmt = $pdo->prepare("SELECT file_id FROM tbl_filename WHERE application_id = ?");
+    $stmt = $pdo->prepare("SELECT file_id FROM tbl_filename WHERE temp_id = ?");
     $stmt->execute([$application_id]);
     $fileIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
@@ -33,7 +33,7 @@ try {
     }
 
     // 3 Hapus semua file_name yang terhubung dengan application_id
-    $stmtDeleteFiles = $pdo->prepare("DELETE FROM tbl_filename WHERE application_id = ?");
+    $stmtDeleteFiles = $pdo->prepare("DELETE FROM tbl_filename WHERE temp_id = ?");
     $stmtDeleteFiles->execute([$application_id]);
 
     // 4 Hapus juga data dari tbl_application (jika datanya sementara)

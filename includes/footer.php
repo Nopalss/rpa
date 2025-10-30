@@ -302,6 +302,46 @@ require_once __DIR__ . '/config.php';
         });
     }
 
+    // batal add application
+    function confirmCancel(id, url, title = "Yakin mau membatalkan?", text = "Data akan dihapus!") {
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: 'warning',
+            showCancelButton: true,
+
+            // Tombol konfirmasi (Merah, untuk aksi hapus)
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Batal!', // Teks untuk "ngirim" / hapus
+
+            // Tombol batal (Biru, untuk aksi batal)
+            cancelButtonColor: '#3085d6',
+            cancelButtonText: 'Lanjut' // Teks untuk "batal"
+
+        }).then((result) => {
+
+            // Hanya jalankan jika pengguna mengklik tombol "Ya, Hapus!"
+            if (result.isConfirmed) {
+
+                // Langsung buat dan kirim form
+                const form = document.createElement("form");
+                form.method = "POST";
+                form.action = `${HOST_URL}${url}`;
+
+                // Siapkan input 'id'
+                const inputId = document.createElement("input");
+                inputId.type = "hidden";
+                inputId.name = "id";
+                inputId.value = id;
+
+                // Tidak ada input password
+
+                form.appendChild(inputId);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    }
 
     // fungsi path
     $(document).ready(function() {

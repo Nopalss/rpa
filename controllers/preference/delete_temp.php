@@ -1,17 +1,14 @@
 <?php
 require_once __DIR__ . '/../../includes/config.php';
-require_once __DIR__ . "/../../helper/checkPassword.php";
 require_once __DIR__ . "/../../helper/redirect.php";
 require_once __DIR__ . "/../../helper/sanitize.php";
 require_once __DIR__ . "/../../helper/handlePdoError.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $application_id       = isset($_POST['id']) ? sanitize($_POST['id']) : null;
-    $username = $_SESSION['username'] ?? null;
-    $password = trim($_POST['password'] ?? '');
 
     // Validasi dasar
-    if (empty($application_id) || empty($password) || empty($username)) {
+    if (empty($application_id)) {
         setAlert(
             'warning',
             "Oops!",
@@ -22,18 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         return redirect("pages/setting/user/");
     }
 
-    // Cek password user
-    $user = checkLogin($pdo, $username, $password);
-    if (!$user) {
-        setAlert(
-            'error',
-            "Oops!",
-            'Password salah.',
-            'danger',
-            'Coba Lagi'
-        );
-        return redirect("pages/setting/user/");
-    }
 
     try {
         // Cek apakah user dengan ID tersebut ada
@@ -48,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Jalankan transaksi penghapusan
         $pdo->beginTransaction();
         // 1️ Ambil semua file_id berdasarkan application_id
-        $stmt = $pdo->prepare("SELECT file_id FROM tbl_filename WHERE application_id = ?");
+        $stmt = $pdo->prepare("SELECT file_id FROM tbl_filename WHERE temp_id = ?");
         $stmt->execute([$application_id]);
         $fileIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
@@ -60,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // 3 Hapus semua file_name yang terhubung dengan application_id
-        $stmtDeleteFiles = $pdo->prepare("DELETE FROM tbl_filename WHERE application_id = ?");
+        $stmtDeleteFiles = $pdo->prepare("DELETE FROM tbl_filename WHERE temp_id = ?");
         $stmtDeleteFiles->execute([$application_id]);
 
         // 4 Hapus juga data dari tbl_application (jika datanya sementara)
@@ -68,14 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmtDeleteApp->execute([$application_id]);
 
         $pdo->commit();
-
-        setAlert(
-            'success',
-            "Berhasil!",
-            'Data berhasil dihapus.',
-            'success',
-            'Oke'
-        );
 
         unset($_SESSION['form_add_csv']);
 

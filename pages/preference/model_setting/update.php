@@ -4,14 +4,26 @@ require_once __DIR__ . '/../../../helper/handlePdoError.php';
 $_SESSION['menu'] = 'model_setting';
 $_SESSION['halaman'] = 'add_csv';
 
-if (isset($_SESSION['form_add_csv']['application_id'])) {
-    try {
-        $stmt = $pdo->prepare("SELECT * FROM tbl_filename WHERE temp_id = :application_id");
-        $stmt->execute([":application_id" => (int) $_SESSION['form_add_csv']['application_id']]);
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        handlePdoError($e, "pages/preference/model_setting/create.php");
-    }
+$id = $_GET['id'] ?? null;
+
+if (!$id) {
+    header("location:" . BASE_URL . "pages/preference/model_setting/");
+    exit;
+}
+
+try {
+    $stmt = $pdo->prepare("SELECT id, name, path FROM tbl_application WHERE id = :id LIMIT 1");
+    $stmt->execute([":id" => (int) $id]);
+    $application = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $sql = "SELECT file_id, filename, create_at, create_by 
+        FROM tbl_filename 
+        WHERE application_id = :id OR temp_id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([":id" => (int) $id]);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    handlePdoError($e, "pages/preference/model_setting/");
 }
 
 require __DIR__ . '/../../../includes/header.php';
@@ -30,24 +42,24 @@ require __DIR__ . '/../../../includes/navbar.php';
                     <div class="card">
                         <div class="card-header mb-2">
                             <h1 class="card-title mb-0">
-                                Add Model
+                                Modify Application
                             </h1>
                         </div>
-                        <form action="<?= BASE_URL ?>controllers/preference/add_application.php" method="post" class="form">
+                        <form action="<?= BASE_URL ?>controllers/preference/update_application.php" method="post" class="form">
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="application_name">Application Name <small class="ml-2 text-muted">*Case Sensitive</small></label>
-                                    <input type="text" id="application_name" class="form-control" name="application_name" required value="<?= $_SESSION['form_add_csv']["application_name"] ?? "" ?>">
-                                    <input type="hidden" class="form-control" name="application_id" value="<?= $_SESSION['form_add_csv']["application_id"] ?? "" ?>">
+                                    <input type="text" id="application_name" class="form-control" name="application_name" required value="<?= $application['name'] ?? "" ?>">
+                                    <input type="hidden" class="form-control" name="application_id" value="<?= $application['id']  ?? "" ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="csv_path">CSV Path </label>
                                     <div class="form-row">
                                         <div class="col-md-2">
-                                            <input type="text" class="form-control" id="application_path" disabled="disabled" required value="<?= $_SESSION['form_add_csv']["application_name"] ?? "" ?>">
+                                            <input type="text" class="form-control" id="application_path" disabled="disabled" required value="<?= $application['name']  ?? "" ?>">
                                         </div>
                                         <div class="col-md-10">
-                                            <input type="text" id="csv_path" class="form-control" name="csv_path" placeholder="/csv/..../...(example)" value="<?= $_SESSION['form_add_csv']["csv_path"] ?? "" ?>">
+                                            <input type="text" id="csv_path" class="form-control" name="csv_path" placeholder="/csv/..../...(example)" value="<?= $application['path'] ?? "" ?>">
                                         </div>
                                     </div>
                                     <div class="form-group mt-10">
@@ -88,7 +100,7 @@ require __DIR__ . '/../../../includes/navbar.php';
                                                                             </span>
                                                                         </div>
                                                                     </a>
-                                                                    <a onclick="confirmDeleteTemplate('<?= $r['file_id'] ?>', 'controllers/preference/delete.php')" class="btn btn-sm btn-danger btn-text-primary btn-safe-navigation" title="Delete">
+                                                                    <a onclick="confirmDeleteTemplate('<?= $r['file_id'] ?>', 'controllers/preference/delete_update.php')" class="btn btn-sm btn-danger btn-text-primary btn-safe-navigation" title="Delete">
                                                                         <div class="d-flex justify-content-center align-items-center">
                                                                             <span class="svg-icon svg-icon-md">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -125,12 +137,12 @@ require __DIR__ . '/../../../includes/navbar.php';
                             </div>
                             <div class="card-footer">
                                 <div class="text-right">
-                                    <?php if (isset($_SESSION['form_add_csv']['application_id'])): ?>
-                                        <a onclick="confirmCancel('<?= $_SESSION['form_add_csv']['application_id'] ?? '' ?>', 'controllers/preference/delete_temp.php')" class="btn btn-light-danger  btn-safe-navigation">Cancel</a>
+                                    <?php if (isset($_SESSION['form_edit_csv']['application_id'])): ?>
+                                        <a onclick="confirmCancel('<?= $_SESSION['form_edit_csv']['application_id'] ?? '' ?>', 'controllers/preference/delete_temp.php')" class="btn btn-light-danger  btn-safe-navigation">Cancel</a>
                                     <?php else: ?>
                                         <a href="<?= BASE_URL ?>pages/preference/model_setting/" class="btn btn-light-danger">Cancel</a>
                                     <?php endif; ?>
-                                    <button type="submit" class="btn btn-primary font-weight-bold btn-safe-navigation">Create</button>
+                                    <button type="submit" class="btn btn-primary font-weight-bold btn-safe-navigation">Update</button>
 
                                 </div>
                             </div>
@@ -139,7 +151,8 @@ require __DIR__ . '/../../../includes/navbar.php';
                         <form id="csvForm" action="<?= BASE_URL ?>pages/preference/model_setting/add_csv.php" method="post" enctype="multipart/form-data" style="display: none">
                             <input type="hidden" name="application_name" id="application_name_hidden">
                             <input type="hidden" name="csv_path" id="csv_path_hidden">
-                            <input type="hidden" name="action" value="add">
+                            <input type="hidden" name="action" value="update">
+                            <input type="hidden" name="application_id" value="<?= $application['id'] ?>">
                             <input type="file" name="csv_file" id="csvFileInput" accept=".csv" />
                         </form>
                     </div>

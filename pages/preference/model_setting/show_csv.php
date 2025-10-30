@@ -8,14 +8,16 @@ $_SESSION['halaman'] = 'add_csv';
 $id = $_GET['id'] ?? null;
 try {
     if (!$id) {
-        $_SESSION['alert'] = [
-            'icon' => 'warning',
-            'title' => 'ID tidak ditemukan',
-            'text' => 'Parameter ID tidak valid.',
-            'button' => 'Oke',
-            'style' => 'warning'
-        ];
-        redirect("pages/preference/model_setting/create.php");
+        // $_SESSION['alert'] = [
+        //     'icon' => 'warning',
+        //     'title' => 'ID tidak ditemukan',
+        //     'text' => 'Parameter ID tidak valid.',
+        //     'button' => 'Oke',
+        //     'style' => 'warning'
+        // ];
+        // redirect("pages/preference/model_setting/create.php");
+        echo $id;
+        exit;
     }
 
     $unionParts = [];
@@ -36,17 +38,18 @@ try {
             SELECT 
                 f.*, 
                 h.*, 
-                a.name, 
-                a.path, 
+                COALESCE(a_temp.name, a_perm.name) AS application_name, 
+                COALESCE(a_temp.path, a_perm.path) AS application_path, 
                 header_names.header_name
             FROM tbl_filename f
             JOIN tbl_header h ON f.file_id = h.file_id
-            JOIN tbl_temp_application a ON f.application_id = a.id
+            LEFT JOIN tbl_temp_application a_temp ON f.temp_id = a_temp.id
+            LEFT JOIN tbl_application a_perm ON f.application_id = a_perm.id
             JOIN (
                 $subquery
-            ) AS header_names ON h.file_id = :file_id
+            ) AS header_names ON h.file_id = :file_id 
             WHERE f.file_id = :file_id
-            ";
+        ";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([":file_id" => $id]);
     $rows = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -58,7 +61,7 @@ try {
             'button' => 'Oke',
             'style' => 'warning'
         ];
-        redirect("pages/preference/model_setting/create.php");
+        redirect("pages/preference/model_setting/");
     }
 } catch (PDOException $e) {
     $_SESSION['alert'] = [
@@ -88,12 +91,12 @@ require __DIR__ . '/../../../includes/navbar.php';
                                 <tr>
                                     <th class="h6" style="width:10% ;">Application</th>
                                     <td style="width:2% ;">:</td>
-                                    <td class="h6 font-weight-normal" style="width: 88%"><?= $rows['name'] ?></td>
+                                    <td class="h6 font-weight-normal" style="width: 88%"><?= $rows['application_name'] ?></td>
                                 </tr>
                                 <tr>
                                     <th class="h6">Path</th>
                                     <td>:</td>
-                                    <td class="h6 font-weight-normal"><?= $rows['path'] ?></td>
+                                    <td class="h6 font-weight-normal"><?= $rows['application_path'] ?></td>
                                 </tr>
                                 <tr>
                                     <th class="h6">File Name</th>
