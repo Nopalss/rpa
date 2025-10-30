@@ -196,7 +196,6 @@ require_once __DIR__ . '/config.php';
 
 <!--begin::Global Theme Bundle(used by all pages)-->
 <script src="<?= BASE_URL ?>assets/plugins/global/plugins.bundle.js"></script>
-<script src="<?= BASE_URL ?>assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
 <script src="<?= BASE_URL ?>assets/js/scripts.bundle.js"></script>
 
 <?php if ($_SESSION['menu'] != "dashboard"): ?>
@@ -359,6 +358,186 @@ require_once __DIR__ . '/config.php';
             else console.error('csvForm not found');
         }
     });
+
+    // dashboard line
+    $(document).ready(function() {
+        // ketika line berubah
+        $(document).on('change', '.line', function() {
+            const site = $(this).data('site'); // ambil site name (main, site1, dsb)
+            const lineId = $(this).val();
+
+            const $application = $(`.application[data-site="${site}"]`);
+            const $file = $(`.file[data-site="${site}"]`);
+            const $header = $(`.headers[data-site="${site}"]`);
+
+            $application.prop('disabled', true).html('<option value="">Loading...</option>');
+            $file.prop('disabled', true).html('<option value="">Select</option>');
+            $header.prop('disabled', true).html('<option value="">Select</option>');
+
+            if (lineId) {
+                $.ajax({
+                    url: '<?= BASE_URL ?>api/get_applications.php',
+                    type: 'POST',
+                    data: {
+                        line_id: lineId
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        $application.prop('disabled', false).html('<option value="">Select</option>');
+                        $.each(response, function(i, item) {
+                            $application.append(`<option value="${item.id}">${item.name}</option>`);
+                        });
+                    },
+                    error: function() {
+                        $application.html('<option value="">Error loading</option>');
+                    }
+                });
+            } else {
+                $application.html('<option value="">Select</option>');
+            }
+        });
+
+        // ketika application berubah
+        $(document).on('change', '.application', function() {
+            const site = $(this).data('site');
+            const appId = $(this).val();
+
+            const $file = $(`.file[data-site="${site}"]`);
+            const $header = $(`.header[data-site="${site}"]`);
+
+            $file.prop('disabled', true).html('<option value="">Loading...</option>');
+            $header.prop('disabled', true).html('<option value="">Select</option>');
+
+            if (appId) {
+                $.ajax({
+                    url: '<?= BASE_URL ?>api/get_files.php',
+                    type: 'POST',
+                    data: {
+                        app_id: appId
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        $file.prop('disabled', false).html('<option value="">Select</option>');
+                        $.each(response, function(i, item) {
+                            $file.append(`<option value="${item.id}">${item.name}</option>`);
+                        });
+                    },
+                    error: function() {
+                        $file.html('<option value="">Error loading</option>');
+                    }
+                });
+            }
+        });
+
+        // ketika file berubah
+        $(document).on('change', '.file', function() {
+            const site = $(this).data('site');
+            const fileId = $(this).val();
+
+            const $header = $(`.headers[data-site="${site}"]`);
+            $header.prop('disabled', true).html('<option value="">Loading...</option>');
+
+            if (fileId) {
+                $.ajax({
+                    url: '<?= BASE_URL ?>api/get_headers.php',
+                    type: 'POST',
+                    data: {
+                        file_id: fileId
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        $header.prop('disabled', false).html('<option value="">Select</option>');
+                        $.each(response, function(i, item) {
+                            $header.append(`<option value="${item.header_name}">${item.header_name}</option>`);
+                        });
+                    },
+                    error: function() {
+                        $header.html('<option value="">Error loading</option>');
+                    }
+                });
+            }
+        });
+    });
+
+
+    // fungsi untuk memilih row header
+    <?php if (!empty($previewRows)): ?>
+        const csvData = <?= json_encode($previewRows, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>;
+
+        // Event ketika dropdown berubah
+        $('#headerSelector').on('change', function() {
+            const rowIndex = parseInt($(this).val());
+            const selectedHeader = csvData[rowIndex];
+            let html = '';
+
+            selectedHeader.forEach((col, i) => {
+                html += `
+                <tr>
+                    <td>Column ${i + 1}</td>
+                    <td>${col}</td>
+                    <input type="hidden" name="column_${i + 1}" value="${col}">
+                </tr>
+            `;
+            });
+
+            $('#selectedHeaderTable tbody').html(html);
+        });
+
+        // Auto-load baris pertama sebagai default
+        $('#headerSelector').trigger('change');
+    <?php endif; ?>
+
+    // ini untuk fokus mengisi form
+    <?php if (!empty($_SESSION['form_add_csv']['application_id'])): ?>
+        // 1. Inisialisasi - Cukup set 'true' jika session ada.
+        let formChanged = true;
+
+        // 2. LOGIKA BARU: Tandai tombol-tombol "Aman"
+        // Tambahkan class 'btn-safe-navigation' pada tombol/link "Show", "Delete", 
+        // "Save", dan "Cancel" di HTML Anda.
+        document.querySelectorAll('.btn-safe-navigation').forEach(button => {
+            button.addEventListener('click', function() {
+                // Saat tombol aman diklik, set formChanged menjadi false.
+                // Ini akan mencegah 'beforeunload' dan 'menu-link' aktif.
+                formChanged = false;
+            });
+        });
+
+        // Ini akan dicegah jika 'btn-safe-navigation' diklik lebih dulu.
+        document.querySelectorAll(".menu-link").forEach(link => {
+            link.addEventListener("click", function(e) {
+                if (formChanged) {
+                    e.preventDefault();
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Form Sedang Diisi",
+                        text: "Anda tidak bisa berpindah halaman sebelum menyimpan atau membatalkan form.",
+                        confirmButtonText: "OK",
+                        confirmButtonColor: "#3085d6"
+                    });
+                }
+            });
+        });
+
+        // 4. LOGIKA 'beforeunload' (Disederhanakan)
+        // Kita hapus pengecekan 'excludedPages' yang keliru.
+        window.addEventListener("beforeunload", function(e) {
+            // Ini HANYA akan aktif jika formChanged masih 'true'
+            // (artinya: pengguna menutup tab, refresh, atau klik link non-aman)
+            if (formChanged) {
+                e.preventDefault();
+                e.returnValue = "";
+
+                // Kirim request hapus data ke server
+                const formData = new FormData();
+                formData.append("action", "delete_temp_data");
+                formData.append("application_id", <?= json_encode($_SESSION['form_add_csv']['application_id']) ?>);
+
+                // Gunakan sendBeacon agar tetap dikirim walau tab ditutup
+                navigator.sendBeacon("<?= BASE_URL ?>controllers/preference/clear_temp_data.php", formData);
+            }
+        });
+    <?php endif; ?>
 </script>
 
 <!--end::Page Scripts-->

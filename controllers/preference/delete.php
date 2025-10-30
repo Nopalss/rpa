@@ -1,9 +1,9 @@
 <?php
-require_once __DIR__ . '/../../../includes/config.php';
-require_once __DIR__ . "/../../../helper/checkPassword.php";
-require_once __DIR__ . "/../../../helper/redirect.php";
-require_once __DIR__ . "/../../../helper/sanitize.php";
-require_once __DIR__ . "/../../../helper/handlePdoError.php";
+require_once __DIR__ . '/../../includes/config.php';
+require_once __DIR__ . "/../../helper/checkPassword.php";
+require_once __DIR__ . "/../../helper/redirect.php";
+require_once __DIR__ . "/../../helper/sanitize.php";
+require_once __DIR__ . "/../../helper/handlePdoError.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id       = isset($_POST['id']) ? sanitize($_POST['id']) : null;
@@ -37,19 +37,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         // Cek apakah user dengan ID tersebut ada
-        $stmt = $pdo->prepare("SELECT rule FROM tbl_user WHERE user_id = :user_id");
-        $stmt->execute([':user_id' => $id]);
-        $targetUser = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt = $pdo->prepare("SELECT filename FROM tbl_filename WHERE file_id = :id");
+        $stmt->execute([':id' => $id]);
+        $targetFile = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (!$targetUser) {
-            throw new Exception("User dengan ID tersebut tidak ditemukan.");
+        if (!$targetFile) {
+            throw new Exception("File dengan ID tersebut tidak ditemukan.");
         }
 
         // Jalankan transaksi penghapusan
         $pdo->beginTransaction();
 
-        $stmt = $pdo->prepare("DELETE FROM tbl_user WHERE user_id = :user_id");
-        $stmt->execute([':user_id' => $id]);
+        $stmt = $pdo->prepare("DELETE FROM tbl_header WHERE file_id = :id");
+        $stmt->execute([':id' => $id]);
+
+        $stmt = $pdo->prepare("DELETE FROM tbl_filename WHERE file_id = :id");
+        $stmt->execute([':id' => $id]);
 
         $pdo->commit();
 
@@ -61,12 +64,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'Oke'
         );
 
-        redirect("pages/setting/user/");
+        redirect("pages/preference/model_setting/create.php");
     } catch (PDOException $e) {
         if ($pdo->inTransaction()) {
             $pdo->rollBack();
         }
-        echo $e;
-        // handlePdoError($e, "pages/setting/user");
+        handlePdoError($e, "pages/preference/model_setting/create.php");
     }
 }

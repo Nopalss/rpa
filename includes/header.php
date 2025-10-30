@@ -2,10 +2,11 @@
 require_once __DIR__ . '/config.php';
 require __DIR__ . '/auth.php';
 if ($_SESSION['menu'] != "model_setting") {
-    unset($_SESSION['form_add_csv']);
+    if (isset($_SESSION['form_add_csv'])) {
+        unset($_SESSION['form_add_csv']);
+    }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <!--begin::Head-->
@@ -20,14 +21,10 @@ if ($_SESSION['menu'] != "model_setting") {
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" /> <!--end::Fonts-->
 
-    <!--begin::Page Vendors Styles(used by this page)-->
-    <link href="<?= BASE_URL ?>assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
-    <!--end::Page Vendors Styles-->
 
 
     <!--begin::Global Theme Styles(used by all pages)-->
     <link href="<?= BASE_URL ?>assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
-    <link href="<?= BASE_URL ?>assets/plugins/custom/prismjs/prismjs.bundle.css" rel="stylesheet" type="text/css" />
     <link href="<?= BASE_URL ?>assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
     <!--end::Global Theme Styles-->
 

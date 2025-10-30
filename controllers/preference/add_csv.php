@@ -24,23 +24,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo->beginTransaction();
         // insert table Application
         if (!isset($_SESSION['form_add_csv']['application_id'])) {
-            $sql = "INSERT INTO tbl_application (name, created_by, modify_by) 
-                VALUES (:name, :created_by, :modify_by)";
+            $sql = "INSERT INTO tbl_temp_application (name, path) 
+                VALUES (:name, :path)";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
                 ":name" => $application_name,
-                ":created_by" => $_SESSION['username'],
-                ":modify_by" => $_SESSION['username']
+                ":path" => $csv_path,
             ]);
             $application_id = $pdo->lastInsertId();
         } else {
             $application_id = $_SESSION['form_add_csv']['application_id'];
         }
 
+        // insert table File Name
+        $sql = "INSERT INTO tbl_filename (filename, application_id, create_by) 
+                VALUES (:filename, :application_id, :create_by)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ":filename" => $file_name,
+            ":create_by" => $_SESSION['username'],
+            ":application_id" => $application_id,
+        ]);
+        $file_id = $pdo->lastInsertId();
+
         // Buat query dinamis
-        $fields = ['application_id'];
-        $placeholders = [':application_id'];
-        $params = [':application_id' => $application_id];
+        $fields = ['file_id'];
+        $placeholders = [':file_id'];
+        $params = [':file_id' => $file_id];
         foreach ($columns as $key => $val) {
             $fields[] = $key;
             $placeholders[] = ":$key";
@@ -54,17 +64,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
         $header_id = $pdo->lastInsertId();
-        // insert table File Name
-        $sql = "INSERT INTO tbl_filename (filename, application_id, header_id, create_by) 
-                VALUES (:filename, :application_id, :header_id, :create_by)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            ":filename" => $file_name,
-            ":create_by" => $_SESSION['username'],
-            ":application_id" => $application_id,
-            ":header_id" => $header_id
-        ]);
-        $filename_id = $pdo->lastInsertId();
+
+
         $pdo->commit();
 
         $_SESSION['form_add_csv'] = [
@@ -75,12 +76,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         setAlert('success', "Selamat!", 'Data Berhasil Disimpan!', 'success', 'Oke');
         redirect('pages/preference/model_setting/create.php');
-    } catch (Exception $e) {
-        // if ($pdo->inTransaction()) {
-        //     $pdo->rollBack();
-        // }
-        // handlePdoError($e, 'pages/preference/model_setting/create.php');
-        echo $e;
+    } catch (PDOException $e) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        handlePdoError($e, 'pages/preference/model_setting/create.php');
     }
 } else {
     redirect('pages/preference/model_setting/create.php');

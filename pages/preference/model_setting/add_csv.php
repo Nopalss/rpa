@@ -2,55 +2,59 @@
 require_once __DIR__ . '/../../../includes/config.php';
 require_once __DIR__ . '/../../../helper/redirect.php';
 $_SESSION['menu'] = 'model_setting';
-$_SESSION['halaman'] = 'model setting';
+$_SESSION['halaman'] = 'add_csv';
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
     $fileTmpPath = $_FILES['csv_file']['tmp_name'];
     $rows = [];
     $header = [];
-    // var_dump($_FILES['csv_file']['name']);
-    if (($handle = fopen($fileTmpPath, 'r')) !== false) {
+    $previewRows = [];
 
-        // Baca baris pertama dan hilangkan BOM (kalau ada)
+    // Baca isi file mentah
+    $raw = file_get_contents($fileTmpPath);
+
+    // Deteksi encoding lebih agresif
+    $encoding = mb_detect_encoding($raw, ['UTF-8', 'UTF-16LE', 'UTF-16BE', 'ISO-8859-1', 'WINDOWS-1252'], true);
+
+    // Jika bukan UTF-8, ubah ke UTF-8
+    if ($encoding && $encoding !== 'UTF-8') {
+        $utf8 = iconv($encoding, 'UTF-8//IGNORE', $raw);
+        // Buat file temporer versi UTF-8
+        $tmpUtf8 = tempnam(sys_get_temp_dir(), 'csv_');
+        file_put_contents($tmpUtf8, $utf8);
+        $fileToRead = $tmpUtf8;
+    } else {
+        $fileToRead = $fileTmpPath;
+    }
+
+    // Sekarang baca file UTF-8
+    if (($handle = fopen($fileToRead, 'r')) !== false) {
+        // Hapus BOM
         $firstLine = fgets($handle);
         $firstLine = preg_replace('/^\xEF\xBB\xBF/', '', $firstLine);
-        $delimiter = str_contains($firstLine, ';') ? ';' : ','; // deteksi delimiter
+        $delimiter = str_contains($firstLine, ';') ? ';' : (str_contains($firstLine, ',') ? ',' : "\t");
         rewind($handle);
 
-        // Ambil header CSV
-        $header = fgetcsv($handle, 0, $delimiter);
+        // Ambil maksimal 5 baris untuk preview
+        $maxPreview = 5;
+        $rowIndex = 0;
 
-        // Validasi header
-        if (!empty($header)) {
-            while (($data = fgetcsv($handle, 0, $delimiter)) !== false) {
-                // Lewatkan baris kosong
-                if (empty(array_filter($data))) continue;
-
-                // Samakan jumlah kolom dengan header
-                if (count($data) < count($header)) {
-                    $data = array_pad($data, count($header), '');
-                } elseif (count($data) > count($header)) {
-                    $data = array_slice($data, 0, count($header));
-                }
-
-                $rows[] = array_combine($header, $data);
-            }
+        while (($data = fgetcsv($handle, 0, $delimiter)) !== false) {
+            if (empty(array_filter($data))) continue;
+            $previewRows[] = array_map(fn($v) => trim($v), $data);
+            if (++$rowIndex >= $maxPreview) break;
         }
 
         fclose($handle);
     }
 
-    // Kirim data header & contoh value (baris pertama)
-    $columns = [];
-    if (!empty($header)) {
-        foreach ($header as $h) {
-            $columns[] = [
-                'name' => $h,
-                'value' => $rows[0][$h] ?? ''
-            ];
-        }
+    // hapus file temp (jika ada)
+    if (isset($tmpUtf8) && file_exists($tmpUtf8)) {
+        unlink($tmpUtf8);
     }
+
+
     $i = 1;
     $application_name = $_POST['application_name'];
     $csv_path = $_POST['csv_path'];
@@ -84,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
                                 <tr>
                                     <th class="h6" style="width:10% ;">Application</th>
                                     <td style="width:2% ;">:</td>
-                                    <td class="h6 font-weight-normal"><?= $application_name ?></td>
+                                    <td class="h6 font-weight-normal" style="width: 88%"><?= $application_name ?></td>
                                 </tr>
                                 <tr>
                                     <th class="h6">Path</th>
@@ -96,19 +100,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
                                     <td>:</td>
                                     <td class="h6 font-weight-normal"><?= $file_name ?></td>
                                 </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="d-flex justify-content-end">
+                                        <select id="headerSelector" class="form-control" style="width:160px;">
+                                            <?php foreach ($previewRows as $index => $row): ?>
+                                                <option value="<?= $index ?>">Row <?= $index + 1 ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </td>
+                                </tr>
                             </table>
                             <form action="<?= BASE_URL ?>controllers/preference/add_csv.php" method="post">
                                 <input type="hidden" name="application_name" value="<?= $application_name ?>">
                                 <input type="hidden" name="csv_path" value="<?= $csv_path ?>">
                                 <input type="hidden" name="file_name" value="<?= $file_name ?>">
-                                <table class="table table-striped">
+                                <table class="table table-striped" id="selectedHeaderTable">
                                     <thead>
                                         <tr>
                                             <th style="width: 20%;">Column</th>
                                             <th style="width: 80%;">Value</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <!-- <tbody>
                                         <?php if (!empty($columns)): ?>
                                             <?php foreach ($columns as $c): ?>
                                                 <tr>
@@ -123,11 +138,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
                                                 <td colspan="2">No data found</td>
                                             </tr>
                                         <?php endif; ?>
-                                    </tbody>
+                                    </tbody> -->
+                                    <tbody></tbody>
                                 </table>
                                 <div class="w-full text-right">
-                                    <a href="javascript:history.back()" class="btn btn-danger">Cancel</a>
-                                    <button class="btn btn-primary" type="submit">Submit</button>
+                                    <a href="javascript:history.back()" class="btn btn-danger btn-safe-navigation">Cancel</a>
+                                    <button class="btn btn-primary btn-safe-navigation" type="submit">Submit</button>
                                 </div>
                             </form>
                         </div>

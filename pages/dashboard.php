@@ -5,11 +5,8 @@ $_SESSION['menu'] = 'dashboard';
 $_SESSION['halaman'] = 'dashboard';
 require __DIR__ . '/../includes/aside.php';
 require __DIR__ . '/../includes/navbar.php';
-$line = [
-    'C1',
-    'C2',
-    'C3',
-];
+$stmt = $pdo->query("SELECT line_id AS id, line_name FROM tbl_line ORDER BY line_name ASC");
+$lines = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $model = [
     'Daihatsu',
     'Honda',
@@ -97,32 +94,35 @@ $histogram = [
                             <div class="row mb-7">
                                 <p class="col-xl-12 h6 mb-3 text-muted">Main</p>
                                 <div class="col-xl-2 mb-3 d-flex justify-content-center align-items-center">
-                                    <label class="mr-2" for="">Line</label>
-                                    <select name="" id="" class="form-control form-control-sm">
+                                    <label class="mr-2 small" for="">Line</label>
+                                    <select name="" class="form-control form-control-sm line" data-site="main">
                                         <option value="">Select</option>
-                                        <?php foreach ($line as $l): ?>
-                                            <option value="<?= $l ?>"><?= $l ?></option>
+                                        <?php foreach ($lines as $l): ?>
+                                            <option value="<?= $l['id'] ?>"><?= $l['line_name'] ?></option>
                                         <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="col-xl-3 mb-3 d-flex justify-content-center align-items-center">
+                                    <label class="mr-2 small" for="">Application</label>
+                                    <select name="" class="form-control form-control-sm application" data-site="main">
+                                        <option value="">Select</option>
+
+                                    </select>
+                                </div>
+                                <div class="col-xl mb-3 d-flex justify-content-center align-items-center">
+                                    <label class="mr-2 small" for="">File</label>
+                                    <select name="" class="form-control form-control-sm file" data-site="main">
+                                        <option value="">Select</option>
+
                                     </select>
                                 </div>
                                 <div class="col-xl-2 mb-3 d-flex justify-content-center align-items-center">
-                                    <label class="mr-2" for="">Model</label>
-                                    <select name="" id="" class="form-control form-control-sm">
+                                    <label class="mr-2 small" for="">Header</label>
+                                    <select name="" class="form-control form-control-sm headers" data-site="main">
                                         <option value="">Select</option>
-                                        <?php foreach ($model as $m): ?>
-                                            <option value="<?= $m ?>"><?= $m ?></option>
-                                        <?php endforeach; ?>
                                     </select>
                                 </div>
-                                <div class="col-xl mb-3">
-                                    <select name="" id="" class="form-control form-control-sm">
-                                        <option value="">Select</option>
-                                        <?php foreach ($histogram as $h): ?>
-                                            <option value="<?= $h ?>"><?= $h ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-xl-3 d-flex justify-content-center align-items-center">
+                                <div class="col-xl-2 d-flex justify-content-center align-items-center">
                                     <button class="btn btn-info mr-2">Alert</button>
                                     <span class="switch switch-outline switch-icon switch-success">
                                         <label>
@@ -132,205 +132,53 @@ $histogram = [
                                     </span>
                                 </div>
                             </div>
-                            <!-- asite 1 -->
-                            <div class="row mb-7">
-                                <p class="col-xl-12 h6 mb-3 text-muted">Site 1</p>
-                                <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
-                                    <label class="mr-2" for="">Line</label>
-                                    <select name="" id="" class="form-control form-control-sm">
-                                        <option value="">Select</option>
-                                        <?php foreach ($line as $l): ?>
-                                            <option value="<?= $l ?>"><?= $l ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
+                            <!-- site -->
+                            <?php for ($i = 1; $i <= 5; $i++): ?>
+                                <div class="row mb-7">
+                                    <p class="col-xl-12 h6 mb-3 text-muted">Site <?= $i; ?></p>
+                                    <div class="col-xl-2 mb-3 d-flex justify-content-center align-items-center">
+                                        <label class="mr-2 small" for="">Line</label>
+                                        <select class="form-control form-control-sm line" data-site="site<?= $i; ?>">
+                                            <option value="">Select</option>
+                                            <?php foreach ($lines as $l): ?>
+                                                <option value="<?= $l['id'] ?>"><?= $l['line_name'] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-xl-3 mb-3 d-flex justify-content-center align-items-center">
+                                        <label class="mr-2 small" for="">Application</label>
+                                        <select class="form-control form-control-sm application" data-site="site<?= $i; ?>">
+                                            <option value="">Select</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col-xl mb-3 d-flex justify-content-center align-items-center">
+                                        <label class="mr-2 small" for="">File</label>
+                                        <select class="form-control form-control-sm file" data-site="site<?= $i; ?>">
+                                            <option value="">Select</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col-xl-2 mb-3 d-flex justify-content-center align-items-center">
+                                        <label class="mr-2 small" for="">Header</label>
+                                        <select class="form-control form-control-sm headers" data-site="site<?= $i; ?>">
+                                            <option value="">Select</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xl-2 d-flex justify-content-center align-items-center">
+                                        <button class="btn btn-info mr-2">Alert</button>
+                                        <span class="switch switch-outline switch-icon switch-success">
+                                            <label>
+                                                <input type="checkbox" checked="checked" name="select" />
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </div>
                                 </div>
-                                <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
-                                    <label class="mr-2" for="">Model</label>
-                                    <select name="" id="" class="form-control form-control-sm">
-                                        <option value="">Select</option>
-                                        <?php foreach ($model as $m): ?>
-                                            <option value="<?= $m ?>"><?= $m ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-xl  mb-3">
-                                    <select name="" id="" class="form-control form-control-sm">
-                                        <option value="">Select</option>
-                                        <?php foreach ($histogram as $h): ?>
-                                            <option value="<?= $h ?>"><?= $h ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-xl-3 d-flex justify-content-center align-items-center">
-                                    <button class="btn btn-info mr-2">Alert</button>
-                                    <span class="switch switch-outline switch-icon switch-success">
-                                        <label>
-                                            <input type="checkbox" checked="checked" name="select" />
-                                            <span></span>
-                                        </label>
-                                    </span>
-                                </div>
-                            </div>
-                            <!-- asite 2 -->
-                            <div class="row mb-7">
-                                <p class="col-xl-12 h6 mb-3 text-muted">Site 2</p>
-                                <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
-                                    <label class="mr-2" for="">Line</label>
-                                    <select name="" id="" class="form-control form-control-sm">
-                                        <option value="">Select</option>
-                                        <?php foreach ($line as $l): ?>
-                                            <option value="<?= $l ?>"><?= $l ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
-                                    <label class="mr-2" for="">Model</label>
-                                    <select name="" id="" class="form-control form-control-sm">
-                                        <option value="">Select</option>
-                                        <?php foreach ($model as $m): ?>
-                                            <option value="<?= $m ?>"><?= $m ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-xl  mb-3">
-                                    <select name="" id="" class="form-control form-control-sm">
-                                        <option value="">Select</option>
-                                        <?php foreach ($histogram as $h): ?>
-                                            <option value="<?= $h ?>"><?= $h ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-xl-3 d-flex justify-content-center align-items-center">
-                                    <button class="btn btn-info mr-2">Alert</button>
-                                    <span class="switch switch-outline switch-icon switch-success">
-                                        <label>
-                                            <input type="checkbox" checked="checked" name="select" />
-                                            <span></span>
-                                        </label>
-                                    </span>
-                                </div>
-                            </div>
-                            <!-- asite 3 -->
-                            <div class="row mb-7">
-                                <p class="col-xl-12 h6 mb-3 text-muted">Site 3</p>
-                                <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
-                                    <label class="mr-2" for="">Line</label>
-                                    <select name="" id="" class="form-control form-control-sm">
-                                        <option value="">Select</option>
-                                        <?php foreach ($line as $l): ?>
-                                            <option value="<?= $l ?>"><?= $l ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
-                                    <label class="mr-2" for="">Model</label>
-                                    <select name="" id="" class="form-control form-control-sm">
-                                        <option value="">Select</option>
-                                        <?php foreach ($model as $m): ?>
-                                            <option value="<?= $m ?>"><?= $m ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-xl  mb-3">
-                                    <select name="" id="" class="form-control form-control-sm">
-                                        <option value="">Select</option>
-                                        <?php foreach ($histogram as $h): ?>
-                                            <option value="<?= $h ?>"><?= $h ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-xl-3 d-flex justify-content-center align-items-center">
-                                    <button class="btn btn-info mr-2">Alert</button>
-                                    <span class="switch switch-outline switch-icon switch-success">
-                                        <label>
-                                            <input type="checkbox" checked="checked" name="select" />
-                                            <span></span>
-                                        </label>
-                                    </span>
-                                </div>
-                            </div>
-                            <!-- asite 4 -->
-                            <div class="row mb-7">
-                                <p class="col-xl-12 h6 mb-3 text-muted">Site 4</p>
-                                <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
-                                    <label class="mr-2" for="">Line</label>
-                                    <select name="" id="" class="form-control form-control-sm">
-                                        <option value="">Select</option>
-                                        <?php foreach ($line as $l): ?>
-                                            <option value="<?= $l ?>"><?= $l ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
-                                    <label class="mr-2" for="">Model</label>
-                                    <select name="" id="" class="form-control form-control-sm">
-                                        <option value="">Select</option>
-                                        <?php foreach ($model as $m): ?>
-                                            <option value="<?= $m ?>"><?= $m ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-xl  mb-3">
-                                    <select name="" id="" class="form-control form-control-sm">
-                                        <option value="">Select</option>
-                                        <?php foreach ($histogram as $h): ?>
-                                            <option value="<?= $h ?>"><?= $h ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-xl-3 d-flex justify-content-center align-items-center">
-                                    <button class="btn btn-info mr-2">Alert</button>
-                                    <span class="switch switch-outline switch-icon switch-success">
-                                        <label>
-                                            <input type="checkbox" checked="checked" name="select" />
-                                            <span></span>
-                                        </label>
-                                    </span>
-                                </div>
-                            </div>
-                            <!-- asite 5 -->
-                            <div class="row mb-7">
-                                <p class="col-xl-12 h6 mb-3 text-muted">Site 5</p>
-                                <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
-                                    <label class="mr-2" for="">Line</label>
-                                    <select name="" id="" class="form-control form-control-sm">
-                                        <option value="">Select</option>
-                                        <?php foreach ($line as $l): ?>
-                                            <option value="<?= $l ?>"><?= $l ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-xl-2  mb-3 d-flex justify-content-center align-items-center">
-                                    <label class="mr-2" for="">Model</label>
-                                    <select name="" id="" class="form-control form-control-sm">
-                                        <option value="">Select</option>
-                                        <?php foreach ($model as $m): ?>
-                                            <option value="<?= $m ?>"><?= $m ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-xl  mb-3">
-                                    <select name="" id="" class="form-control form-control-sm">
-                                        <option value="">Select</option>
-                                        <?php foreach ($histogram as $h): ?>
-                                            <option value="<?= $h ?>"><?= $h ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-xl-3 d-flex justify-content-center align-items-center">
-                                    <button class="btn btn-info mr-2">Alert</button>
-                                    <span class="switch switch-outline switch-icon switch-success">
-                                        <label>
-                                            <input type="checkbox" checked="checked" name="select" />
-                                            <span></span>
-                                        </label>
-                                    </span>
-                                </div>
-                            </div>
+                            <?php endfor; ?>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
         <!--end::Container-->

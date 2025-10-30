@@ -12,7 +12,7 @@ var KTDatatableLocalSortDemo = function () {
                 type: 'remote',
                 source: {
                     read: {
-                        // url: HOST_URL + '/api/datatables/demos/default.php',
+                        url: HOST_URL + '/api/table_application.php',
                     },
                 },
                 pageSize: 10,
@@ -44,9 +44,14 @@ var KTDatatableLocalSortDemo = function () {
                 {
                     field: 'id',
                     title: '#',
+                    textAlign: 'center',
+                    width: 30,
+                    template: function (row, index, datatable) {
+                        return index + 1;
+                    },
                 },
                 {
-                    field: 'apllication',
+                    field: 'name',
                     title: 'Application',
                 }, {
                     field: 'created_by',
@@ -58,10 +63,6 @@ var KTDatatableLocalSortDemo = function () {
                 }, {
                     field: 'modify_by',
                     title: 'Modify By ',
-                }, {
-                    field: 'modify_at',
-                    title: 'Modify At ',
-                    format: 'MM/DD/YYYY',
                 }, {
                     field: 'Actions',
                     title: 'Actions',
