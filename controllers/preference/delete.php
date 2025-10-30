@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         setAlert(
             'success',
             "Berhasil!",
-            'User berhasil dihapus.',
+            'Data berhasil dihapus.',
             'success',
             'Oke'
         );

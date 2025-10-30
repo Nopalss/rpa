@@ -1,8 +1,9 @@
 <?php
 require_once __DIR__ . '/../includes/config.php';
 require __DIR__ . '/../includes/header.php';
-$_SESSION['menu'] = 'dashboard';
 $_SESSION['halaman'] = 'dashboard';
+$_SESSION['menu'] = 'dashboard';
+
 require __DIR__ . '/../includes/aside.php';
 require __DIR__ . '/../includes/navbar.php';
 $stmt = $pdo->query("SELECT line_id AS id, line_name FROM tbl_line ORDER BY line_name ASC");

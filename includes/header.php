@@ -1,11 +1,13 @@
 <?php
 require_once __DIR__ . '/config.php';
 require __DIR__ . '/auth.php';
-if ($_SESSION['menu'] != "model_setting") {
-    if (isset($_SESSION['form_add_csv'])) {
-        unset($_SESSION['form_add_csv']);
-    }
-}
+// $_SESSION['menu'] = '';
+
+// if ($_SESSION['menu'] != "model_setting") {
+//     if (isset($_SESSION['form_add_csv'])) {
+//         unset($_SESSION['form_add_csv']);
+//     }
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">

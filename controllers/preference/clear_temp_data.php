@@ -43,6 +43,8 @@ try {
     // 5 Commit transaksi
     $pdo->commit();
 
+    unset($_SESSION['form_add_csv']);
+
     echo json_encode([
         "status" => "success",
         "message" => "Temporary data successfully deleted."

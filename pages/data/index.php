@@ -57,18 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <div class="col-lg-12 col-xl-12">
                                     <div class="row align-items-center">
                                         <div class="col-md-3 my-2 my-md-0">
-                                            <div class=" d-flex align-items-center">
-                                                <div class="input-group date">
-                                                    <input type="text" class="form-control" name="date" required name="date" readonly placeholder="mm/dd/yyyy" id="kt_datepicker_3" />
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text">
-                                                            <i class="la la-calendar"></i>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 my-2 my-md-0">
                                             <div class="d-flex align-items-center">
                                                 <label class="mr-3 mb-0 d-none d-md-block">line:</label>
                                                 <select class="form-control" required name="line">
@@ -76,6 +64,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                     <option value="C12">C12</option>
                                                     <option value="C15">C15</option>
                                                 </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 my-2 my-md-0">
+                                            <div class="d-flex align-items-center">
+                                                <label class="mr-3 mb-0 d-none d-md-block">Application:</label>
+                                                <select class="form-control" required name="application">
+                                                    <option value="">All</option>
+                                                    <option value="C12">C12</option>
+                                                    <option value="C15">C15</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 my-2 my-md-0">
+                                            <div class=" d-flex align-items-center">
+                                                <div class="input-group date">
+                                                    <input type="date" class="form-control" name="date" required name="date" placeholder="mm/dd/yyyy" />
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-3 my-2 my-md-0">

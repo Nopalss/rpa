@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmtDeleteFiles->execute([$application_id]);
 
         // 4 Hapus juga data dari tbl_application (jika datanya sementara)
-        $stmtDeleteApp = $pdo->prepare("DELETE FROM tbl_temp_application WHERE id = ?");
+        $stmtDeleteApp = $pdo->prepare("DELETE FROM tbl_application WHERE id = ?");
         $stmtDeleteApp->execute([$application_id]);
 
         $pdo->commit();
