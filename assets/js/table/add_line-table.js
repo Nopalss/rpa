@@ -40,41 +40,36 @@ var KTDatatableLocalSortDemo = function () {
             },
 
             // columns definition
-            columns: [{
-                field: 'line_id',
-                title: '#',
-            }, {
-                field: 'line_name',
-                title: 'Line Name',
-            }, {
-                field: 'create_at',
-                title: 'Create At',
-                format: 'MM/DD/YYYY',
-            }, {
-                field: 'create_by',
-                title: 'Create By ',
-            }, {
-                field: 'modify_by',
-                title: 'Modify By ',
-            }, {
-                field: 'modify_at',
-                title: 'Modify At ',
-                format: 'MM/DD/YYYY',
-            }, {
-                field: 'Actions',
-                title: 'Actions',
-                sortable: false,
-                width: 125,
-                overflow: 'visible',
-                autoHide: false,
-                template: function () {
-                    return '\
-                        <a href="javascript:;" class="btn btn-sm btn-success btn-text-primary btn-icon mr-2" title="CSV">\
-                            <span class="svg-icon svg-icon-md">\
-                              <i class="fas fa-file-csv"></i>\
-                            </span>\
-                        </a>\
-                        <a href="javascript:;" class="btn btn-sm btn-warning btn-text-primary btn-icon mr-2" title="Edit details">\
+            columns: [
+                {
+                    field: 'line_id',
+                    title: '#',
+                    textAlign: 'center',
+                    width: 30,
+                    template: function (row, index, datatable) {
+                        return index + 1;
+                    },
+                },
+                {
+                    field: 'line_name',
+                    title: 'Line Name',
+                }, {
+                    field: 'create_at',
+                    title: 'Create At',
+                    format: 'MM/DD/YYYY',
+                }, {
+                    field: 'create_by',
+                    title: 'Create By ',
+                }, {
+                    field: 'Actions',
+                    title: 'Actions',
+                    sortable: false,
+                    width: 125,
+                    overflow: 'visible',
+                    autoHide: false,
+                    template: function (row) {
+                        return `\
+                        <a class="btn btn-sm btn-warning btn-text-primary btn-icon mr-2 editLineBtn" title="Edit details" data-id="${row.line_id}" data-name="${row.line_name}" >\
                             <span class="svg-icon svg-icon-md">\
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
@@ -85,7 +80,7 @@ var KTDatatableLocalSortDemo = function () {
                                 </svg>\
                             </span>\
                         </a>\
-                        <a href="javascript:;" class="btn btn-sm btn-danger btn-text-primary btn-icon" title="Delete">\
+                        <a onclick="confirmDeleteTemplate('${row.line_id}', 'controllers/preference/delete_line.php')" class="btn btn-sm btn-danger btn-text-primary btn-icon" title="Delete">\
                             <span class="svg-icon svg-icon-md">\
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">\
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\
@@ -96,9 +91,9 @@ var KTDatatableLocalSortDemo = function () {
                                 </svg>\
                             </span>\
                         </a>\
-                    ';
-                },
-            }],
+                    `;
+                    },
+                }],
         });
 
         $('#kt_datatable_search_status').on('change', function () {

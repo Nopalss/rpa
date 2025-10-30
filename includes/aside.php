@@ -136,21 +136,13 @@ $role = $_SESSION['rule'];
                                                         <li class="menu-item  menu-item-parent" aria-haspopup="true">
                                                             <span class="menu-link"><span class="menu-text">Preference</span></span>
                                                         </li>
-                                                        <!-- <?php if ($_SESSION['menu'] == 'add_line'): ?>
+                                                        <?php if ($_SESSION['menu'] == 'add_line'): ?>
                                                             <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_line/" class="menu-link ">
                                                                 <?php else: ?>
                                                             <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_line/" class="menu-link ">
                                                                 <?php endif; ?>
                                                                 <i class="menu-bullet menu-bullet-dot"><span></span></i>
                                                                 <span class="menu-text">Add Line</span></a>
-                                                            </li> -->
-                                                        <?php if ($_SESSION['menu'] == 'add_model'): ?>
-                                                            <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_model/" class="menu-link ">
-                                                                <?php else: ?>
-                                                            <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_model/" class="menu-link ">
-                                                                <?php endif; ?>
-                                                                <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                                                                <span class="menu-text">Add Model</span></a>
                                                             </li>
                                                             <!-- <?php if ($_SESSION['menu'] == 'add_application'): ?>
                                                                     <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_application/" class="menu-link ">
