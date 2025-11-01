@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../includes/config.php';
 require __DIR__ . '/../includes/header.php';
+require __DIR__ . '/../includes/clear_temp_session.php';
 $_SESSION['halaman'] = 'dashboard';
 $_SESSION['menu'] = 'dashboard';
 

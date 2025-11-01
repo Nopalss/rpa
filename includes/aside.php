@@ -1,8 +1,28 @@
 <!--begin::Body-->
 <?php
 require_once __DIR__ . '/config.php';
-$role = $_SESSION['rule'];
+$role = $_SESSION['rule'] ?? null;
+$menu = $_SESSION['menu'] ?? null;
 
+/**
+ * Fungsi helper untuk mengecek menu aktif.
+ * $menuName bisa berupa string (menu tunggal) atau array (untuk submenu).
+ */
+function echoActiveClass($currentMenu, $menuName)
+{
+    if (is_array($menuName)) {
+        // Jika $menuName adalah array (e.g., ['admin', 'user'])
+        // Cek apakah $currentMenu ada di dalam array itu
+        if (in_array($currentMenu, $menuName)) {
+            echo 'menu-item-open'; // Untuk parent submenu
+        }
+    } else {
+        // Jika $menuName adalah string (e.g., 'dashboard')
+        if ($currentMenu == $menuName) {
+            echo 'menu-item-active'; // Untuk menu item
+        }
+    }
+}
 ?>
 
 <body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
@@ -69,9 +89,6 @@ $role = $_SESSION['rule'];
                             </svg><!--end::Svg Icon--></span> </button>
                     <!--end::Toolbar-->
                 </div>
-                <!--end::Brand-->
-
-                <!--begin::Aside Menu-->
                 <div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
 
                     <!--begin::Menu Container-->
@@ -82,153 +99,97 @@ $role = $_SESSION['rule'];
                         data-menu-scroll="1" data-menu-dropdown-timeout="500">
                         <!--begin::Menu Nav-->
                         <ul class="menu-nav ">
-                            <!-- Dashboard -->
                             <?php if ($role == "admin"): ?>
-                                <?php if ($_SESSION['menu'] == 'dashboard'): ?>
-                                    <li class="menu-item  menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL . 'pages/dashboard.php' ?>" class="menu-link ">
-                                        <?php else: ?>
-                                    <li class="menu-item" aria-haspopup="true"><a href="<?= BASE_URL . 'pages/dashboard.php' ?>" class="menu-link ">
-                                        <?php endif; ?>
-                                        <span class="svg-icon menu-icon"><!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+
+                                <li class="menu-item <?= echoActiveClass($menu, 'dashboard') ?>" aria-haspopup="true">
+                                    <a href="<?= BASE_URL . 'pages/dashboard.php' ?>" class="menu-link ">
+                                        <span class="svg-icon menu-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                     <polygon points="0 0 24 0 24 24 0 24" />
                                                     <path d="M12.9336061,16.072447 L19.36,10.9564761 L19.5181585,10.8312381 C20.1676248,10.3169571 20.2772143,9.3735535 19.7629333,8.72408713 C19.6917232,8.63415859 19.6104327,8.55269514 19.5206557,8.48129411 L12.9336854,3.24257445 C12.3871201,2.80788259 11.6128799,2.80788259 11.0663146,3.24257445 L4.47482784,8.48488609 C3.82645598,9.00054628 3.71887192,9.94418071 4.23453211,10.5925526 C4.30500305,10.6811601 4.38527899,10.7615046 4.47382636,10.8320511 L4.63,10.9564761 L11.0659024,16.0730648 C11.6126744,16.5077525 12.3871218,16.5074963 12.9336061,16.072447 Z" fill="#000000" fill-rule="nonzero" />
                                                     <path d="M11.0563554,18.6706981 L5.33593024,14.122919 C4.94553994,13.8125559 4.37746707,13.8774308 4.06710397,14.2678211 C4.06471678,14.2708238 4.06234874,14.2738418 4.06,14.2768747 L4.06,14.2768747 C3.75257288,14.6738539 3.82516916,15.244888 4.22214834,15.5523151 C4.22358765,15.5534297 4.2250303,15.55454 4.22647627,15.555646 L11.0872776,20.8031356 C11.6250734,21.2144692 12.371757,21.2145375 12.909628,20.8033023 L19.7677785,15.559828 C20.1693192,15.2528257 20.2459576,14.6784381 19.9389553,14.2768974 C19.9376429,14.2751809 19.9363245,14.2734691 19.935,14.2717619 L19.935,14.2717619 C19.6266937,13.8743807 19.0546209,13.8021712 18.6572397,14.1104775 C18.654352,14.112718 18.6514778,14.1149757 18.6486172,14.1172508 L12.9235044,18.6705218 C12.377022,19.1051477 11.6029199,19.1052208 11.0563554,18.6706981 Z" fill="#000000" opacity="0.3" />
                                                 </g>
-                                            </svg><!--end::Svg Icon--></span><span class="menu-text">Dashboard</span></a>
-                                    </li>
-                                    <!-- Data -->
-                                    <?php if ($_SESSION['menu'] == 'data'): ?>
-                                        <li class="menu-item  menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL . 'pages/data/' ?>" class="menu-link ">
-                                            <?php else: ?>
-                                        <li class="menu-item" aria-haspopup="true"><a href="<?= BASE_URL . 'pages/data/' ?>" class="menu-link ">
-                                            <?php endif; ?>
-                                            <span class="svg-icon menu-icon svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Communication\Clipboard-list.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                        <rect x="0" y="0" width="24" height="24" />
-                                                        <path d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z" fill="#000000" opacity="0.3" />
-                                                        <path d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z" fill="#000000" />
-                                                        <rect fill="#000000" opacity="0.3" x="10" y="9" width="7" height="2" rx="1" />
-                                                        <rect fill="#000000" opacity="0.3" x="7" y="9" width="2" height="2" rx="1" />
-                                                        <rect fill="#000000" opacity="0.3" x="7" y="13" width="2" height="2" rx="1" />
-                                                        <rect fill="#000000" opacity="0.3" x="10" y="13" width="7" height="2" rx="1" />
-                                                        <rect fill="#000000" opacity="0.3" x="7" y="17" width="2" height="2" rx="1" />
-                                                        <rect fill="#000000" opacity="0.3" x="10" y="17" width="7" height="2" rx="1" />
-                                                    </g>
-                                                </svg><!--end::Svg Icon--></span>
-                                            <span class="menu-text">Data</span></a>
-                                        </li>
-                                        <!-- Preference -->
-                                        <?php if ($_SESSION['menu'] == 'add_line' || $_SESSION['menu'] == 'add_model' || $_SESSION['menu'] == 'add_application' || $_SESSION['menu'] == 'add_path_csv' ||  $_SESSION['menu'] == 'add_csv_name'  || $_SESSION['menu'] == 'add_csv_header' || $_SESSION['menu'] == 'model_setting'): ?>
-                                            <li class="menu-item  menu-item-submenu menu-item-open" aria-haspopup="true" data-menu-toggle="hover"><a href="javascript:;" class="menu-link menu-toggle">
-                                                <?php else: ?>
-                                            <li class="menu-item  menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"><a href="javascript:;" class="menu-link menu-toggle">
-                                                <?php endif; ?>
-                                                <span class="svg-icon menu-icon svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Code\Compiling.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                            <rect x="0" y="0" width="24" height="24" />
-                                                            <path d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z" fill="#000000" opacity="0.3" />
-                                                            <path d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z" fill="#000000" />
-                                                        </g>
-                                                    </svg><!--end::Svg Icon--></span><span class="menu-text">Preference</span><i class="menu-arrow"></i></a>
-                                                <div class="menu-submenu "><i class="menu-arrow"></i>
-                                                    <ul class="menu-subnav">
-                                                        <li class="menu-item  menu-item-parent" aria-haspopup="true">
-                                                            <span class="menu-link"><span class="menu-text">Preference</span></span>
-                                                        </li>
-                                                        <?php if ($_SESSION['menu'] == 'add_line'): ?>
-                                                            <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_line/" class="menu-link ">
-                                                                <?php else: ?>
-                                                            <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_line/" class="menu-link ">
-                                                                <?php endif; ?>
-                                                                <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                                                                <span class="menu-text">Add Line</span></a>
-                                                            </li>
-                                                            <!-- <?php if ($_SESSION['menu'] == 'add_application'): ?>
-                                                                    <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_application/" class="menu-link ">
-                                                                        <?php else: ?>
-                                                                    <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_application/" class="menu-link ">
-                                                                        <?php endif; ?>
-                                                                        <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                                                                        <span class="menu-text">Add Application</span></a>
-                                                                    </li>
-                                                                    <?php if ($_SESSION['menu'] == 'add_path_csv'): ?>
-                                                                        <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_path_csv/" class="menu-link ">
-                                                                            <?php else: ?>
-                                                                        <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_path_csv/" class="menu-link ">
-                                                                            <?php endif; ?>
-                                                                            <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                                                                            <span class="menu-text">Add Path CSV</span></a>
-                                                                        </li> -->
-                                                            <!-- <?php if ($_SESSION['menu'] == 'add_csv_setting'): ?>
-                                                                <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_csv_setting/" class="menu-link ">
-                                                                    <?php else: ?>
-                                                                <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_csv_setting/" class="menu-link ">
-                                                                    <?php endif; ?>
-                                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                                                                    <span class="menu-text">Add CSV Setting</span></a>
-                                                                </li> -->
-                                                            <!-- <?php if ($_SESSION['menu'] == 'add_csv_header'): ?>
-                                                                                <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_csv_header/" class="menu-link ">
-                                                                                    <?php else: ?>
-                                                                                <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_csv_header/" class="menu-link ">
-                                                                                    <?php endif; ?>
-                                                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                                                                                    <span class="menu-text">Add CSV Header</span></a>
-                                                                                </li> -->
-                                                            <?php if ($_SESSION['menu'] == 'model_setting'): ?>
-                                                                <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/model_setting/" class="menu-link ">
-                                                                    <?php else: ?>
-                                                                <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/model_setting/" class="menu-link ">
-                                                                    <?php endif; ?>
-                                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                                                                    <span class="menu-text">Model Setting</span></a>
-                                                                </li>
-                                                    </ul>
-                                                </div>
+                                            </svg></span>
+                                        <span class="menu-text">Dashboard</span>
+                                    </a>
+                                </li>
+
+                                <li class="menu-item <?= echoActiveClass($menu, 'data') ?>" aria-haspopup="true">
+                                    <a href="<?= BASE_URL . 'pages/data/' ?>" class="menu-link ">
+                                        <span class="svg-icon menu-icon svg-icon-2x"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <rect x="0" y="0" width="24" height="24" />
+                                                    <path d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z" fill="#000000" opacity="0.3" />
+                                                    <path d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z" fill="#000000" />
+                                                    <rect fill="#000000" opacity="0.3" x="10" y="9" width="7" height="2" rx="1" />
+                                                    <rect fill="#000000" opacity="0.3" x="7" y="9" width="2" height="2" rx="1" />
+                                                    <rect fill="#000000" opacity="0.3" x="7" y="13" width="2" height="2" rx="1" />
+                                                    <rect fill="#000000" opacity="0.3" x="10" y="13" width="7" height="2" rx="1" />
+                                                    <rect fill="#000000" opacity="0.3" x="7" y="17" width="2" height="2" rx="1" />
+                                                    <rect fill="#000000" opacity="0.3" x="10" y="17" width="7" height="2" rx="1" />
+                                                </g>
+                                            </svg></span>
+                                        <span class="menu-text">Data</span>
+                                    </a>
+                                </li>
+
+                                <li class="menu-item menu-item-submenu <?= echoActiveClass($menu, ['add_line', 'model_setting']) ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                    <a href="javascript:;" class="menu-link menu-toggle">
+                                        <span class="svg-icon menu-icon svg-icon-2x"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <rect x="0" y="0" width="24" height="24" />
+                                                    <path d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z" fill="#000000" opacity="0.3" />
+                                                    <path d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z" fill="#000000" />
+                                                </g>
+                                            </svg></span>
+                                        <span class="menu-text">Preference</span><i class="menu-arrow"></i>
+                                    </a>
+                                    <div class="menu-submenu "><i class="menu-arrow"></i>
+                                        <ul class="menu-subnav">
+                                            <li class="menu-item <?= echoActiveClass($menu, 'add_line') ?>" aria-haspopup="true">
+                                                <a href="<?= BASE_URL ?>pages/preference/add_line/" class="menu-link ">
+                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
+                                                    <span class="menu-text">Add Line</span>
+                                                </a>
                                             </li>
-                                            <!-- setting -->
-                                            <?php if ($_SESSION['menu'] == 'admin' || $_SESSION['menu'] == 'user'): ?>
-                                                <li class="menu-item  menu-item-submenu menu-item-open" aria-haspopup="true" data-menu-toggle="hover"><a href="javascript:;" class="menu-link menu-toggle">
-                                                    <?php else: ?>
-                                                <li class="menu-item  menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"><a href="javascript:;" class="menu-link menu-toggle">
-                                                    <?php endif; ?>
-                                                    <span class="svg-icon menu-icon svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\Settings-2.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                                <rect x="0" y="0" width="24" height="24" />
-                                                                <path d="M5,8.6862915 L5,5 L8.6862915,5 L11.5857864,2.10050506 L14.4852814,5 L19,5 L19,9.51471863 L21.4852814,12 L19,14.4852814 L19,19 L14.4852814,19 L11.5857864,21.8994949 L8.6862915,19 L5,19 L5,15.3137085 L1.6862915,12 L5,8.6862915 Z M12,15 C13.6568542,15 15,13.6568542 15,12 C15,10.3431458 13.6568542,9 12,9 C10.3431458,9 9,10.3431458 9,12 C9,13.6568542 10.3431458,15 12,15 Z" fill="#000000" />
-                                                            </g>
-                                                        </svg><!--end::Svg Icon--></span><span class="menu-text">Setting</span><i class="menu-arrow"></i></a>
-                                                    <div class="menu-submenu "><i class="menu-arrow"></i>
-                                                        <ul class="menu-subnav">
+                                            <li class="menu-item <?= echoActiveClass($menu, 'model_setting') ?>" aria-haspopup="true">
+                                                <a href="<?= BASE_URL ?>pages/preference/model_setting/" class="menu-link ">
+                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
+                                                    <span class="menu-text">Model Setting</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
 
-                                                            <li class="menu-item  menu-item-parent" aria-haspopup="true">
-                                                                <span class="menu-link"><span class="menu-text">Setting</span></span>
-                                                            </li>
-                                                            <?php if ($_SESSION['menu'] == 'admin'): ?>
-                                                                <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/setting/admin/" class="menu-link ">
-                                                                    <?php else: ?>
-                                                                <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/setting/admin/" class="menu-link ">
-                                                                    <?php endif; ?>
-                                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                                                                    <span class="menu-text">Admin</span></a>
-                                                                </li>
-                                                                <?php if ($_SESSION['menu'] == 'user'): ?>
-                                                                    <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/setting/user/" class="menu-link ">
-                                                                        <?php else: ?>
-                                                                    <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/setting/user/" class="menu-link ">
-                                                                        <?php endif; ?>
-                                                                        <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                                                                        <span class="menu-text">User</span></a>
-                                                                    </li>
-                                                        </ul>
-                                                    </div>
-                                                </li>
-
-
-                                            <?php endif; ?>
-
-
+                                <li class="menu-item menu-item-submenu <?= echoActiveClass($menu, ['admin', 'user']) ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                    <a href="javascript:;" class="menu-link menu-toggle">
+                                        <span class="svg-icon menu-icon svg-icon-2x"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <rect x="0" y="0" width="24" height="24" />
+                                                    <path d="M5,8.6862915 L5,5 L8.6862915,5 L11.5857864,2.10050506 L14.4852814,5 L19,5 L19,9.51471863 L21.4852814,12 L19,14.4852814 L19,19 L14.4852814,19 L11.5857864,21.8994949 L8.6862915,19 L5,19 L5,15.3137085 L1.6862915,12 L5,8.6862915 Z M12,15 C13.6568542,15 15,13.6568542 15,12 C15,10.3431458 13.6568542,9 12,9 C10.3431458,9 9,10.3431458 9,12 C9,13.6568542 10.3431458,15 12,15 Z" fill="#000000" />
+                                                </g>
+                                            </svg></span>
+                                        <span class="menu-text">Setting</span><i class="menu-arrow"></i>
+                                    </a>
+                                    <div class="menu-submenu "><i class="menu-arrow"></i>
+                                        <ul class="menu-subnav">
+                                            <li class="menu-item <?= echoActiveClass($menu, 'admin') ?>" aria-haspopup="true">
+                                                <a href="<?= BASE_URL ?>pages/setting/admin/" class="menu-link ">
+                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
+                                                    <span class="menu-text">Admin</span>
+                                                </a>
+                                            </li>
+                                            <li class="menu-item <?= echoActiveClass($menu, 'user') ?>" aria-haspopup="true">
+                                                <a href="<?= BASE_URL ?>pages/setting/user/" class="menu-link ">
+                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
+                                                    <span class="menu-text">User</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            <?php endif; ?>
                         </ul>
                         <!--end::Menu Nav-->
                     </div>

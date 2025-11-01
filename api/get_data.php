@@ -49,7 +49,7 @@ try {
     }
 
     // Hindari duplikat file
-    $sql .= " GROUP BY f.file_id, f.filename";
+    $sql .= " GROUP BY d.line_id, d.date, d.application_id, f.file_id, f.filename, f.create_at, f.create_by";
 
     // Jalankan kueri
     $stmt = $pdo->prepare($sql);

@@ -55,9 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
 
 
     $i = 1;
-    $application_name = $_POST['application_name'];
+    $application_name = $_POST['application_name'] ?? null;
     $application_id = $_POST['application_id'] ?? null;
-    $csv_path = $_POST['csv_path'];
+    $csv_path = $_POST['csv_path'] ?? null;
     $action = $_POST['action'];
     $file_name = $_FILES['csv_file']['name'];
     if (!isset($_SESSION['form_add_csv'])) {
@@ -125,22 +125,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
                                             <th style="width: 80%;">Value</th>
                                         </tr>
                                     </thead>
-                                    <!-- <tbody>
-                                        <?php if (!empty($columns)): ?>
-                                            <?php foreach ($columns as $c): ?>
-                                                <tr>
-                                                    <td>Column <?= $i ?></td>
-                                                    <td><?= htmlspecialchars($c['name']) ?></td>
-                                                    <td><input type="hidden" name="column_<?= $i ?>" value="<?= htmlspecialchars($c['name']) ?>"></td>
-                                                </tr>
-                                                <?php $i++ ?>
-                                            <?php endforeach; ?>
-                                        <?php else: ?>
-                                            <tr>
-                                                <td colspan="2">No data found</td>
-                                            </tr>
-                                        <?php endif; ?>
-                                    </tbody> -->
                                     <tbody></tbody>
                                 </table>
                                 <div class="w-full text-right">

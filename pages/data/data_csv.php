@@ -1,6 +1,7 @@
 <?php
 // --- Bagian 1: Ambil Data ---
 require_once __DIR__ . '/../../includes/config.php';
+require __DIR__ . '/../../includes/clear_temp_session.php';
 
 $line = $_GET['line_id'] ?? '';
 $application = $_GET['application_id'] ?? '';

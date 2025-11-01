@@ -1,50 +1,31 @@
 <?php
-
 require_once __DIR__ . '/config.php';
+
+// AMANKAN SEMUA AKSES SESSION DI SATU TEMPAT
+$menu = $_SESSION['menu'] ?? null;
+$username = $_SESSION['username'] ?? null;
+$rule = $_SESSION['rule'] ?? null;
 ?>
 
-
-<!--begin::Footer-->
 <div class="footer bg-white py-4 d-flex flex-lg-column " id="kt_footer">
-    <!--begin::Container-->
     <div class=" container-fluid  d-flex flex-column flex-md-row align-items-center justify-content-end">
-        <!--begin::Copyright-->
         <div class="text-dark order-2 order-md-1">
             <span class="text-muted font-weight-bold mr-2"><?= date('Y') ?>&copy;</span>
             <a href="" target="_blank" class="text-dark-75 text-hover-primary">RPA</a>
         </div>
-        <!--end::Copyright-->
-
-        <!--begin::Nav-->
-
-        <!--end::Nav-->
     </div>
-    <!--end::Container-->
 </div>
-<!--end::Footer-->
 </div>
-<!--end::Wrapper-->
 </div>
-<!--end::Page-->
 </div>
-<!--end::Main-->
-<!-- end::Content -->
-<!-- begin::User Panel-->
 <div id="kt_quick_user" class="offcanvas offcanvas-right p-10">
-    <!--begin::Header-->
     <div class="offcanvas-header d-flex align-items-center justify-content-between pb-5">
-        <h3 class="font-weight-bold m-0">
-            User Profile
-        </h3>
+        <h3 class="font-weight-bold m-0">User Profile</h3>
         <a href="#" class="btn btn-xs btn-icon btn-light btn-hover-primary" id="kt_quick_user_close">
             <i class="ki ki-close icon-xs text-muted"></i>
         </a>
     </div>
-    <!--end::Header-->
-
-    <!--begin::Content-->
     <div class="offcanvas-content pr-5 mr-n5">
-        <!--begin::Header-->
         <div class="d-flex align-items-center mt-5">
             <div class="symbol symbol-100 mr-5">
                 <div class="symbol-label" style="background-image:url('<?= BASE_URL ?>assets/media/users/blank.png')"></div>
@@ -52,36 +33,29 @@ require_once __DIR__ . '/config.php';
             </div>
             <div class="d-flex flex-column">
                 <a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
-                    <?= $_SESSION['username'] ?>
+                    <?= $username ?>
                 </a>
                 <div class="text-muted mt-1">
-                    <?= $_SESSION['rule'] ?>
+                    <?= $rule ?>
                 </div>
                 <div class="navi mt-2">
                     <a onclick="logoutConfirm()" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Sign Out</a>
                 </div>
             </div>
         </div>
-        <!--end::Header-->
-
-        <!--begin::Separator-->
         <div class="separator separator-dashed mt-8 mb-5"></div>
-        <!--end::Separator-->
-
-        <!--begin::Nav-->
         <div class="navi navi-spacer-x-0 p-0">
-            <!--begin::Item-->
             <a href="custom/apps/user/profile-1/personal-information.html" class="navi-item">
                 <div class="navi-link">
                     <div class="symbol symbol-40 bg-light mr-3">
                         <div class="symbol-label">
-                            <span class="svg-icon svg-icon-md svg-icon-success"><!--begin::Svg Icon | path:assets/media/svg/icons/General/Notification2.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                            <span class="svg-icon svg-icon-md svg-icon-success"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                         <rect x="0" y="0" width="24" height="24" />
                                         <path d="M13.2070325,4 C13.0721672,4.47683179 13,4.97998812 13,5.5 C13,8.53756612 15.4624339,11 18.5,11 C19.0200119,11 19.5231682,10.9278328 20,10.7929675 L20,17 C20,18.6568542 18.6568542,20 17,20 L7,20 C5.34314575,20 4,18.6568542 4,17 L4,7 C4,5.34314575 5.34314575,4 7,4 L13.2070325,4 Z" fill="#000000" />
                                         <circle fill="#000000" opacity="0.3" cx="18.5" cy="5.5" r="2.5" />
                                     </g>
-                                </svg><!--end::Svg Icon--></span>
+                                </svg></span>
                         </div>
                     </div>
                     <div class="navi-text">
@@ -95,41 +69,13 @@ require_once __DIR__ . '/config.php';
                     </div>
                 </div>
             </a>
-            <!--end:Item-->
-
-            <!--begin::Item-->
-
-            <!--end:Item-->
         </div>
-        <!--end::Nav-->
     </div>
-    <!--end::Content-->
 </div>
-<!-- end::User Panel-->
-<!-- sweetalert -->
 <script>
+    // PERBAIKAN: Definisikan HOST_URL hanya sekali
     var HOST_URL = "<?= BASE_URL ?>";
-</script>
-<?php if (isset($_SESSION['alert'])): ?>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        Swal.fire({
-            icon: "<?= $_SESSION['alert']['icon'] ?>",
-            title: "<?= $_SESSION['alert']['title'] ?>",
-            text: "<?= $_SESSION['alert']['text'] ?>",
-            confirmButtonText: "<?= $_SESSION['alert']['button'] ?> ",
-            heightAuto: false,
-            customClass: {
-                confirmButton: "btn font-weight-bold btn-<?= $_SESSION['alert']['style'] ?>",
-                icon: "m-auto"
-            }
-        });
-    </script>
-    <?php unset($_SESSION['alert']); ?>
-<?php endif; ?>
 
-<!--begin::Global Config(global config for global JS scripts)-->
-<script>
     var KTAppSettings = {
         "breakpoints": {
             "sm": 576,
@@ -189,30 +135,29 @@ require_once __DIR__ . '/config.php';
         "font-family": "Poppins"
     };
 </script>
-<!--end::Global Config-->
-<script>
-    var HOST_URL = "<?= BASE_URL ?>";
-</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<!--begin::Global Theme Bundle(used by all pages)-->
 <script src="<?= BASE_URL ?>assets/plugins/global/plugins.bundle.js"></script>
 <script src="<?= BASE_URL ?>assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
 <script src="<?= BASE_URL ?>assets/js/scripts.bundle.js"></script>
 
-<?php if ($_SESSION['menu'] != "dashboard"): ?>
-    <!-- <script src="<?= BASE_URL ?>assets/js/pages/crud/forms/widgets/bootstrap-timepicker.js"></script> -->
+<?php if ($menu != "dashboard"): ?>
     <script src="<?= BASE_URL ?>assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js"></script>
-    <!-- <script src="<?= BASE_URL ?>assets/js/table/add_model-table.js"></script> -->
-    <script src="<?= BASE_URL ?>assets/js/table/<?= $_SESSION['menu'] ?>-table.js"></script>
+
+    <?php if ($menu): // Hanya muat jika $menu tidak null 
+    ?>
+        <script src="<?= BASE_URL ?>assets/js/table/<?= $menu ?>-table.js"></script>
+    <?php endif; ?>
+
 <?php endif; ?>
-<?php if ($_SESSION['menu'] == "dashboard"): ?>
+<?php if ($menu == "dashboard"): ?>
     <script src="<?= BASE_URL ?>assets/js/pages/features/charts/apexcharts.js"></script>
 <?php endif; ?>
-<!-- <script src="<?= BASE_URL ?>assets/js/pages/crud/ktdatatable/base/local-sort.js"></script> -->
-
-
-<!-- script -->
 <script>
+    // ==================================================================
+    // BAGIAN 1: DEFINISI FUNGSI
+    // ==================================================================
+
     function logoutConfirm() {
         Swal.fire({
             title: 'Logout?',
@@ -242,7 +187,6 @@ require_once __DIR__ . '/config.php';
         }
     }
 
-    //  delete template
     function confirmDeleteTemplate(id, url, title = "Yakin mau hapus?", text = "Data akan dihapus permanen!") {
         Swal.fire({
             title: title,
@@ -255,7 +199,6 @@ require_once __DIR__ . '/config.php';
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Munculin modal input password
                 Swal.fire({
                     title: 'Masukkan Password',
                     input: 'password',
@@ -277,7 +220,6 @@ require_once __DIR__ . '/config.php';
                     }
                 }).then((res) => {
                     if (res.isConfirmed) {
-                        // Kirim password ke backend (POST) biar bisa diverifikasi
                         const form = document.createElement("form");
                         form.method = "POST";
                         form.action = `${HOST_URL}${url}`;
@@ -302,39 +244,26 @@ require_once __DIR__ . '/config.php';
         });
     }
 
-    // batal add application
     function confirmCancel(id, url, title = "Yakin mau membatalkan?", text = "Data akan dihapus!") {
         Swal.fire({
             title: title,
             text: text,
             icon: 'warning',
             showCancelButton: true,
-
-            // Tombol konfirmasi (Merah, untuk aksi hapus)
             confirmButtonColor: '#d33',
-            confirmButtonText: 'Batal!', // Teks untuk "ngirim" / hapus
-
-            // Tombol batal (Biru, untuk aksi batal)
+            confirmButtonText: 'Batal!',
             cancelButtonColor: '#3085d6',
-            cancelButtonText: 'Lanjut' // Teks untuk "batal"
-
+            cancelButtonText: 'Lanjut'
         }).then((result) => {
-
-            // Hanya jalankan jika pengguna mengklik tombol "Ya, Hapus!"
             if (result.isConfirmed) {
-
-                // Langsung buat dan kirim form
                 const form = document.createElement("form");
                 form.method = "POST";
                 form.action = `${HOST_URL}${url}`;
 
-                // Siapkan input 'id'
                 const inputId = document.createElement("input");
                 inputId.type = "hidden";
                 inputId.name = "id";
                 inputId.value = id;
-
-                // Tidak ada input password
 
                 form.appendChild(inputId);
                 document.body.appendChild(form);
@@ -343,74 +272,80 @@ require_once __DIR__ . '/config.php';
         });
     }
 
-    // fungsi path
-    $(document).ready(function() {
-        const $appName = $("#application_name");
-        const $appPath = $("#application_path");
-
-        if ($appName.length && $appPath.length) {
-            // Event realtime saat user mengetik
-            $appName.on("input change", function() {
-                $appPath.val($(this).val());
-            });
-        } else {
-            console.error("Elemen #application_name atau #application_path tidak ditemukan");
-        }
-    });
-
     function syncAppPath() {
         $("#application_path").val($("#application_name").val());
     }
 
+    // ==================================================================
+    // BAGIAN 2: EVENT LISTENERS (HANYA SATU DOCUMENT READY)
+    // ==================================================================
     $(document).ready(function() {
-        $("#application_name").on("input change", syncAppPath);
-    });
 
+        // ---------------------------------
+        // FLASH MESSAGE (SWEETALERT)
+        // ---------------------------------
+        <?php if (isset($_SESSION['alert'])): ?>
+            Swal.fire({
+                icon: "<?= $_SESSION['alert']['icon'] ?>",
+                title: "<?= $_SESSION['alert']['title'] ?>",
+                text: "<?= $_SESSION['alert']['text'] ?>",
+                confirmButtonText: "<?= $_SESSION['alert']['button'] ?> ",
+                heightAuto: false,
+                customClass: {
+                    confirmButton: "btn font-weight-bold btn-<?= $_SESSION['alert']['style'] ?>",
+                    icon: "m-auto"
+                }
+            });
+            <?php unset($_SESSION['alert']); ?>
+        <?php endif; ?>
 
-    // fungsi create csv
-    document.addEventListener('click', function(e) {
-        if (e.target.closest('#addCsvBtn')) {
+        // ---------------------------------
+        // FUNGSI SINKRONISASI PATH APLIKASI
+        // ---------------------------------
+        const $appName = $("#application_name");
+        const $appPath = $("#application_path");
+
+        if ($appName.length && $appPath.length) {
+            $appName.on("input change", syncAppPath);
+        } else {
+            // Hapus console.error di production, tapi biarkan saat development
+            // console.error("Elemen #application_name atau #application_path tidak ditemukan");
+        }
+
+        // ---------------------------------
+        // FUNGSI UPLOAD CSV
+        // ---------------------------------
+        $(document).on('click', '#addCsvBtn', function(e) {
             e.preventDefault();
-
-            // Ambil nilai dari input utama
             const appName = document.getElementById('application_name')?.value.trim() || '';
             const csvPath = document.getElementById('csv_path')?.value.trim() || '';
 
-            // Validasi minimal
             if (!appName) {
                 alert('Application Name harus diisi dulu.');
                 return;
             }
 
-            // Isi hidden input di form tersembunyi
             document.getElementById('application_name_hidden').value = appName;
             document.getElementById('csv_path_hidden').value = csvPath;
 
-            // Klik input file
             const input = document.getElementById('csvFileInput');
             if (input) input.click();
             else console.error('csvFileInput not found');
-        }
-    });
+        });
 
-    document.addEventListener('change', function(e) {
-        if (e.target && e.target.id === 'csvFileInput') {
+        $(document).on('change', '#csvFileInput', function(e) {
             const form = document.getElementById('csvForm');
             if (form) form.submit();
             else console.error('csvForm not found');
-        }
-    });
+        });
 
-    $(document).ready(function() {
+        // ---------------------------------
+        // FUNGSI PENGATURAN DASHBOARD (MODEL SETTING)
+        // ---------------------------------
 
-        // ===============================================
         // FUNGSI 1: MENYIMPAN PENGATURAN (KE API)
-        // ===============================================
         function saveSiteSettings(site) {
-            // Temukan elemen berdasarkan 'data-site'
             const $row = $(`.line[data-site="${site}"]`).closest('.row');
-
-            // Ambil semua nilai dari baris itu
             const settingsData = {
                 site_name: site,
                 line_id: $row.find('.line').val(),
@@ -422,19 +357,16 @@ require_once __DIR__ . '/config.php';
 
             console.log("Saving for:", site, settingsData); // Untuk debug
 
-            // Kirim ke API
             $.ajax({
-                url: '<?= BASE_URL ?>api/save_dashboard_setting.php', // Arahkan ke controller API
+                url: '<?= BASE_URL ?>api/save_dashboard_setting.php',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(settingsData),
                 dataType: 'json',
                 success: function(response) {
                     if (response.success) {
-                        // Berhasil (bisa tampilkan notif kecil jika mau)
                         console.log('Settings for ' + site + ' saved.');
                     } else {
-                        // Gagal
                         console.error('Failed to save settings:', response.message);
                     }
                 },
@@ -444,20 +376,14 @@ require_once __DIR__ . '/config.php';
             });
         }
 
-        // ===============================================
         // FUNGSI 2: EVENT LISTENER UNTUK MEMUAT (LOAD) DROPDOWN
-        // ===============================================
-
-        // KETIKA LINE BERUBAH
         $(document).on('change', '.line', function() {
             const site = $(this).data('site');
             const lineId = $(this).val();
-
             const $application = $(`.application[data-site="${site}"]`);
             const $file = $(`.file[data-site="${site}"]`);
             const $header = $(`.headers[data-site="${site}"]`);
 
-            // Reset semua dropdown anak
             $application.prop('disabled', true).html('<option value="">Select</option>');
             $file.prop('disabled', true).html('<option value="">Select</option>');
             $header.prop('disabled', true).html('<option value="">Select</option>');
@@ -475,13 +401,10 @@ require_once __DIR__ . '/config.php';
                         $.each(response, function(i, item) {
                             $application.append(`<option value="${item.id}">${item.name}</option>`);
                         });
-
-                        // --- INI BAGIAN 'LOAD' YANG PENTING ---
-                        // Cek 'data-app-id' yang kita simpan di HTML (dari PHP)
                         const savedAppId = $(`.line[data-site="${site}"]`).data('app-id');
                         if (savedAppId) {
-                            $application.val(savedAppId); // Set nilainya
-                            $application.trigger('change'); // Memicu dropdown berikutnya
+                            $application.val(savedAppId);
+                            $application.trigger('change');
                         }
                     },
                     error: function() {
@@ -489,14 +412,11 @@ require_once __DIR__ . '/config.php';
                     }
                 });
             }
-            // JANGAN SIMPAN DI SINI
         });
 
-        // KETIKA APPLICATION BERUBAH
         $(document).on('change', '.application', function() {
             const site = $(this).data('site');
             const appId = $(this).val();
-
             const $file = $(`.file[data-site="${site}"]`);
             const $header = $(`.headers[data-site="${site}"]`);
 
@@ -516,13 +436,10 @@ require_once __DIR__ . '/config.php';
                         $.each(response, function(i, item) {
                             $file.append(`<option value="${item.id}">${item.name}</option>`);
                         });
-
-                        // --- INI BAGIAN 'LOAD' YANG PENTING ---
-                        // Cek 'data-file-id'
                         const savedFileId = $(`.line[data-site="${site}"]`).data('file-id');
                         if (savedFileId) {
-                            $file.val(savedFileId); // Set nilainya
-                            $file.trigger('change'); // Memicu dropdown berikutnya
+                            $file.val(savedFileId);
+                            $file.trigger('change');
                         }
                     },
                     error: function() {
@@ -530,15 +447,13 @@ require_once __DIR__ . '/config.php';
                     }
                 });
             }
-            // JANGAN SIMPAN DI SINI
         });
 
-        // KETIKA FILE BERUBAH
         $(document).on('change', '.file', function() {
             const site = $(this).data('site');
             const fileId = $(this).val();
-
             const $header = $(`.headers[data-site="${site}"]`);
+
             $header.prop('disabled', true).html('<option value="">Loading...</option>');
 
             if (fileId) {
@@ -554,142 +469,70 @@ require_once __DIR__ . '/config.php';
                         $.each(response, function(i, item) {
                             $header.append(`<option value="${item.header_name}">${item.header_name}</option>`);
                         });
-
-                        // --- INI BAGIAN 'LOAD' YANG PENTING ---
-                        // Cek 'data-header-name'
                         const savedHeaderName = $(`.line[data-site="${site}"]`).data('header-name');
                         if (savedHeaderName) {
-                            $header.val(savedHeaderName); // Set nilainya
+                            $header.val(savedHeaderName);
                         }
-
-                        // PENTING: Panggil 'change' di header SETELAH semua selesai
-                        // Ini akan memicu penyimpanan terakhir (FUNGSI 3)
                         $header.trigger('change');
-
                     },
                     error: function() {
                         $header.html('<option value="">Error loading</option>');
                     }
                 });
             }
-            // JANGAN SIMPAN DI SINI
         });
 
-        // ===============================================
         // FUNGSI 3: SIMPAN SAAT AKSI TERAKHIR
-        // ===============================================
-
-        // KETIKA HEADER BERUBAH (Aksi terakhir dropdown)
         $(document).on('change', '.headers', function() {
             const site = $(this).data('site');
-            saveSiteSettings(site); // <-- SIMPAN DI SINI
+            saveSiteSettings(site);
         });
-
-        // KETIKA TOGGLE BERUBAH
         $(document).on('change', '.dashboard-toggle input', function() {
-            // Ambil 'data-site' dari <span> induknya
             const site = $(this).closest('.dashboard-toggle').data('site');
-            saveSiteSettings(site); // <-- SIMPAN DI SINI
+            saveSiteSettings(site);
         });
 
-        // ===============================================
         // FUNGSI 4: TRIGGER AWAL SAAT HALAMAN DIMUAT
-        // ===============================================
-        // INI BAGIAN 'LOAD' YANG PALING PENTING
         $('.line').each(function() {
-            if ($(this).val()) { // Jika 'Line' sudah terpilih (dari PHP)
-                $(this).trigger('change'); // Pancing 'change' untuk memuat dropdown anak
+            if ($(this).val()) {
+                $(this).trigger('change');
             }
         });
 
-    });
+        // ---------------------------------
+        // FUNGSI FORM DATA (DROPDOWN)
+        // ---------------------------------
+        $(document).on('change', '.line2', function() {
+            const lineId = $(this).val();
+            const $application = $(`.application2`);
+            $application.prop('disabled', true).html('<option value="">Loading...</option>');
 
-    // fungsi untuk memilih row header
-    <?php if (!empty($previewRows)): ?>
-        const csvData = <?= json_encode($previewRows, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>;
-
-        // Event ketika dropdown berubah
-        $('#headerSelector').on('change', function() {
-            const rowIndex = parseInt($(this).val());
-            const selectedHeader = csvData[rowIndex];
-            let html = '';
-
-            selectedHeader.forEach((col, i) => {
-                html += `
-                <tr>
-                    <td>Column ${i + 1}</td>
-                    <td>${col}</td>
-                    <input type="hidden" name="column_${i + 1}" value="${col}">
-                </tr>
-            `;
-            });
-
-            $('#selectedHeaderTable tbody').html(html);
-        });
-
-        // Auto-load baris pertama sebagai default
-        $('#headerSelector').trigger('change');
-    <?php endif; ?>
-
-    // ini untuk fokus mengisi form
-    <?php if (!empty($_SESSION['form_add_csv']['application_id'])): ?>
-        // 1. Inisialisasi - Cukup set 'true' jika session ada.
-        let formChanged = true;
-
-        // 2. LOGIKA BARU: Tandai tombol-tombol "Aman"
-        // Tambahkan class 'btn-safe-navigation' pada tombol/link "Show", "Delete", 
-        // "Save", dan "Cancel" di HTML Anda.
-        document.querySelectorAll('.btn-safe-navigation').forEach(button => {
-            button.addEventListener('click', function() {
-                // Saat tombol aman diklik, set formChanged menjadi false.
-                // Ini akan mencegah 'beforeunload' dan 'menu-link' aktif.
-                formChanged = false;
-            });
-        });
-
-        // Ini akan dicegah jika 'btn-safe-navigation' diklik lebih dulu.
-        document.querySelectorAll(".menu-link").forEach(link => {
-            link.addEventListener("click", function(e) {
-                if (formChanged) {
-                    e.preventDefault();
-                    Swal.fire({
-                        icon: "warning",
-                        title: "Form Sedang Diisi",
-                        text: "Anda tidak bisa berpindah halaman sebelum menyimpan atau membatalkan form.",
-                        confirmButtonText: "OK",
-                        confirmButtonColor: "#3085d6"
-                    });
-                }
-            });
-        });
-
-        // 4. LOGIKA 'beforeunload' (Disederhanakan)
-        // Kita hapus pengecekan 'excludedPages' yang keliru.
-        window.addEventListener("beforeunload", function(e) {
-            // Ini HANYA akan aktif jika formChanged masih 'true'
-            // (artinya: pengguna menutup tab, refresh, atau klik link non-aman)
-            if (formChanged) {
-                e.preventDefault();
-                e.returnValue = "";
-
-                // Kirim request hapus data ke server
-                const formData = new FormData();
-                formData.append("action", "delete_temp_data");
-                formData.append("application_id", <?= json_encode($_SESSION['form_add_csv']['application_id']) ?>);
-
-                // Gunakan sendBeacon agar tetap dikirim walau tab ditutup
-                navigator.sendBeacon("<?= BASE_URL ?>controllers/preference/clear_temp_data.php", formData);
+            if (lineId) {
+                $.ajax({
+                    url: '<?= BASE_URL ?>api/get_applications.php',
+                    type: 'POST',
+                    data: {
+                        line_id: lineId
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        $application.prop('disabled', false).html('<option value="">Select</option>');
+                        $.each(response, function(i, item) {
+                            $application.append(`<option value="${item.id}">${item.name}</option>`);
+                        });
+                    },
+                    error: function() {
+                        $application.html('<option value="">Error loading</option>');
+                    }
+                });
+            } else {
+                $application.html('<option value="">Select</option>');
             }
         });
-    <?php endif; ?>
 
-    // fungsi add line
-    $(document).ready(function() {
-
-        // ===================================
-        // FUNGSI ADD LINE (Versi jQuery)
-        // ===================================
-        // Listener ini tidak masalah, karena #addLineBtn ada saat halaman dimuat
+        // ---------------------------------
+        // FUNGSI ADD/EDIT LINE (PREFERENCE)
+        // ---------------------------------
         $('#addLineBtn').on('click', function() {
             Swal.fire({
                 title: 'Tambahkan Data Line Baru',
@@ -720,7 +563,7 @@ require_once __DIR__ . '/config.php';
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'Accept': 'application/json',
+                                'Accept': 'application/json'
                             },
                             body: JSON.stringify({
                                 line_name: lineName
@@ -744,14 +587,7 @@ require_once __DIR__ . '/config.php';
             });
         });
 
-        // =======================================
-        // FUNGSI EDIT LINE (MENGGUNAKAN EVENT DELEGATION)
-        // =======================================
-        // Kita pasang listener di '#kt_datatable', BUKAN di tombolnya
         $('#kt_datatable').on('click', '.editLineBtn', function() {
-
-            // 'this' sekarang adalah tombol .editLineBtn yang diklik
-            // Kita pakai $(this).data() untuk mengambil data-
             const lineId = $(this).data('id');
             const currentLineName = $(this).data('name');
 
@@ -759,7 +595,7 @@ require_once __DIR__ . '/config.php';
                 title: 'Edit Data Line',
                 input: 'text',
                 inputLabel: 'Nama Line',
-                inputValue: currentLineName, // Tampilkan nama lama
+                inputValue: currentLineName,
                 inputPlaceholder: 'Masukkan nama line baru...',
                 showCancelButton: true,
                 confirmButtonText: 'Simpan Perubahan',
@@ -772,12 +608,10 @@ require_once __DIR__ . '/config.php';
             }).then((result) => {
                 if (result.isConfirmed) {
                     const newLineName = result.value;
-
                     if (newLineName === currentLineName) {
                         Swal.fire('Tidak ada perubahan', '', 'info');
                         return;
                     }
-
                     Swal.fire({
                         title: 'Menyimpan...',
                         allowOutsideClick: false,
@@ -790,7 +624,7 @@ require_once __DIR__ . '/config.php';
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'Accept': 'application/json',
+                                'Accept': 'application/json'
                             },
                             body: JSON.stringify({
                                 line_id: lineId,
@@ -815,45 +649,83 @@ require_once __DIR__ . '/config.php';
             });
         });
 
-    }); // <-- Akhir dari $(document).ready()
+        // ---------------------------------
+        // FUNGSI PREVIEW HEADER CSV
+        // ---------------------------------
+        <?php if (!empty($previewRows)): ?>
+            const csvData = <?= json_encode($previewRows, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>;
+            $('#headerSelector').on('change', function() {
+                const rowIndex = parseInt($(this).val());
+                const selectedHeader = csvData[rowIndex];
+                let html = '';
+                selectedHeader.forEach((col, i) => {
+                    html += `
+                        <tr>
+                            <td>Column ${i + 1}</td>
+                            <td>${col}</td>
+                            <input type="hidden" name="column_${i + 1}" value="${col}">
+                        </tr>
+                    `;
+                });
+                $('#selectedHeaderTable tbody').html(html);
+            });
+            $('#headerSelector').trigger('change');
+        <?php endif; ?>
 
+        // ---------------------------------
+        // FUNGSI PROTEKSI NAVIGASI FORM
+        // ---------------------------------
+        <?php if (!empty($_SESSION['form_add_csv']['application_id'])): ?>
+            let formChanged = true;
 
-    // form data
-    $(document).on('change', '.line2', function() {
-        const lineId = $(this).val();
+            document.querySelectorAll('.btn-safe-navigation').forEach(button => {
+                button.addEventListener('click', function() {
+                    formChanged = false;
+                });
+            });
 
-        const $application = $(`.application2`);
+            document.querySelectorAll(".menu-link").forEach(link => {
+                link.addEventListener("click", function(e) {
+                    if (formChanged) {
+                        e.preventDefault();
+                        Swal.fire({
+                            icon: "warning",
+                            title: "Form Sedang Diisi",
+                            text: "Anda tidak bisa berpindah halaman sebelum menyimpan atau membatalkan form.",
+                            confirmButtonText: "OK",
+                            confirmButtonColor: "#3085d6"
+                        });
+                    }
+                });
+            });
 
+            window.addEventListener("beforeunload", function(e) {
+                if (formChanged) {
+                    // Ini akan memicu popup "Are you sure?"
+                    e.preventDefault();
+                    e.returnValue = "";
+                }
+                // JANGAN kirim beacon di sini
+            });
 
-        $application.prop('disabled', true).html('<option value="">Loading...</option>');
+            // 2. Event 'pagehide' untuk membersihkan data jika user BENAR-BENAR pergi
+            window.addEventListener("pagehide", function(e) {
+                // 'e.persisted' bernilai false jika halaman benar-benar ditutup (bukan disimpan di back/forward cache)
+                // Tapi untuk beacon, kita kirim saja jika form berubah.
+                if (formChanged) {
+                    const formData = new FormData();
+                    formData.append("action", "delete_temp_data");
+                    formData.append("application_id", <?= json_encode($_SESSION['form_add_csv']['application_id']) ?>);
 
-        if (lineId) {
-            $.ajax({
-                url: '<?= BASE_URL ?>api/get_applications.php',
-                type: 'POST',
-                data: {
-                    line_id: lineId
-                },
-
-                dataType: 'json',
-                success: function(response) {
-                    $application.prop('disabled', false).html('<option value="">Select</option>');
-                    $.each(response, function(i, item) {
-                        $application.append(`<option value="${item.id}">${item.name}</option>`);
-                    });
-                },
-                error: function() {
-                    $application.html('<option value="">Error loading</option>');
+                    // sendBeacon aman digunakan di sini dan tidak akan memblokir penutupan halaman
+                    navigator.sendBeacon("<?= BASE_URL ?>controllers/preference/clear_temp_data.php", formData);
                 }
             });
-        } else {
-            $application.html('<option value="">Select</option>');
-        }
-    });
+        <?php endif; ?>
+
+    }); // <-- AKHIR DARI $(document).ready()
 </script>
 
-<!--end::Page Scripts-->
 </body>
-<!--end::Body-->
 
 </html>

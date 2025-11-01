@@ -3,6 +3,7 @@ require_once __DIR__ . '/../../../includes/config.php';
 $_SESSION['menu'] = 'add_line';
 $_SESSION['halaman'] = 'line';
 require __DIR__ . '/../../../includes/header.php';
+require __DIR__ . '/../../../includes/clear_temp_session.php';
 require __DIR__ . '/../../../includes/aside.php';
 require __DIR__ . '/../../../includes/navbar.php';
 ?>
@@ -59,26 +60,6 @@ require __DIR__ . '/../../../includes/navbar.php';
 
 
 
-<!-- Modal-->
-<div class="modal fade" id="exampleModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary font-weight-bold">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <?php
 require __DIR__ . '/../../../includes/footer.php';

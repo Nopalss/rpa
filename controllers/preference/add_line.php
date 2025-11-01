@@ -6,8 +6,6 @@ header('Content-Type: application/json');
 // 2. MASUKKAN FILE KONFIGURASI DAN HELPER
 require_once __DIR__ . '/../../includes/config.php'; // (Menyediakan $pdo dan memulai session)
 require_once __DIR__ . '/../../helper/sanitize.php'; // (Menyediakan sanitize())
-// Kita tidak memerlukan redirect.php karena ini adalah API
-// Kita akan menangani error PDO secara manual untuk JSON
 
 // 3. SIAPKAN RESPONS DEFAULT
 $response = [

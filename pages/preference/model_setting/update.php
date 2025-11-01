@@ -18,10 +18,17 @@ try {
 
     $sql = "SELECT file_id, filename, create_at, create_by 
         FROM tbl_filename 
-        WHERE application_id = :id OR temp_id = :id";
+        WHERE application_id = :id";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([":id" => (int) $id]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $sql = "SELECT file_id, filename, create_at, create_by 
+        FROM tbl_filename 
+        WHERE temp_id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([":id" => (int) $id]);
+    $new_rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     handlePdoError($e, "pages/preference/model_setting/");
 }
@@ -64,13 +71,10 @@ require __DIR__ . '/../../../includes/navbar.php';
                                     </div>
                                     <div class="form-group mt-10">
                                         <div class="d-flex justify-content-between align-items-center">
-
                                             <!-- Tombol -->
                                             <a href="#" id="addCsvBtn" class="btn btn-primary font-weight-bolder btn-safe-navigation">
                                                 Add CSV
                                             </a>
-
-
                                         </div>
                                         <table class="table">
                                             <thead>
@@ -128,6 +132,45 @@ require __DIR__ . '/../../../includes/navbar.php';
                                                     <tr>
                                                         <td colspan="4" class="text-center text-muted h6">Tidak ada Csv</td>
                                                     </tr>
+                                                <?php endif; ?>
+
+                                                <!-- new data -->
+                                                <?php if (count($new_rows) > 0): ?>
+                                                    <?php foreach ($new_rows as $r): ?>
+                                                        <tr>
+                                                            <td class="font-weight-bold"><?= $r['filename'] ?> <small class="text-danger">New!</small></td>
+                                                            <td><?= $r['create_by'] ?></td>
+                                                            <td><?= $r['create_at'] ?></td>
+                                                            <td>
+                                                                <a href="<?= BASE_URL ?>pages/preference/model_setting/show_csv.php?id=<?= $r['file_id'] ?>" class="btn btn-sm btn-primary btn-text-primary btn-safe-navigation" title="Show">
+                                                                    <div class="d-flex justify-content-center align-items-center">
+                                                                        <span class="svg-icon svg-icon-md">
+                                                                            <i class="flaticon-eye"></i>
+                                                                        </span>
+                                                                        <span class="text-white">
+                                                                            Show
+                                                                        </span>
+                                                                    </div>
+                                                                </a>
+                                                                <a onclick="confirmDeleteTemplate('<?= $r['file_id'] ?>', 'controllers/preference/delete_update.php')" class="btn btn-sm btn-danger btn-text-primary btn-safe-navigation" title="Delete">
+                                                                    <div class="d-flex justify-content-center align-items-center">
+                                                                        <span class="svg-icon svg-icon-md">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                                    <rect x="0" y="0" width="24" height="24" />
+                                                                                    <path d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z" fill="#000000" fill-rule="nonzero" />
+                                                                                    <path d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z" fill="#000000" opacity="0.3" />
+                                                                                </g>
+                                                                            </svg>
+                                                                        </span>
+                                                                        <span class="text-white">
+                                                                            Delete
+                                                                        </span>
+                                                                    </div>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
                                                 <?php endif; ?>
                                             </tbody>
                                         </table>

@@ -30,6 +30,8 @@ try {
         $inQuery = implode(',', array_fill(0, count($fileIds), '?'));
         $stmtDeleteHeaders = $pdo->prepare("DELETE FROM tbl_header WHERE file_id IN ($inQuery)");
         $stmtDeleteHeaders->execute($fileIds);
+        $stmtDeleteHeaders = $pdo->prepare("DELETE FROM tbl_header2 WHERE file_id IN ($inQuery)");
+        $stmtDeleteHeaders->execute($fileIds);
     }
 
     // 3 Hapus semua file_name yang terhubung dengan application_id

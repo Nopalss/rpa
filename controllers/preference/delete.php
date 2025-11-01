@@ -50,6 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $stmt = $pdo->prepare("DELETE FROM tbl_header WHERE file_id = :id");
         $stmt->execute([':id' => $id]);
+        $stmt = $pdo->prepare("DELETE FROM tbl_header2 WHERE file_id = :id");
+        $stmt->execute([':id' => $id]);
 
         $stmt = $pdo->prepare("DELETE FROM tbl_filename WHERE file_id = :id");
         $stmt->execute([':id' => $id]);

@@ -3,6 +3,7 @@ require_once __DIR__ . '/../../includes/config.php';
 $_SESSION['menu'] = 'add_data';
 $_SESSION['halaman'] = 'data';
 require __DIR__ . '/../../includes/header.php';
+require __DIR__ . '/../../includes/clear_temp_session.php';
 require __DIR__ . '/../../includes/aside.php';
 require __DIR__ . '/../../includes/navbar.php';
 

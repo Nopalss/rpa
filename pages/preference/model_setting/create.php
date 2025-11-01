@@ -6,7 +6,7 @@ $_SESSION['halaman'] = 'Model Setting';
 
 if (isset($_SESSION['form_add_csv']['application_id'])) {
     try {
-        $stmt = $pdo->prepare("SELECT * FROM tbl_filename WHERE temp_id = :application_id");
+        $stmt = $pdo->prepare("SELECT * FROM tbl_filename  WHERE temp_id = :application_id");
         $stmt->execute([":application_id" => (int) $_SESSION['form_add_csv']['application_id']]);
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -30,7 +30,7 @@ require __DIR__ . '/../../../includes/navbar.php';
                     <div class="card">
                         <div class="card-header mb-2">
                             <h1 class="card-title mb-0">
-                                Add Model
+                                Add Application
                             </h1>
                         </div>
                         <form action="<?= BASE_URL ?>controllers/preference/add_application.php" method="post" class="form">
