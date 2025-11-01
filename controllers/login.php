@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['username'] = $user['username'];
+            $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['rule'] = $user['rule'];
             setAlert('success', "Login Berhasil", 'Selamat datang kembali!', 'success', 'OKe');
             redirect("pages/dashboard.php");

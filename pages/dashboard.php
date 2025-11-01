@@ -8,16 +8,27 @@ require __DIR__ . '/../includes/aside.php';
 require __DIR__ . '/../includes/navbar.php';
 $stmt = $pdo->query("SELECT line_id AS id, line_name FROM tbl_line ORDER BY line_name ASC");
 $lines = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$model = [
-    'Daihatsu',
-    'Honda',
-    'Yamaha',
-];
+
 $histogram = [
     'main',
     'aside',
     'site'
 ];
+
+$user_id = $_SESSION['user_id'] ?? 0;
+
+$user_settings = [];
+if ($user_id > 0) {
+    // 1. Ambil semua pengaturan untuk user ini dari DB
+    $stmt_settings = $pdo->prepare("SELECT * FROM tbl_user_settings WHERE user_id = :user_id");
+    $stmt_settings->execute([':user_id' => $user_id]);
+    $results = $stmt_settings->fetchAll(PDO::FETCH_ASSOC);
+
+    // 2. Ubah array-nya agar mudah diakses oleh HTML (menggunakan 'site_name' sebagai key)
+    foreach ($results as $row) {
+        $user_settings[$row['site_name']] = $row;
+    }
+}
 ?>
 
 <div class="content  d-flex flex-column flex-column-fluid pt-0" id="kt_content">
@@ -91,86 +102,128 @@ $histogram = [
                 <div class="col-xl-12 mt-5">
                     <div class="card">
                         <div class="card-body ">
+
                             <!-- main -->
                             <div class="row mb-7">
                                 <p class="col-xl-12 h6 mb-3 text-muted">Main</p>
+
+                                <!-- Ambil data 'main' dari array $user_settings -->
+                                <?php $site_settings = $user_settings['main'] ?? []; ?>
+
                                 <div class="col-xl-2 mb-3 d-flex justify-content-center align-items-center">
                                     <label class="mr-2 small" for="">Line</label>
-                                    <select name="" class="form-control form-control-sm line" data-site="main">
+
+                                    <!-- MODIFIKASI: Tambahkan data- atribut untuk simpan pilihan anak -->
+                                    <select name="" class="form-control form-control-sm line" data-site="main"
+                                        data-app-id="<?= $site_settings['application_id'] ?? '' ?>"
+                                        data-file-id="<?= $site_settings['file_id'] ?? '' ?>"
+                                        data-header-name="<?= $site_settings['header_name'] ?? '' ?>">
+
                                         <option value="">Select</option>
                                         <?php foreach ($lines as $l): ?>
-                                            <option value="<?= $l['id'] ?>"><?= $l['line_name'] ?></option>
+                                            <!-- MODIFIKASI: Tambahkan 'selected' jika ID cocok -->
+                                            <option value="<?= $l['id'] ?>"
+                                                <?= ($l['id'] == ($site_settings['line_id'] ?? null)) ? 'selected' : '' ?>>
+                                                <?= $l['line_name'] ?>
+                                            </option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
                                 <div class="col-xl-3 mb-3 d-flex justify-content-center align-items-center">
                                     <label class="mr-2 small" for="">Application</label>
+                                    <!-- Dibiarkan kosong, akan diisi oleh JS -->
                                     <select name="" class="form-control form-control-sm application" data-site="main">
                                         <option value="">Select</option>
-
                                     </select>
                                 </div>
                                 <div class="col-xl mb-3 d-flex justify-content-center align-items-center">
                                     <label class="mr-2 small" for="">File</label>
+                                    <!-- Dibiarkan kosong, akan diisi oleh JS -->
                                     <select name="" class="form-control form-control-sm file" data-site="main">
                                         <option value="">Select</option>
-
                                     </select>
                                 </div>
                                 <div class="col-xl-2 mb-3 d-flex justify-content-center align-items-center">
                                     <label class="mr-2 small" for="">Header</label>
+                                    <!-- Dibiarkan kosong, akan diisi oleh JS -->
                                     <select name="" class="form-control form-control-sm headers" data-site="main">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
                                 <div class="col-xl-2 d-flex justify-content-center align-items-center">
                                     <button class="btn btn-info mr-2">Alert</button>
-                                    <span class="switch switch-outline switch-icon switch-success">
+
+                                    <!-- MODIFIKASI: Atur 'checked' dari DB -->
+                                    <?php $is_active = $site_settings['is_active'] ?? true; // Default 'on' 
+                                    ?>
+                                    <span class="switch switch-outline switch-icon dashboard-toggle switch-success" data-site="main">
                                         <label>
-                                            <input type="checkbox" checked="checked" name="select" />
+                                            <input type="checkbox" <?= $is_active ? 'checked="checked"' : '' ?> name="select" />
                                             <span></span>
                                         </label>
                                     </span>
                                 </div>
                             </div>
+
                             <!-- site -->
                             <?php for ($i = 1; $i <= 5; $i++): ?>
+
+                                <!-- Ambil data 'site1', 'site2', dst. -->
+                                <?php
+                                $site_name = 'site' . $i;
+                                $site_settings = $user_settings[$site_name] ?? [];
+                                ?>
+
                                 <div class="row mb-7">
                                     <p class="col-xl-12 h6 mb-3 text-muted">Site <?= $i; ?></p>
                                     <div class="col-xl-2 mb-3 d-flex justify-content-center align-items-center">
                                         <label class="mr-2 small" for="">Line</label>
-                                        <select class="form-control form-control-sm line" data-site="site<?= $i; ?>">
+
+                                        <!-- MODIFIKASI: Tambahkan data- atribut -->
+                                        <select class="form-control form-control-sm line" data-site="<?= $site_name; ?>"
+                                            data-app-id="<?= $site_settings['application_id'] ?? '' ?>"
+                                            data-file-id="<?= $site_settings['file_id'] ?? '' ?>"
+                                            data-header-name="<?= $site_settings['header_name'] ?? '' ?>">
+
                                             <option value="">Select</option>
                                             <?php foreach ($lines as $l): ?>
-                                                <option value="<?= $l['id'] ?>"><?= $l['line_name'] ?></option>
+                                                <!-- MODIFIKASI: Tambahkan 'selected' -->
+                                                <option value="<?= $l['id'] ?>"
+                                                    <?= ($l['id'] == ($site_settings['line_id'] ?? null)) ? 'selected' : '' ?>>
+                                                    <?= $l['line_name'] ?>
+                                                </option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
                                     <div class="col-xl-3 mb-3 d-flex justify-content-center align-items-center">
                                         <label class="mr-2 small" for="">Application</label>
-                                        <select class="form-control form-control-sm application" data-site="site<?= $i; ?>">
+                                        <!-- Dibiarkan kosong, akan diisi oleh JS -->
+                                        <select class="form-control form-control-sm application" data-site="<?= $site_name; ?>">
                                             <option value="">Select</option>
-
                                         </select>
                                     </div>
                                     <div class="col-xl mb-3 d-flex justify-content-center align-items-center">
                                         <label class="mr-2 small" for="">File</label>
-                                        <select class="form-control form-control-sm file" data-site="site<?= $i; ?>">
+                                        <!-- Dibiarkan kosong, akan diisi oleh JS -->
+                                        <select class="form-control form-control-sm file" data-site="<?= $site_name; ?>">
                                             <option value="">Select</option>
-
                                         </select>
                                     </div>
                                     <div class="col-xl-2 mb-3 d-flex justify-content-center align-items-center">
                                         <label class="mr-2 small" for="">Header</label>
-                                        <select class="form-control form-control-sm headers" data-site="site<?= $i; ?>">
+                                        <!-- Dibiarkan kosong, akan diisi oleh JS -->
+                                        <select class="form-control form-control-sm headers" data-site="<?= $site_name; ?>">
                                             <option value="">Select</option>
                                         </select>
                                     </div>
                                     <div class="col-xl-2 d-flex justify-content-center align-items-center">
                                         <button class="btn btn-info mr-2">Alert</button>
-                                        <span class="switch switch-outline switch-icon switch-success">
+
+                                        <!-- MODIFIKASI: Atur 'checked' dari DB -->
+                                        <?php $is_active = $site_settings['is_active'] ?? true; ?>
+                                        <span class="switch switch-outline switch-icon switch-success dashboard-toggle" data-site="<?= $site_name; ?>">
                                             <label>
-                                                <input type="checkbox" checked="checked" name="select" />
+                                                <input type="checkbox" <?= $is_active ? 'checked="checked"' : '' ?> name="select" />
                                                 <span></span>
                                             </label>
                                         </span>

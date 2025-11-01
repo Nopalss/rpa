@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../../includes/config.php';
 require_once __DIR__ . '/../../../helper/redirect.php';
 $_SESSION['menu'] = 'model_setting';
-$_SESSION['halaman'] = 'add_csv';
+$_SESSION['halaman'] = 'Model Setting';
 
 
 $id = $_GET['id'] ?? null;

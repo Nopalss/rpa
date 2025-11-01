@@ -9,6 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id       = isset($_POST['id']) ? sanitize($_POST['id']) : null;
     $username = $_SESSION['username'] ?? null;
     $password = trim($_POST['password'] ?? '');
+    $application_id = $_SESSION['temp_id'];
 
     // Validasi dasar
     if (empty($id) || empty($password) || empty($username)) {
@@ -19,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'warning',
             'Coba Lagi'
         );
-        return redirect("pages/preference/model_setting/create.php");
+        return redirect("pages/preference/model_setting/update.php?id=$application_id");
     }
 
     // Cek password user
@@ -32,17 +33,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'danger',
             'Coba Lagi'
         );
-        return redirect("pages/preference/model_setting/create.php");
+        return redirect("pages/preference/model_setting/update.php?id=$application_id");
     }
 
     try {
         // Cek apakah user dengan ID tersebut ada
-        $stmt = $pdo->prepare("SELECT filename FROM tbl_filename WHERE file_id = :id");
+        $stmt = $pdo->prepare("SELECT filename, application_id, temp_id FROM tbl_filename WHERE file_id = :id");
         $stmt->execute([':id' => $id]);
         $targetFile = $stmt->fetch(PDO::FETCH_ASSOC);
 
+
         if (!$targetFile) {
-            throw new Exception("File dengan ID tersebut tidak ditemukan.");
+            redirect("pages/preference/model_setting/update.php?id=$application_id");
         }
 
         // Jalankan transaksi penghapusan
@@ -64,11 +66,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'Oke'
         );
 
-        redirect("pages/preference/model_setting/create.php");
+        redirect("pages/preference/model_setting/update.php?id=$application_id");
     } catch (PDOException $e) {
         if ($pdo->inTransaction()) {
             $pdo->rollBack();
         }
-        handlePdoError($e, "pages/preference/model_setting/create.php");
+        handlePdoError($e, "pages/preference/model_setting/update.php?id=$application_id");
     }
 }

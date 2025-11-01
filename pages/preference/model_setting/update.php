@@ -2,10 +2,10 @@
 require_once __DIR__ . '/../../../includes/config.php';
 require_once __DIR__ . '/../../../helper/handlePdoError.php';
 $_SESSION['menu'] = 'model_setting';
-$_SESSION['halaman'] = 'add_csv';
+$_SESSION['halaman'] = 'Model Setting';
 
 $id = $_GET['id'] ?? null;
-
+$_SESSION['temp_id'] = $id;
 if (!$id) {
     header("location:" . BASE_URL . "pages/preference/model_setting/");
     exit;
@@ -137,8 +137,8 @@ require __DIR__ . '/../../../includes/navbar.php';
                             </div>
                             <div class="card-footer">
                                 <div class="text-right">
-                                    <?php if (isset($_SESSION['form_edit_csv']['application_id'])): ?>
-                                        <a onclick="confirmCancel('<?= $_SESSION['form_edit_csv']['application_id'] ?? '' ?>', 'controllers/preference/delete_temp.php')" class="btn btn-light-danger  btn-safe-navigation">Cancel</a>
+                                    <?php if (isset($_SESSION['form_add_csv']['application_id'])): ?>
+                                        <a onclick="confirmCancel('<?= $_SESSION['form_add_csv']['application_id'] ?? '' ?>', 'controllers/preference/delete_temp.php')" class="btn btn-light-danger  btn-safe-navigation">Cancel</a>
                                     <?php else: ?>
                                         <a href="<?= BASE_URL ?>pages/preference/model_setting/" class="btn btn-light-danger">Cancel</a>
                                     <?php endif; ?>

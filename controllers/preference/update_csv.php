@@ -78,10 +78,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         setAlert('success', "Selamat!", 'Data Berhasil Disimpan!', 'success', 'Oke');
         redirect("pages/preference/model_setting/update.php?id=$application_id");
     } catch (PDOException $e) {
-        if ($pdo->inTransaction()) {
-            $pdo->rollBack();
-        }
-        handlePdoError($e, "pages/preference/model_setting/update.php?id=$application_id");
+        echo $e;
+        // if ($pdo->inTransaction()) {
+        //     $pdo->rollBack();
+        // }
+        // handlePdoError($e, "pages/preference/model_setting/update.php?id=$application_id");
     }
 } else {
     redirect("pages/preference/model_setting/");

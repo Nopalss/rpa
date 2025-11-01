@@ -16,19 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'warning',
             'Coba Lagi'
         );
-        return redirect("pages/setting/user/");
+        return redirect("pages/preference/model_setting/create.php");
     }
 
 
     try {
-        // Cek apakah user dengan ID tersebut ada
-        // $stmt = $pdo->prepare("SELECT filename FROM tbl_filename WHERE file_id = :id");
-        // $stmt->execute([':id' => $id]);
-        // $targetFile = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // if (!$targetFile) {
-        //     throw new Exception("File dengan ID tersebut tidak ditemukan.");
-        // }
 
         // Jalankan transaksi penghapusan
         $pdo->beginTransaction();

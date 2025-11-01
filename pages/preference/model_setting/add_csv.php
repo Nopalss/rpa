@@ -2,8 +2,7 @@
 require_once __DIR__ . '/../../../includes/config.php';
 require_once __DIR__ . '/../../../helper/redirect.php';
 $_SESSION['menu'] = 'model_setting';
-$_SESSION['halaman'] = 'add_csv';
-
+$_SESSION['halaman'] = 'Model Setting';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
     $fileTmpPath = $_FILES['csv_file']['tmp_name'];

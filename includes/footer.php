@@ -401,18 +401,64 @@ require_once __DIR__ . '/config.php';
         }
     });
 
-    // dashboard line
     $(document).ready(function() {
-        // ketika line berubah
+
+        // ===============================================
+        // FUNGSI 1: MENYIMPAN PENGATURAN (KE API)
+        // ===============================================
+        function saveSiteSettings(site) {
+            // Temukan elemen berdasarkan 'data-site'
+            const $row = $(`.line[data-site="${site}"]`).closest('.row');
+
+            // Ambil semua nilai dari baris itu
+            const settingsData = {
+                site_name: site,
+                line_id: $row.find('.line').val(),
+                application_id: $row.find('.application').val(),
+                file_id: $row.find('.file').val(),
+                header_name: $row.find('.headers').val(),
+                is_active: $row.find('.dashboard-toggle input').is(':checked')
+            };
+
+            console.log("Saving for:", site, settingsData); // Untuk debug
+
+            // Kirim ke API
+            $.ajax({
+                url: '<?= BASE_URL ?>api/save_dashboard_setting.php', // Arahkan ke controller API
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(settingsData),
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        // Berhasil (bisa tampilkan notif kecil jika mau)
+                        console.log('Settings for ' + site + ' saved.');
+                    } else {
+                        // Gagal
+                        console.error('Failed to save settings:', response.message);
+                    }
+                },
+                error: function() {
+                    console.error('AJAX error saving settings.');
+                }
+            });
+        }
+
+        // ===============================================
+        // FUNGSI 2: EVENT LISTENER UNTUK MEMUAT (LOAD) DROPDOWN
+        // ===============================================
+
+        // KETIKA LINE BERUBAH
         $(document).on('change', '.line', function() {
-            const site = $(this).data('site'); // ambil site name (main, site1, dsb)
+            const site = $(this).data('site');
             const lineId = $(this).val();
 
             const $application = $(`.application[data-site="${site}"]`);
             const $file = $(`.file[data-site="${site}"]`);
             const $header = $(`.headers[data-site="${site}"]`);
 
-            $application.prop('disabled', true).html('<option value="">Loading...</option>');
+            // Reset semua dropdown anak
+            $application.prop('disabled', true).html('<option value="">Select</option>');
             $file.prop('disabled', true).html('<option value="">Select</option>');
             $header.prop('disabled', true).html('<option value="">Select</option>');
 
@@ -429,23 +475,30 @@ require_once __DIR__ . '/config.php';
                         $.each(response, function(i, item) {
                             $application.append(`<option value="${item.id}">${item.name}</option>`);
                         });
+
+                        // --- INI BAGIAN 'LOAD' YANG PENTING ---
+                        // Cek 'data-app-id' yang kita simpan di HTML (dari PHP)
+                        const savedAppId = $(`.line[data-site="${site}"]`).data('app-id');
+                        if (savedAppId) {
+                            $application.val(savedAppId); // Set nilainya
+                            $application.trigger('change'); // Memicu dropdown berikutnya
+                        }
                     },
                     error: function() {
                         $application.html('<option value="">Error loading</option>');
                     }
                 });
-            } else {
-                $application.html('<option value="">Select</option>');
             }
+            // JANGAN SIMPAN DI SINI
         });
 
-        // ketika application berubah
+        // KETIKA APPLICATION BERUBAH
         $(document).on('change', '.application', function() {
             const site = $(this).data('site');
             const appId = $(this).val();
 
             const $file = $(`.file[data-site="${site}"]`);
-            const $header = $(`.header[data-site="${site}"]`);
+            const $header = $(`.headers[data-site="${site}"]`);
 
             $file.prop('disabled', true).html('<option value="">Loading...</option>');
             $header.prop('disabled', true).html('<option value="">Select</option>');
@@ -463,15 +516,24 @@ require_once __DIR__ . '/config.php';
                         $.each(response, function(i, item) {
                             $file.append(`<option value="${item.id}">${item.name}</option>`);
                         });
+
+                        // --- INI BAGIAN 'LOAD' YANG PENTING ---
+                        // Cek 'data-file-id'
+                        const savedFileId = $(`.line[data-site="${site}"]`).data('file-id');
+                        if (savedFileId) {
+                            $file.val(savedFileId); // Set nilainya
+                            $file.trigger('change'); // Memicu dropdown berikutnya
+                        }
                     },
                     error: function() {
                         $file.html('<option value="">Error loading</option>');
                     }
                 });
             }
+            // JANGAN SIMPAN DI SINI
         });
 
-        // ketika file berubah
+        // KETIKA FILE BERUBAH
         $(document).on('change', '.file', function() {
             const site = $(this).data('site');
             const fileId = $(this).val();
@@ -492,15 +554,55 @@ require_once __DIR__ . '/config.php';
                         $.each(response, function(i, item) {
                             $header.append(`<option value="${item.header_name}">${item.header_name}</option>`);
                         });
+
+                        // --- INI BAGIAN 'LOAD' YANG PENTING ---
+                        // Cek 'data-header-name'
+                        const savedHeaderName = $(`.line[data-site="${site}"]`).data('header-name');
+                        if (savedHeaderName) {
+                            $header.val(savedHeaderName); // Set nilainya
+                        }
+
+                        // PENTING: Panggil 'change' di header SETELAH semua selesai
+                        // Ini akan memicu penyimpanan terakhir (FUNGSI 3)
+                        $header.trigger('change');
+
                     },
                     error: function() {
                         $header.html('<option value="">Error loading</option>');
                     }
                 });
             }
+            // JANGAN SIMPAN DI SINI
         });
-    });
 
+        // ===============================================
+        // FUNGSI 3: SIMPAN SAAT AKSI TERAKHIR
+        // ===============================================
+
+        // KETIKA HEADER BERUBAH (Aksi terakhir dropdown)
+        $(document).on('change', '.headers', function() {
+            const site = $(this).data('site');
+            saveSiteSettings(site); // <-- SIMPAN DI SINI
+        });
+
+        // KETIKA TOGGLE BERUBAH
+        $(document).on('change', '.dashboard-toggle input', function() {
+            // Ambil 'data-site' dari <span> induknya
+            const site = $(this).closest('.dashboard-toggle').data('site');
+            saveSiteSettings(site); // <-- SIMPAN DI SINI
+        });
+
+        // ===============================================
+        // FUNGSI 4: TRIGGER AWAL SAAT HALAMAN DIMUAT
+        // ===============================================
+        // INI BAGIAN 'LOAD' YANG PALING PENTING
+        $('.line').each(function() {
+            if ($(this).val()) { // Jika 'Line' sudah terpilih (dari PHP)
+                $(this).trigger('change'); // Pancing 'change' untuk memuat dropdown anak
+            }
+        });
+
+    });
 
     // fungsi untuk memilih row header
     <?php if (!empty($previewRows)): ?>
@@ -714,6 +816,40 @@ require_once __DIR__ . '/config.php';
         });
 
     }); // <-- Akhir dari $(document).ready()
+
+
+    // form data
+    $(document).on('change', '.line2', function() {
+        const lineId = $(this).val();
+
+        const $application = $(`.application2`);
+
+
+        $application.prop('disabled', true).html('<option value="">Loading...</option>');
+
+        if (lineId) {
+            $.ajax({
+                url: '<?= BASE_URL ?>api/get_applications.php',
+                type: 'POST',
+                data: {
+                    line_id: lineId
+                },
+
+                dataType: 'json',
+                success: function(response) {
+                    $application.prop('disabled', false).html('<option value="">Select</option>');
+                    $.each(response, function(i, item) {
+                        $application.append(`<option value="${item.id}">${item.name}</option>`);
+                    });
+                },
+                error: function() {
+                    $application.html('<option value="">Error loading</option>');
+                }
+            });
+        } else {
+            $application.html('<option value="">Select</option>');
+        }
+    });
 </script>
 
 <!--end::Page Scripts-->

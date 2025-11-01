@@ -160,15 +160,15 @@ $role = $_SESSION['rule'];
                                                                             <i class="menu-bullet menu-bullet-dot"><span></span></i>
                                                                             <span class="menu-text">Add Path CSV</span></a>
                                                                         </li> -->
-                                                            <?php if ($_SESSION['menu'] == 'add_csv_setting'): ?>
+                                                            <!-- <?php if ($_SESSION['menu'] == 'add_csv_setting'): ?>
                                                                 <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_csv_setting/" class="menu-link ">
                                                                     <?php else: ?>
                                                                 <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_csv_setting/" class="menu-link ">
                                                                     <?php endif; ?>
                                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>
                                                                     <span class="menu-text">Add CSV Setting</span></a>
-                                                                </li>
-                                                                <!-- <?php if ($_SESSION['menu'] == 'add_csv_header'): ?>
+                                                                </li> -->
+                                                            <!-- <?php if ($_SESSION['menu'] == 'add_csv_header'): ?>
                                                                                 <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_csv_header/" class="menu-link ">
                                                                                     <?php else: ?>
                                                                                 <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/add_csv_header/" class="menu-link ">
@@ -176,14 +176,14 @@ $role = $_SESSION['rule'];
                                                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>
                                                                                     <span class="menu-text">Add CSV Header</span></a>
                                                                                 </li> -->
-                                                                <?php if ($_SESSION['menu'] == 'model_setting'): ?>
-                                                                    <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/model_setting/" class="menu-link ">
-                                                                        <?php else: ?>
-                                                                    <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/model_setting/" class="menu-link ">
-                                                                        <?php endif; ?>
-                                                                        <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                                                                        <span class="menu-text">Model Setting</span></a>
-                                                                    </li>
+                                                            <?php if ($_SESSION['menu'] == 'model_setting'): ?>
+                                                                <li class="menu-item menu-item-active" aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/model_setting/" class="menu-link ">
+                                                                    <?php else: ?>
+                                                                <li class="menu-item " aria-haspopup="true"><a href="<?= BASE_URL ?>pages/preference/model_setting/" class="menu-link ">
+                                                                    <?php endif; ?>
+                                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
+                                                                    <span class="menu-text">Model Setting</span></a>
+                                                                </li>
                                                     </ul>
                                                 </div>
                                             </li>
