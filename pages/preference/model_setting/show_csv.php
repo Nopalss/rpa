@@ -15,8 +15,7 @@ try {
             'button' => 'Oke',
             'style' => 'warning'
         ];
-        redirect("pages/preference/model_setting/create.php");
-        exit;
+        redirect("pages/preference/model_setting/");
     }
 
 
@@ -46,7 +45,7 @@ try {
             'button' => 'Oke',
             'style' => 'warning'
         ];
-        redirect("pages/preference/model_setting/create.php");
+        redirect("pages/preference/model_setting/");
     }
 } catch (PDOException $e) {
     $_SESSION['alert'] = [
@@ -56,7 +55,7 @@ try {
         'button' => "Coba Lagi",
         'style' => "danger"
     ];
-    redirect("pages/preference/model_setting/create.php");
+    redirect("pages/preference/model_setting/");
 }
 require __DIR__ . '/../../../includes/header.php';
 require __DIR__ . '/../../../includes/aside.php';
@@ -71,7 +70,7 @@ require __DIR__ . '/../../../includes/navbar.php';
                 <div class="col-lg-9">
                     <div class="card">
                         <div class="card-body">
-                            <a href="javascript:history.back()" class="btn btn-danger btn-safe-navigation"><i class="flaticon2-back"></i> Back</a>
+                            <a href="javascript:window.location=document.referrer" class="btn btn-danger btn-safe-navigation"><i class="flaticon2-back"></i> Back</a>
                             <table class="table table-borderless mt-3">
                                 <tr>
                                     <th class="h6" style="width:10% ;">Application</th>

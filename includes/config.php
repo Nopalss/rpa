@@ -10,6 +10,7 @@ $charset = "utf8mb4";
 
 date_default_timezone_set('Asia/Jakarta');
 define('BASE_URL', 'http://localhost/rpa/');
+define('VERSION', 'V1.0.16');
 
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";

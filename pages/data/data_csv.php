@@ -8,7 +8,7 @@ $line = $_GET['line_id'] ?? '';
 $application = $_GET['application_id'] ?? '';
 $date = $_GET['date'] ?? ''; // Asumsi Y-m-d
 $file_id = $_GET['file_id'] ?? '';
-$header_id = $_GET['record_no'] ?? '';
+$header_id = $_GET['header_id'] ?? '';
 
 if (empty($line) || empty($application) || empty($date) || empty($file_id) || empty($header_id)) {
     die("Error: Parameter line_id, application_id, date, dan file_id wajib diisi.");

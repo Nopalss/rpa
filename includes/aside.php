@@ -114,7 +114,7 @@ function echoActiveClass($currentMenu, $menuName)
                                     </a>
                                 </li>
 
-                                <li class="menu-item <?= echoActiveClass($menu, 'data') ?>" aria-haspopup="true">
+                                <li class="menu-item <?= echoActiveClass($menu, 'add_data') ?>" aria-haspopup="true">
                                     <a href="<?= BASE_URL . 'pages/data/' ?>" class="menu-link ">
                                         <span class="svg-icon menu-icon svg-icon-2x"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -174,12 +174,12 @@ function echoActiveClass($currentMenu, $menuName)
                                     </a>
                                     <div class="menu-submenu "><i class="menu-arrow"></i>
                                         <ul class="menu-subnav">
-                                            <li class="menu-item <?= echoActiveClass($menu, 'admin') ?>" aria-haspopup="true">
+                                            <!-- <li class="menu-item <?= echoActiveClass($menu, 'admin') ?>" aria-haspopup="true">
                                                 <a href="<?= BASE_URL ?>pages/setting/admin/" class="menu-link ">
                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>
                                                     <span class="menu-text">Admin</span>
                                                 </a>
-                                            </li>
+                                            </li> -->
                                             <li class="menu-item <?= echoActiveClass($menu, 'user') ?>" aria-haspopup="true">
                                                 <a href="<?= BASE_URL ?>pages/setting/user/" class="menu-link ">
                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>

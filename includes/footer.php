@@ -11,7 +11,7 @@ $rule = $_SESSION['rule'] ?? null;
     <div class=" container-fluid  d-flex flex-column flex-md-row align-items-center justify-content-end">
         <div class="text-dark order-2 order-md-1">
             <span class="text-muted font-weight-bold mr-2"><?= date('Y') ?>&copy;</span>
-            <a href="" target="_blank" class="text-dark-75 text-hover-primary">RPA</a>
+            <a href="" target="_blank" class="text-dark-75 text-hover-primary">RPA <?= VERSION ?></a>
         </div>
     </div>
 </div>

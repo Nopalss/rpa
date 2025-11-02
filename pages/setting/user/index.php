@@ -75,13 +75,6 @@ require __DIR__ . '/../../../includes/navbar.php';
 
 
                     <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable"></div>
-                    <div class="text-right">
-                        <a href="<?= BASE_URL ?>pages/registrasi/export_excel.php" class="btn mt-5 mr-0 btn-light-success  font-weight-bolder">
-                            <span class="svg-icon svg-icon-md text-center"><!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
-                                <i class="fas fa-file-csv"></i>
-                            </span>Import CSV
-                        </a>
-                    </div>
 
                     <!--end: Datatable-->
                 </div>

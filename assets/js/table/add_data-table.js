@@ -57,7 +57,7 @@ var KTDatatableLocalSortDemo = function () {
                 width: 125,
                 template: function (row) {
                     return `\
-                        <a href="${HOST_URL}pages/data/data_csv.php?file_id=${row.file_id}&application_id=${row.application_id}&line_id=${row.line_id}&date=${row.date}&record_no=${row.record_no}" class="btn btn-sm btn-success btn-text-primary btn-icon mr-2" title="CSV">\
+                        <a href="${HOST_URL}pages/data/data_csv.php?file_id=${row.file_id}&application_id=${row.application_id}&line_id=${row.line_id}&date=${row.date}&header_id=${row.header_id}" class="btn btn-sm btn-success btn-text-primary btn-icon mr-2" title="CSV">\
                             <span class="svg-icon svg-icon-md">\
                                 <i class="fas fa-file-csv"></i>\
                             </span>\

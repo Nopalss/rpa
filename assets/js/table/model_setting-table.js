@@ -72,7 +72,7 @@ var KTDatatableLocalSortDemo = function () {
                     autoHide: false,
                     template: function (row) {
                         return `\
-                        <a href="javascript:;" class="btn btn-sm btn-success btn-text-primary btn-icon mr-2" title="CSV">\
+                        <a href="${HOST_URL}pages/preference/model_setting/export_application_file.php?id=${row.id}"  class="btn btn-sm btn-success btn-text-primary btn-icon mr-2" title="CSV">\
                             <span class="svg-icon svg-icon-md">\
                               <i class="fas fa-file-csv"></i>\
                             </span>\

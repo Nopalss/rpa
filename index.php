@@ -17,7 +17,7 @@ require __DIR__ . "/controllers/login.php";
     <link href="assets/css/pages/login/login-4.css" rel="stylesheet" type="text/css" />
     <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
-    <link rel="shortcut icon" href="assets/media/favicon.ico" />
+    <!-- <link rel="shortcut icon" href="assets/media/favicon.ico" /> -->
 </head>
 
 <body id="kt_body" class="page-loading">

@@ -11,7 +11,7 @@ try {
     $date = $_POST['query']['date'] ?? '';
 
 
-    $sql = "SELECT d.line_id, d.date, d.record_no, d.header_id, d.application_id, f.filename, f.file_id
+    $sql = "SELECT d.line_id, d.date, d.header_id, d.application_id, f.filename, f.file_id
             FROM tbl_data d 
             JOIN tbl_filename f ON d.file_id = f.file_id";
 
@@ -41,7 +41,7 @@ try {
     }
 
     // Hindari duplikat file
-    $sql .= " GROUP BY d.line_id, d.date, d.record_no, d.header_id, d.application_id, f.file_id, f.filename";
+    $sql .= " GROUP BY d.line_id, d.date,  d.header_id, d.application_id, f.file_id, f.filename";
     // Jalankan kueri
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
