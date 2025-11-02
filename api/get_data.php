@@ -11,7 +11,7 @@ try {
     $date = $_POST['query']['date'] ?? '';
 
 
-    $sql = "SELECT d.line_id, d.date, d.application_id, f.filename, f.create_at, f.create_by, f.file_id
+    $sql = "SELECT d.line_id, d.date, d.record_no, d.header_id, d.application_id, f.filename, f.file_id
             FROM tbl_data d 
             JOIN tbl_filename f ON d.file_id = f.file_id";
 
@@ -30,17 +30,9 @@ try {
     }
 
     if (!empty($date)) {
-        // 1. Buat objek DateTime dari format YYYY-MM-DD
-        $dateObject = DateTime::createFromFormat('Y-m-d', $date);
-
-        // 2. Ubah formatnya menjadi mm/dd/YYYY (sesuai format di DB)
-        $formattedDate = $dateObject->format('m/d/Y');
-
-        // 3. Gunakan perbandingan teks biasa di SQL
-        $conditions[] = "d.date = :date";
-
         // 4. Masukkan tanggal yang sudah diformat ulang ke parameter
-        $params[':date'] = $formattedDate;
+        $conditions[] = "d.date = :date";
+        $params[':date'] = $date;
     }
 
     // Gabungkan semua kondisi (jika ada)
@@ -49,8 +41,7 @@ try {
     }
 
     // Hindari duplikat file
-    $sql .= " GROUP BY d.line_id, d.date, d.application_id, f.file_id, f.filename, f.create_at, f.create_by";
-
+    $sql .= " GROUP BY d.line_id, d.date, d.record_no, d.header_id, d.application_id, f.file_id, f.filename";
     // Jalankan kueri
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);

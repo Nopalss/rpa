@@ -135,14 +135,13 @@ $rule = $_SESSION['rule'] ?? null;
         "font-family": "Poppins"
     };
 </script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script src="<?= BASE_URL ?>assets/plugins/global/plugins.bundle.js"></script>
 <script src="<?= BASE_URL ?>assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
 <script src="<?= BASE_URL ?>assets/js/scripts.bundle.js"></script>
 
 <?php if ($menu != "dashboard"): ?>
-    <script src="<?= BASE_URL ?>assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js"></script>
+    <!-- <script src="<?= BASE_URL ?>assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js"></script> -->
 
     <?php if ($menu): // Hanya muat jika $menu tidak null 
     ?>
@@ -153,6 +152,7 @@ $rule = $_SESSION['rule'] ?? null;
 <?php if ($menu == "dashboard"): ?>
     <script src="<?= BASE_URL ?>assets/js/pages/features/charts/apexcharts.js"></script>
 <?php endif; ?>
+<script src="<?= BASE_URL ?>assets/js/pages/features/miscellaneous/sweetalert2.js"></script>
 <script>
     // ==================================================================
     // BAGIAN 1: DEFINISI FUNGSI

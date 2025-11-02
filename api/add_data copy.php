@@ -6,8 +6,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Content-Type: application/json");
 
-// Mulai Database Transaction untuk setiap request
-$pdo->beginTransaction();
+// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 try {
     $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
@@ -18,7 +17,7 @@ try {
             throw new Exception("Format JSON tidak valid: " . json_last_error_msg());
         }
     } else {
-        // Ambil data dari form-data
+        // Ambil data dari form-data atau x-www-form-urlencoded
         $input = $_POST;
     }
 
@@ -32,30 +31,29 @@ try {
     $file_id = sanitize($input['file_id'] ?? '');
     $header_id = sanitize($input['header_id'] ?? '');
 
-    // --- LOGIKA ID DIUBAH ---
-    // Logika SELECT MAX() dihapus.
-    // Kita buat ID unik sebagai STRING di sini.
-    // Ini aman dari race condition.
-    $record_no = uniqid('rec_'); // Hasilnya: "rec_6723a1a1c9a87"
+    $stmt_max = $pdo->query("SELECT MAX(data_id) as max_id FROM tbl_data");
+    $max_id = $stmt_max->fetchColumn();
+
+    //  Hitung record_no 
+    $record_no = (int)$max_id + 1;
+
 
     if (empty($line_id) || empty($application_id) || empty($file_id) || empty($header_id)) {
         throw new Exception("Tolong isi form dengan benar");
     }
 
-    // ===========================================
-    // --- INSERT PERTAMA (tbl_data) ---
-    // ===========================================
-
+    // Kumpulkan semua data (max 128)
     $columns1 = [];
     for ($i = 1; $i <= 190; $i++) {
-        $columns1["data_$i"] = $input["data_$i"] ?? null;
+        $key = "data_$i";
+        $columns1[$key] = isset($input[$key]) ? $input[$key] : null;
     }
 
-    // 'record_no' sekarang dimasukkan sebagai string unik
+    // Buat query dinamis
     $fields1 = ['record_no', 'line_id', 'application_id', 'file_id', 'header_id'];
     $placeholders1 = [':record_no', ':line_id', ':application_id', ':file_id', ':header_id'];
     $params1 = [
-        ':record_no' => $record_no, // <-- Menggunakan string uniqid()
+        ':record_no' => $record_no,
         ':line_id' => $line_id,
         ':application_id' => $application_id,
         ':file_id' => $file_id,
@@ -67,23 +65,25 @@ try {
         $params1[":$key"] = $val;
     }
 
-    $sql1 = "INSERT INTO tbl_data (" . implode(',', $fields1) . ") VALUES (" . implode(',', $placeholders1) . ")";
-    $stmt1 = $pdo->prepare($sql1);
-    $stmt1->execute($params1);
+    // Insert table header
+    $sql = "INSERT INTO tbl_data (" . implode(',', $fields1) . ") 
+                VALUES (" . implode(',', $placeholders1) . ")";
 
-    // ===========================================
-    // --- INSERT KEDUA (tbl_data2) ---
-    // ===========================================
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params1);
 
+    // Kumpulkan semua data (max 380)
     $columns2 = [];
     for ($i = 191; $i <= 380; $i++) {
-        $columns2["data_$i"] = $input["data_$i"] ?? null;
+        $key = "data_$i";
+        $columns2[$key] = isset($input[$key]) ? $input[$key] : null;
     }
 
+    // Buat query dinamis
     $fields2 = ['record_no', 'line_id', 'application_id', 'file_id', 'header_id'];
     $placeholders2 = [':record_no', ':line_id', ':application_id', ':file_id', ':header_id'];
     $params2 = [
-        ':record_no' => $record_no, // <-- Menggunakan string uniqid() YANG SAMA
+        ':record_no' => $record_no,
         ':line_id' => $line_id,
         ':application_id' => $application_id,
         ':file_id' => $file_id,
@@ -95,23 +95,19 @@ try {
         $params2[":$key"] = $val;
     }
 
-    $sql2 = "INSERT INTO tbl_data2 (" . implode(',', $fields2) . ") VALUES (" . implode(',', $placeholders2) . ")";
-    $stmt2 = $pdo->prepare($sql2);
-    $stmt2->execute($params2);
+    // Insert table header
+    $sql = "INSERT INTO tbl_data2 (" . implode(',', $fields2) . ") 
+                VALUES (" . implode(',', $placeholders2) . ")";
 
-    // Jika kedua insert berhasil, simpan
-    $pdo->commit();
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params2);
 
     http_response_code(200);
     echo json_encode([
         "code" => 200,
-        "message" => "Success",
-        "record_no" => $record_no // Kirim balik ID string barunya
+        "message" => "Success"
     ]);
 } catch (Exception $e) {
-    // Jika ada error, batalkan insert
-    $pdo->rollBack();
-
     http_response_code(400);
     echo json_encode([
         "code" => 400,
@@ -119,3 +115,11 @@ try {
         "message" => $e->getMessage()
     ]);
 }
+// } else {
+//     http_response_code(405);
+//     echo json_encode([
+//         "code" => 405,
+//         "error" => true,
+//         "message" => "Invalid request method. Only POST allowed."
+//     ]);
+// }

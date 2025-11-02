@@ -76,12 +76,12 @@ require __DIR__ . '/../../../includes/navbar.php';
                                 <tr>
                                     <th class="h6" style="width:10% ;">Application</th>
                                     <td style="width:2% ;">:</td>
-                                    <td class="h6 font-weight-normal" style="width: 88%"><?= $_SESSION['form_add_csv']['application_name'] ?></td>
+                                    <td class="h6 font-weight-normal" style="width: 88%"><?= isset($_SESSION['form_add_csv']['application_name']) ? $_SESSION['form_add_csv']['application_name'] :  $rows['application_name'] ?></td>
                                 </tr>
                                 <tr>
                                     <th class="h6">Path</th>
                                     <td>:</td>
-                                    <td class="h6 font-weight-normal"><?= $_SESSION['form_add_csv']['csv_path'] ?></td>
+                                    <td class="h6 font-weight-normal"><?= isset($_SESSION['form_add_csv']['csv_path']) ? $_SESSION['form_add_csv']['csv_path'] :  $rows['application_path'] ?></td>
                                 </tr>
                                 <tr>
                                     <th class="h6">File Name</th>
