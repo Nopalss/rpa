@@ -339,23 +339,360 @@ $rule = $_SESSION['rule'] ?? null;
             else console.error('csvForm not found');
         });
 
+        // // ---------------------------------
+        // // FUNGSI PENGATURAN DASHBOARD (MODEL SETTING)
+        // // ---------------------------------
+
+        // // FUNGSI 1: MENYIMPAN PENGATURAN (KE API)
+        // function saveSiteSettings(site) {
+        //     const $row = $(`.line[data-site="${site}"]`).closest('.row');
+        //     const settingsData = {
+        //         site_name: site,
+        //         line_id: $row.find('.line').val(),
+        //         application_id: $row.find('.application').val(),
+        //         file_id: $row.find('.file').val(),
+        //         header_name: $row.find('.headers').val(),
+        //         is_active: $row.find('.dashboard-toggle input').is(':checked')
+        //     };
+
+        //     console.log("Saving for:", site, settingsData); // Untuk debug
+
+        //     $.ajax({
+        //         url: '<?= BASE_URL ?>api/save_dashboard_setting.php',
+        //         type: 'POST',
+        //         contentType: 'application/json',
+        //         data: JSON.stringify(settingsData),
+        //         dataType: 'json',
+        //         success: function(response) {
+        //             if (response.success) {
+        //                 console.log('Settings for ' + site + ' saved.');
+        //             } else {
+        //                 console.error('Failed to save settings:', response.message);
+        //             }
+        //         },
+        //         error: function() {
+        //             console.error('AJAX error saving settings.');
+        //         }
+        //     });
+        // }
+
+        // // FUNGSI 2: EVENT LISTENER UNTUK MEMUAT (LOAD) DROPDOWN
+        // $(document).on('change', '.line', function() {
+        //     const site = $(this).data('site');
+        //     const lineId = $(this).val();
+        //     const $application = $(`.application[data-site="${site}"]`);
+        //     const $file = $(`.file[data-site="${site}"]`);
+        //     const $header = $(`.headers[data-site="${site}"]`);
+
+        //     $application.prop('disabled', true).html('<option value="">Select</option>');
+        //     $file.prop('disabled', true).html('<option value="">Select</option>');
+        //     $header.prop('disabled', true).html('<option value="">Select</option>');
+
+        //     if (lineId) {
+        //         $.ajax({
+        //             url: '<?= BASE_URL ?>api/get_applications.php',
+        //             type: 'POST',
+        //             data: {
+        //                 line_id: lineId
+        //             },
+        //             dataType: 'json',
+        //             success: function(response) {
+        //                 $application.prop('disabled', false).html('<option value="">Select</option>');
+        //                 $.each(response, function(i, item) {
+        //                     $application.append(`<option value="${item.id}">${item.name}</option>`);
+        //                 });
+        //                 const savedAppId = $(`.line[data-site="${site}"]`).data('app-id');
+        //                 if (savedAppId) {
+        //                     $application.val(savedAppId);
+        //                     $application.trigger('change');
+        //                 }
+        //             },
+        //             error: function() {
+        //                 $application.html('<option value="">Error loading</option>');
+        //             }
+        //         });
+        //     }
+        // });
+
+        // $(document).on('change', '.application', function() {
+        //     const site = $(this).data('site');
+        //     const appId = $(this).val();
+        //     const $file = $(`.file[data-site="${site}"]`);
+        //     const $header = $(`.headers[data-site="${site}"]`);
+
+        //     $file.prop('disabled', true).html('<option value="">Loading...</option>');
+        //     $header.prop('disabled', true).html('<option value="">Select</option>');
+
+        //     if (appId) {
+        //         $.ajax({
+        //             url: '<?= BASE_URL ?>api/get_files.php',
+        //             type: 'POST',
+        //             data: {
+        //                 app_id: appId
+        //             },
+        //             dataType: 'json',
+        //             success: function(response) {
+        //                 $file.prop('disabled', false).html('<option value="">Select</option>');
+        //                 $.each(response, function(i, item) {
+        //                     $file.append(`<option value="${item.id}">${item.name}</option>`);
+        //                 });
+        //                 const savedFileId = $(`.line[data-site="${site}"]`).data('file-id');
+        //                 if (savedFileId) {
+        //                     $file.val(savedFileId);
+        //                     $file.trigger('change');
+        //                 }
+        //             },
+        //             error: function() {
+        //                 $file.html('<option value="">Error loading</option>');
+        //             }
+        //         });
+        //     }
+        // });
+
+        // $(document).on('change', '.file', function() {
+        //     const site = $(this).data('site');
+        //     const fileId = $(this).val();
+        //     const $header = $(`.headers[data-site="${site}"]`);
+
+        //     $header.prop('disabled', true).html('<option value="">Loading...</option>');
+
+        //     if (fileId) {
+        //         $.ajax({
+        //             url: '<?= BASE_URL ?>api/get_headers.php',
+        //             type: 'POST',
+        //             data: {
+        //                 file_id: fileId
+        //             },
+        //             dataType: 'json',
+        //             success: function(response) {
+        //                 $header.prop('disabled', false).html('<option value="">Select</option>');
+        //                 $.each(response, function(i, item) {
+        //                     $header.append(`<option value="${item.header_name}">${item.header_name}</option>`);
+        //                 });
+        //                 const savedHeaderName = $(`.line[data-site="${site}"]`).data('header-name');
+        //                 if (savedHeaderName) {
+        //                     $header.val(savedHeaderName);
+        //                 }
+        //                 $header.trigger('change');
+        //             },
+        //             error: function() {
+        //                 $header.html('<option value="">Error loading</option>');
+        //             }
+        //         });
+        //     }
+        // });
+
+        // // FUNGSI 3: SIMPAN SAAT AKSI TERAKHIR
+        // $(document).on('change', '.headers', function() {
+        //     const site = $(this).data('site');
+        //     saveSiteSettings(site);
+        // });
+        // $(document).on('change', '.dashboard-toggle input', function() {
+        //     const site = $(this).closest('.dashboard-toggle').data('site');
+        //     saveSiteSettings(site);
+        // });
+
+        // // FUNGSI 4: TRIGGER AWAL SAAT HALAMAN DIMUAT
+        // $('.line').each(function() {
+        //     if ($(this).val()) {
+        //         $(this).trigger('change');
+        //     }
+        // });
+
+        // --- JEMBATAN KE APEXCHARTS DAN DATA 3-SIGMA ---
+
+        // --- JEMBATAN KE APEXCHARTS DAN DATA 3-SIGMA ---
+
+        // --- JEMBATAN KE APEXCHARTS DAN DATA 3-SIGMA ---
+
+        // --- JEMBATAN KE APEXCHARTS DAN DATA 3-SIGMA ---
+
+        // 1. MAPPING ID CHART dan INSTANCE CHART GLOBAL
+        const chartMapping = {
+            'main': '#chart_2',
+            'site1': '#chart_19',
+            'site2': '#chart_20',
+            'site3': '#chart_21',
+            'site4': '#chart_15',
+            'site5': '#chart_16'
+        };
+        window.apexChartsInstances = {};
+
+
+        // --- FUNGSI RENDER APEXCHART HISTOGRAM (Tidak Ada Perubahan Logika) ---
+        function renderApexHistogram(chartSelector, data, siteName) {
+
+            const chartElement = document.querySelector(chartSelector);
+
+            if (window.apexChartsInstances[siteName]) {
+                window.apexChartsInstances[siteName].destroy();
+                window.apexChartsInstances[siteName] = null;
+            }
+            chartElement.innerHTML = '';
+
+            if (!data.series || data.series.length === 0) {
+                $(chartSelector).html('<div class="d-flex justify-content-center align-items-center h-100 text-muted small">Data tidak cukup atau tidak valid.</div>');
+                return;
+            }
+
+            const currentHeight = $(chartSelector).css('height').replace('px', '');
+            const defaultHeight = (siteName === 'main') ? 350 : 100;
+            const chartHeight = (currentHeight && parseInt(currentHeight) >= defaultHeight) ? parseInt(currentHeight) : defaultHeight;
+
+            if ($(chartSelector).height() < defaultHeight) {
+                $(chartSelector).css('height', defaultHeight + 'px');
+            }
+
+            const options = {
+                series: [{
+                    name: 'Frekuensi Data',
+                    data: data.series
+                }],
+                chart: {
+                    type: 'area',
+                    height: chartHeight,
+                    toolbar: {
+                        show: false
+                    },
+                    sparkline: {
+                        enabled: false
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 2
+                },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shadeIntensity: 1,
+                        opacityFrom: 0.7,
+                        opacityTo: 0.9,
+                        stops: [0, 100]
+                    }
+                },
+                xaxis: {
+                    categories: data.labels,
+                    title: {
+                        text: `Rata-rata: ${data.rata_rata.toFixed(3)} | SD: ${data.standar_deviasi.toFixed(3)}`
+                    },
+                    labels: {
+                        show: false
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Freq.'
+                    },
+                    labels: {
+                        show: false
+                    },
+                    min: 0
+                },
+
+                annotations: {
+                    yaxis: [{
+                            y: data.batas_atas,
+                            borderColor: '#dc3545',
+                            strokeDashArray: 5,
+                            label: {
+                                text: 'UCL',
+                                style: {
+                                    background: '#dc3545',
+                                    fontSize: '10px'
+                                }
+                            }
+                        },
+                        {
+                            y: Math.max(0, data.batas_bawah),
+                            borderColor: '#dc3545',
+                            strokeDashArray: 5,
+                            label: {
+                                text: 'LCL',
+                                style: {
+                                    background: '#dc3545',
+                                    fontSize: '10px'
+                                }
+                            }
+                        }
+                    ]
+                },
+                tooltip: {
+                    y: {
+                        formatter: function(val) {
+                            return val + " Data"
+                        }
+                    }
+                }
+            };
+
+            const chart = new ApexCharts(chartElement, options);
+            chart.render();
+            window.apexChartsInstances[siteName] = chart;
+        }
+
+
+        // --- FUNGSI LOAD DATA CHART HISTOGRAM (API CALL) ---
+        function loadHistogramChart(site) {
+            const chartId = chartMapping[site];
+            if (!chartId) return;
+
+            const $row = $(`.line[data-site="${site}"]`).closest('.row');
+            const $header = $row.find('.headers');
+
+            const settingsData = {
+                file_id: $row.find('.file').val(),
+                header_name: $header.val(),
+                table_type: $header.data('table-type') || 'type1'
+            };
+
+            $(chartId).html('<div class="d-flex justify-content-center align-items-center h-100" style="min-height: 50px;"><div class="spinner-border spinner-border-sm text-primary" role="status"></div></div>');
+
+            if (!settingsData.file_id || !settingsData.header_name) {
+                $(chartId).html('<div class="text-muted small">Pilih Header.</div>');
+                return;
+            }
+
+            $.ajax({
+                url: '<?= BASE_URL ?>api/chart_data_3sigma.php',
+                type: 'POST',
+                data: settingsData,
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        renderApexHistogram(chartId, response, site);
+                    } else {
+                        $(chartId).html('<div class="text-danger small" style="min-height: 50px;">' + response.message + '</div>');
+                    }
+                },
+                error: function() {
+                    $(chartId).html('<div class="text-danger small" style="min-height: 50px;">Error API.</div>');
+                }
+            });
+        }
+
+
         // ---------------------------------
         // FUNGSI PENGATURAN DASHBOARD (MODEL SETTING)
         // ---------------------------------
 
-        // FUNGSI 1: MENYIMPAN PENGATURAN (KE API)
         function saveSiteSettings(site) {
             const $row = $(`.line[data-site="${site}"]`).closest('.row');
+            const $header = $row.find('.headers');
+            const tableType = $header.data('table-type') || 'type1';
+
             const settingsData = {
                 site_name: site,
                 line_id: $row.find('.line').val(),
                 application_id: $row.find('.application').val(),
                 file_id: $row.find('.file').val(),
-                header_name: $row.find('.headers').val(),
-                is_active: $row.find('.dashboard-toggle input').is(':checked')
+                header_name: $header.val(),
+                is_active: $row.find('.dashboard-toggle input').is(':checked'),
+                table_type: tableType
             };
-
-            console.log("Saving for:", site, settingsData); // Untuk debug
 
             $.ajax({
                 url: '<?= BASE_URL ?>api/save_dashboard_setting.php',
@@ -364,9 +701,7 @@ $rule = $_SESSION['rule'] ?? null;
                 data: JSON.stringify(settingsData),
                 dataType: 'json',
                 success: function(response) {
-                    if (response.success) {
-                        console.log('Settings for ' + site + ' saved.');
-                    } else {
+                    if (!response.success) {
                         console.error('Failed to save settings:', response.message);
                     }
                 },
@@ -376,7 +711,7 @@ $rule = $_SESSION['rule'] ?? null;
             });
         }
 
-        // FUNGSI 2: EVENT LISTENER UNTUK MEMUAT (LOAD) DROPDOWN
+        // FUNGSI 2: EVENT LISTENER UNTUK MEMUAT (LOAD) DROPDOWN (Dipotong)
         $(document).on('change', '.line', function() {
             const site = $(this).data('site');
             const lineId = $(this).val();
@@ -387,6 +722,7 @@ $rule = $_SESSION['rule'] ?? null;
             $application.prop('disabled', true).html('<option value="">Select</option>');
             $file.prop('disabled', true).html('<option value="">Select</option>');
             $header.prop('disabled', true).html('<option value="">Select</option>');
+            $header.removeData('table-type');
 
             if (lineId) {
                 $.ajax({
@@ -422,6 +758,7 @@ $rule = $_SESSION['rule'] ?? null;
 
             $file.prop('disabled', true).html('<option value="">Loading...</option>');
             $header.prop('disabled', true).html('<option value="">Select</option>');
+            $header.removeData('table-type');
 
             if (appId) {
                 $.ajax({
@@ -455,6 +792,10 @@ $rule = $_SESSION['rule'] ?? null;
             const $header = $(`.headers[data-site="${site}"]`);
 
             $header.prop('disabled', true).html('<option value="">Loading...</option>');
+            $header.removeData('table-type');
+
+            const chartId = chartMapping[site];
+            $(chartId).html('<div class="text-muted small">Menunggu Header dipilih...</div>');
 
             if (fileId) {
                 $.ajax({
@@ -466,7 +807,13 @@ $rule = $_SESSION['rule'] ?? null;
                     dataType: 'json',
                     success: function(response) {
                         $header.prop('disabled', false).html('<option value="">Select</option>');
-                        $.each(response, function(i, item) {
+
+                        const tableType = response.type || 'type1';
+                        $header.data('table-type', tableType);
+
+                        const headers = response.headers || response;
+
+                        $.each(headers, function(i, item) {
                             $header.append(`<option value="${item.header_name}">${item.header_name}</option>`);
                         });
                         const savedHeaderName = $(`.line[data-site="${site}"]`).data('header-name');
@@ -482,21 +829,46 @@ $rule = $_SESSION['rule'] ?? null;
             }
         });
 
-        // FUNGSI 3: SIMPAN SAAT AKSI TERAKHIR
+
+        // FUNGSI 3: SIMPAN DAN MUAT CHART SAAT AKSI TERAKHIR
         $(document).on('change', '.headers', function() {
             const site = $(this).data('site');
             saveSiteSettings(site);
+
+            if ($(this).val()) {
+                loadHistogramChart(site);
+            }
         });
+
         $(document).on('change', '.dashboard-toggle input', function() {
             const site = $(this).closest('.dashboard-toggle').data('site');
             saveSiteSettings(site);
+
+            const chartId = chartMapping[site];
+
+            if ($(this).is(':checked')) {
+                loadHistogramChart(site);
+            } else {
+                $(chartId).html('<div class="text-muted small">Chart dinonaktifkan.</div>');
+                if (window.apexChartsInstances[site]) {
+                    window.apexChartsInstances[site].destroy();
+                    window.apexChartsInstances[site] = null;
+                }
+            }
         });
 
-        // FUNGSI 4: TRIGGER AWAL SAAT HALAMAN DIMUAT
-        $('.line').each(function() {
-            if ($(this).val()) {
-                $(this).trigger('change');
-            }
+        // FUNGSI 4: TRIGGER AWAL SAAT HALAMAN DIMUAT (DISIMPLIFIKASI)
+        $(document).ready(function() {
+            // Hanya memicu event di dropdown .line yang memiliki nilai tersimpan.
+            // Ini akan memulai rantai cascading dan memuat chart hanya sekali.
+            $('.line').each(function() {
+                if ($(this).val()) {
+                    $(this).trigger('change');
+                }
+            });
+
+            // Blok setTimeout yang menyebabkan re-triggering dihilangkan.
+            // Proses pemuatan chart awal sekarang sepenuhnya bergantung pada cascade settings yang sukses.
         });
 
         // ---------------------------------

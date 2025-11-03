@@ -74,10 +74,10 @@ if ($user_id > 0) {
                         <div class="card-body pt-2">
                             <div id="chart_2"></div>
                             <!-- select card -->
-                            <select name="" id="" class="form-control text-center">
+                            <!-- <select name="" id="" class="form-control text-center">
                                 <option value="main">Main</option>
                                 <option value="mobil">Mobil</option>
-                            </select>
+                            </select> -->
 
                         </div>
                     </div>
