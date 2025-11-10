@@ -25,7 +25,7 @@ function echoActiveClass($currentMenu, $menuName)
 }
 ?>
 
-<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
+<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading aside-minimize">
 
     <!--begin::Main-->
     <!--begin::Header Mobile-->

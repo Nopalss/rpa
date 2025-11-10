@@ -41,24 +41,54 @@ if ($user_id > 0) {
                 <div class="col-sm-6 col-lg-4 mb-2">
                     <div class="bg-white  m-2 p-2 rounded shadow-sm">
                         <div class="d-flex flex-column">
-                            <p class="mb-3 pl-5 font-weight-bold">Site 1</p>
+                            <div class="mb-3 pl-5  d-flex align-items-center">
+                                <p class="font-weight-bold mb-0">
+                                    Site 1
+                                </p>
+                                <div id="site1StatusIcon" class="ml-2"
+                                    style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
+                                <i id="site1AlertIcon"
+                                    class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6"
+                                    style="display:none;"></i>
+                            </div>
                             <div id="chart_19" style="height: 50px"></div>
+                            <div id="chart_title_19" class="fw-semibold text-center mb-2 text-primary small"></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6 col-lg-4 mb-2">
                     <div class="bg-white  m-2 p-2 rounded shadow-sm">
                         <div class="d-flex flex-column">
-                            <p class="mb-3 pl-5 font-weight-bold">Site 2</p>
+                            <div class="mb-3 pl-5  d-flex align-items-center">
+                                <p class="font-weight-bold mb-0">
+                                    Site 2
+                                </p>
+                                <div id="site2StatusIcon" class="ml-2"
+                                    style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
+                                <i id="site2AlertIcon"
+                                    class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6"
+                                    style="display:none;"></i>
+                            </div>
                             <div id="chart_20" style="height: 50px"></div>
+                            <div id="chart_title_20" class="fw-semibold text-center mb-2 text-primary small"></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-12 col-lg-4 mb-2">
                     <div class="bg-white  m-2 p-2 rounded shadow-sm">
                         <div class="d-flex flex-column">
-                            <p class="mb-3 pl-5 font-weight-bold">Site 3</p>
+                            <div class="mb-3 pl-5  d-flex align-items-center">
+                                <p class="font-weight-bold mb-0">
+                                    Site 3
+                                </p>
+                                <div id="site3StatusIcon" class="ml-2"
+                                    style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
+                                <i id="site3AlertIcon"
+                                    class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6"
+                                    style="display:none;"></i>
+                            </div>
                             <div id="chart_21" style="height: 50px"></div>
+                            <div id="chart_title_21" class="fw-semibold text-center mb-2 text-primary small"></div>
                         </div>
                     </div>
                 </div>
@@ -67,17 +97,22 @@ if ($user_id > 0) {
                         <div class="card-header pb-2  d-flex justify-content-between align-items-center ">
                             <h3 class="card-title d-flex align-items-center mb-2">
                                 <a class="card-label text-dark">Main</a>
-                                <!-- <div style="width: 25px; height: 25px;" class="ml-2 rounded-circle bg-success"></div> -->
-                                <i class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h3"></i>
+                                <!-- 🔵 indikator status -->
+                                <div id="mainStatusIcon" class="ml-2" style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
+
+                                <!-- 🔴 tanda seru merah -->
+                                <i id="mainAlertIcon" class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h3" style="display:none;"></i>
                             </h3>
                         </div>
                         <div class="card-body pt-2">
                             <div id="chart_2"></div>
-                            <!-- select card -->
-                            <!-- <select name="" id="" class="form-control text-center">
-                                <option value="main">Main</option>
-                                <option value="mobil">Mobil</option>
-                            </select> -->
+
+                            <div id="mainChartTitle" class="fw-semibold text-center mb-2"></div>
+                            <div class="text-center mt-3">
+                                <button id="toggleCarousel" class="btn btn-sm btn-light-primary">
+                                    ⏸️ Pause
+                                </button>
+                            </div>
 
                         </div>
                     </div>
@@ -86,16 +121,36 @@ if ($user_id > 0) {
                     <div class="col-12 p-0 mb-4">
                         <div class="bg-white  m-2 p-2 rounded shadow-sm h-100">
                             <div class="d-flex flex-column">
-                                <p class="p-2 mb-2 font-weight-bold">Site 4</p>
+                                <div class="mb-3 pl-5  d-flex align-items-center">
+                                    <p class="font-weight-bold mb-0">
+                                        Site 4
+                                    </p>
+                                    <div id="site4StatusIcon" class="ml-2"
+                                        style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
+                                    <i id="site4AlertIcon"
+                                        class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6"
+                                        style="display:none;"></i>
+                                </div>
                                 <div id="chart_15" style="height: 50px"></div>
+                                <div id="chart_title_15" class="fw-semibold text-center mb-2 text-primary small"></div>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 p-0 mb-4">
                         <div class="bg-white  m-2 p-2 rounded shadow-sm h-100">
                             <div class="d-flex flex-column">
-                                <p class="p-2 mb-2 font-weight-bold">Site 5</p>
+                                <div class="mb-3 pl-5  d-flex align-items-center">
+                                    <p class="font-weight-bold mb-0">
+                                        Site 5
+                                    </p>
+                                    <div id="site5StatusIcon" class="ml-2"
+                                        style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
+                                    <i id="site5AlertIcon"
+                                        class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6"
+                                        style="display:none;"></i>
+                                </div>
                                 <div id="chart_16" style="height: 50px"></div>
+                                <div id="chart_title_16" class="fw-semibold text-center mb-2 text-primary small"></div>
                             </div>
                         </div>
                     </div>
