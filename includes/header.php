@@ -30,6 +30,12 @@ require __DIR__ . '/auth.php';
     <!-- <link href="<?= BASE_URL ?>assets/css/themes/layout/header/menu/light.css" rel="stylesheet" type="text/css" /> -->
     <link href="<?= BASE_URL ?>assets/css/themes/layout/brand/dark.css" rel="stylesheet" type="text/css" />
     <link href="<?= BASE_URL ?>assets/css/themes/layout/aside/dark.css" rel="stylesheet" type="text/css" />
-
+    <style>
+        /* Menyembunyikan custom footer saat aside di-minimize */
+        body.aside-minimize .aside-footer,
+        body.aside-minimize-hoverable.aside-minimize:not(:hover) .aside-footer {
+            display: none !important;
+        }
+    </style>
     <!-- <link rel="shortcut icon" href="<?= BASE_URL ?>assets/media/favicon.ico" /> -->
 </head>

@@ -10,8 +10,7 @@ $rule = $_SESSION['rule'] ?? null;
 <div class="footer bg-white py-4 d-flex flex-lg-column " id="kt_footer">
     <div class=" container-fluid  d-flex flex-column flex-md-row align-items-center justify-content-end">
         <div class="text-dark order-2 order-md-1">
-            <span class="text-muted font-weight-bold mr-2"><?= date('Y') ?>&copy;</span>
-            <a href="" target="_blank" class="text-dark-75 text-hover-primary">RPA <?= VERSION ?></a>
+            <span class="text-muted font-weight-bold mr-2">&copy;<?= date('Y') ?> PT. Muramoto Elektronika Indonesia</span>
         </div>
     </div>
 </div>
@@ -142,7 +141,6 @@ $rule = $_SESSION['rule'] ?? null;
 <script src="<?= BASE_URL ?>assets/js/pages/features/miscellaneous/sweetalert2.js"></script>
 
 <?php if ($menu != "dashboard"): ?>
-    <!-- <script src="<?= BASE_URL ?>assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js"></script> -->
 
     <?php if ($menu): // Hanya muat jika $menu tidak null 
     ?>

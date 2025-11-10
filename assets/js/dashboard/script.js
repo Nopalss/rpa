@@ -537,7 +537,7 @@ $(document).ready(function () {
         saveSiteSettings(site);
 
         if ($(this).val()) {
-            loadHistogramChart(site);
+            loadHistogramChart(site, false, true);
         }
     });
 

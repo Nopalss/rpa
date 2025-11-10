@@ -6,20 +6,19 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Content-Type: application/json");
 
-// Aktifkan persistent connection & non-emulated prepare
-$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-$pdo->setAttribute(PDO::ATTR_PERSISTENT, true);
+// Mulai Database Transaction untuk setiap request
+$pdo->beginTransaction();
 
 try {
-    $pdo->beginTransaction();
-
     $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
     if (strpos($contentType, 'application/json') !== false) {
+        // Ambil data dari JSON body
         $input = json_decode(file_get_contents('php://input'), true);
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new Exception("Format JSON tidak valid: " . json_last_error_msg());
         }
     } else {
+        // Ambil data dari form-data
         $input = $_POST;
     }
 
@@ -27,37 +26,41 @@ try {
         throw new Exception("Input tidak valid atau kosong");
     }
 
-    // Field utama
+    // Ambil field utama
     $line_id = sanitize($input['line_id'] ?? '');
     $application_id = sanitize($input['application_id'] ?? '');
     $file_id = sanitize($input['file_id'] ?? '');
     $header_id = sanitize($input['header_id'] ?? '');
 
-    // ID unik aman untuk 1000+ concurrent request
-    $record_no = 'rec_' . bin2hex(random_bytes(8));
+    // --- LOGIKA ID DIUBAH ---
+    // Logika SELECT MAX() dihapus.
+    // Kita buat ID unik sebagai STRING di sini.
+    // Ini aman dari race condition.
+    $record_no = uniqid('rec_'); // Hasilnya: "rec_6723a1a1c9a87"
 
     if (empty($line_id) || empty($application_id) || empty($file_id) || empty($header_id)) {
         throw new Exception("Tolong isi form dengan benar");
     }
 
-    // =================================================
-    // INSERT KE TABEL PERTAMA: tbl_data
-    // =================================================
+    // ===========================================
+    // --- INSERT PERTAMA (tbl_data) ---
+    // ===========================================
+
     $columns1 = [];
     for ($i = 1; $i <= 190; $i++) {
         $columns1["data_$i"] = $input["data_$i"] ?? null;
     }
 
+    // 'record_no' sekarang dimasukkan sebagai string unik
     $fields1 = ['record_no', 'line_id', 'application_id', 'file_id', 'header_id'];
     $placeholders1 = [':record_no', ':line_id', ':application_id', ':file_id', ':header_id'];
     $params1 = [
-        ':record_no' => $record_no,
+        ':record_no' => $record_no, // <-- Menggunakan string uniqid()
         ':line_id' => $line_id,
         ':application_id' => $application_id,
         ':file_id' => $file_id,
         ':header_id' => $header_id
     ];
-
     foreach ($columns1 as $key => $val) {
         $fields1[] = $key;
         $placeholders1[] = ":$key";
@@ -68,9 +71,10 @@ try {
     $stmt1 = $pdo->prepare($sql1);
     $stmt1->execute($params1);
 
-    // =================================================
-    // INSERT KE TABEL KEDUA: tbl_data2
-    // =================================================
+    // ===========================================
+    // --- INSERT KEDUA (tbl_data2) ---
+    // ===========================================
+
     $columns2 = [];
     for ($i = 191; $i <= 380; $i++) {
         $columns2["data_$i"] = $input["data_$i"] ?? null;
@@ -79,13 +83,12 @@ try {
     $fields2 = ['record_no', 'line_id', 'application_id', 'file_id', 'header_id'];
     $placeholders2 = [':record_no', ':line_id', ':application_id', ':file_id', ':header_id'];
     $params2 = [
-        ':record_no' => $record_no,
+        ':record_no' => $record_no, // <-- Menggunakan string uniqid() YANG SAMA
         ':line_id' => $line_id,
         ':application_id' => $application_id,
         ':file_id' => $file_id,
         ':header_id' => $header_id
     ];
-
     foreach ($columns2 as $key => $val) {
         $fields2[] = $key;
         $placeholders2[] = ":$key";
@@ -96,30 +99,23 @@ try {
     $stmt2 = $pdo->prepare($sql2);
     $stmt2->execute($params2);
 
-    // Commit transaksi
+    // Jika kedua insert berhasil, simpan
     $pdo->commit();
 
     http_response_code(200);
     echo json_encode([
         "code" => 200,
         "message" => "Success",
-        "record_no" => $record_no
+        "record_no" => $record_no // Kirim balik ID string barunya
     ]);
 } catch (Exception $e) {
-    if ($pdo->inTransaction()) {
-        $pdo->rollBack();
-    }
-
-    // Catat error ke log server, jangan tampilkan ke client
-    error_log("[" . date('Y-m-d H:i:s') . "] Insert Error: " . $e->getMessage());
+    // Jika ada error, batalkan insert
+    $pdo->rollBack();
 
     http_response_code(400);
     echo json_encode([
         "code" => 400,
         "error" => true,
-        "message" => "Terjadi kesalahan saat memproses data."
+        "message" => $e->getMessage()
     ]);
-} finally {
-    // Tutup koneksi PDO (lebih cepat rilis resource)
-    $pdo = null;
 }

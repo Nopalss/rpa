@@ -94,7 +94,7 @@ function echoActiveClass($currentMenu, $menuName)
                     <!--begin::Menu Container-->
                     <div
                         id="kt_aside_menu"
-                        class="aside-menu my-4 "
+                        class="aside-menu my-4 d-flex flex-column justify-content-between"
                         data-menu-vertical="1"
                         data-menu-scroll="1" data-menu-dropdown-timeout="500">
                         <!--begin::Menu Nav-->
@@ -192,6 +192,13 @@ function echoActiveClass($currentMenu, $menuName)
                             <?php endif; ?>
                         </ul>
                         <!--end::Menu Nav-->
+                        <div class="aside-footer d-flex flex-column align-items-center py-5">
+                            <div class="text-muted fs-8 text-center">
+                                <div><strong>Version:</strong> <?= VERSION ?>-development</div>
+                                <div>PT. Muramoto Elektronika Indonesia</div>
+                                <div class="">&copy; 2025</div>
+                            </div>
+                        </div>
                     </div>
                     <!--end::Menu Container-->
                 </div>
