@@ -44,7 +44,7 @@ if ($user_id > 0) {
                                 <div id="site1StatusIcon" class="ml-2"
                                     style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
                                 <i id="site1AlertIcon"
-                                    class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6"
+                                    class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6 cursor-pointer"
                                     style="display:none;"></i>
                             </div>
                             <div id="chart_19" style="height: 50px"></div>
@@ -62,7 +62,7 @@ if ($user_id > 0) {
                                 <div id="site2StatusIcon" class="ml-2"
                                     style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
                                 <i id="site2AlertIcon"
-                                    class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6"
+                                    class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6 cursor-pointer"
                                     style="display:none;"></i>
                             </div>
                             <div id="chart_20" style="height: 50px"></div>
@@ -80,7 +80,7 @@ if ($user_id > 0) {
                                 <div id="site3StatusIcon" class="ml-2"
                                     style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
                                 <i id="site3AlertIcon"
-                                    class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6"
+                                    class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6 cursor-pointer"
                                     style="display:none;"></i>
                             </div>
                             <div id="chart_21" style="height: 50px"></div>
@@ -97,7 +97,7 @@ if ($user_id > 0) {
                                 <div id="mainStatusIcon" class="ml-2" style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
 
                                 <!-- 🔴 tanda seru merah -->
-                                <i id="mainAlertIcon" class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h3" style="display:none;"></i>
+                                <i id="mainAlertIcon" class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h3 cursor-pointer" style="display:none;"></i>
                             </h3>
                         </div>
                         <div class="card-body pt-2">
@@ -124,7 +124,7 @@ if ($user_id > 0) {
                                     <div id="site4StatusIcon" class="ml-2"
                                         style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
                                     <i id="site4AlertIcon"
-                                        class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6"
+                                        class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6 cursor-pointer"
                                         style="display:none;"></i>
                                 </div>
                                 <div id="chart_15" style="height: 50px"></div>
@@ -142,7 +142,7 @@ if ($user_id > 0) {
                                     <div id="site5StatusIcon" class="ml-2"
                                         style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
                                     <i id="site5AlertIcon"
-                                        class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6"
+                                        class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6 cursor-pointer"
                                         style="display:none;"></i>
                                 </div>
                                 <div id="chart_16" style="height: 50px"></div>

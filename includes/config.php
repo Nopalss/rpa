@@ -9,7 +9,10 @@ $db = "rpa_core";
 $charset = "utf8mb4";
 
 date_default_timezone_set('Asia/Jakarta');
-define('BASE_URL', 'http://localhost/rpa/');
+$http_host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+// Gunakan $http_host untuk BASE_URL
+define('BASE_URL', "http://{$http_host}/rpa/");
+// define('BASE_URL', "http://localhost/rpa/");
 define('VERSION', 'V1.0.16');
 
 

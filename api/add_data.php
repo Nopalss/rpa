@@ -1,3 +1,4 @@
+
 <?php
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../helper/sanitize.php';
@@ -34,8 +35,6 @@ try {
     $header_id = sanitize($input['header_id'] ?? '');
     // ID unik aman untuk 1000+ concurrent request
     $record_no = !empty($input['record_no']) ? sanitize($input['record_no']) : 'rec_' . bin2hex(random_bytes(8));
-
-
 
     if (empty($line_id) || empty($application_id) || empty($file_id) || empty($header_id)) {
         throw new Exception("Tolong isi form dengan benar");
