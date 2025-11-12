@@ -32,9 +32,10 @@ try {
     $application_id = sanitize($input['application_id'] ?? '');
     $file_id = sanitize($input['file_id'] ?? '');
     $header_id = sanitize($input['header_id'] ?? '');
-
     // ID unik aman untuk 1000+ concurrent request
-    $record_no = 'rec_' . bin2hex(random_bytes(8));
+    $record_no = !empty($input['record_no']) ? sanitize($input['record_no']) : 'rec_' . bin2hex(random_bytes(8));
+
+
 
     if (empty($line_id) || empty($application_id) || empty($file_id) || empty($header_id)) {
         throw new Exception("Tolong isi form dengan benar");

@@ -10,12 +10,6 @@ require __DIR__ . '/../includes/navbar.php';
 $stmt = $pdo->query("SELECT line_id AS id, line_name FROM tbl_line ORDER BY line_name ASC");
 $lines = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$histogram = [
-    'main',
-    'aside',
-    'site'
-];
-
 $user_id = $_SESSION['user_id'] ?? 0;
 
 $user_settings = [];
@@ -25,9 +19,11 @@ if ($user_id > 0) {
     $stmt_settings->execute([':user_id' => $user_id]);
     $results = $stmt_settings->fetchAll(PDO::FETCH_ASSOC);
 
+    $user_intervals = [];
     // 2. Ubah array-nya agar mudah diakses oleh HTML (menggunakan 'site_name' sebagai key)
     foreach ($results as $row) {
         $user_settings[$row['site_name']] = $row;
+        $user_intervals[$row['site_name']] = (int) $row['second'];
     }
 }
 ?>
@@ -296,6 +292,9 @@ if ($user_id > 0) {
     <!--end::Entry-->
 </div>
 
+<script>
+    window.userIntervals = <?= json_encode($user_intervals) ?>;
+</script>
 <?php
 require __DIR__ . '/../includes/footer.php';
 ?>

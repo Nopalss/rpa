@@ -1,13 +1,8 @@
-<!--begin::Body-->
 <?php
 require_once __DIR__ . '/config.php';
 $role = $_SESSION['rule'] ?? null;
 $menu = $_SESSION['menu'] ?? null;
 
-/**
- * Fungsi helper untuk mengecek menu aktif.
- * $menuName bisa berupa string (menu tunggal) atau array (untuk submenu).
- */
 function echoActiveClass($currentMenu, $menuName)
 {
     if (is_array($menuName)) {
@@ -24,6 +19,7 @@ function echoActiveClass($currentMenu, $menuName)
     }
 }
 ?>
+
 
 <body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading aside-minimize">
 
@@ -174,12 +170,12 @@ function echoActiveClass($currentMenu, $menuName)
                                     </a>
                                     <div class="menu-submenu "><i class="menu-arrow"></i>
                                         <ul class="menu-subnav">
-                                            <!-- <li class="menu-item <?= echoActiveClass($menu, 'admin') ?>" aria-haspopup="true">
+                                            <li class="menu-item <?= echoActiveClass($menu, 'admin') ?>" aria-haspopup="true">
                                                 <a href="<?= BASE_URL ?>pages/setting/admin/" class="menu-link ">
                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>
                                                     <span class="menu-text">Admin</span>
                                                 </a>
-                                            </li> -->
+                                            </li>
                                             <li class="menu-item <?= echoActiveClass($menu, 'user') ?>" aria-haspopup="true">
                                                 <a href="<?= BASE_URL ?>pages/setting/user/" class="menu-link ">
                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>

@@ -1,6 +1,6 @@
-
-{
+[{
     "line_id" : 1,
+    "record_no": "REG_k24ksk3",
     "application_id" : 1,
     "file_id" : 1,
     "header_id" : 1,
@@ -385,3 +385,4 @@
     "data_379": "399",
     "data_380": "400"
 }
+]

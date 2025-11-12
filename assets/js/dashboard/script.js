@@ -1,4 +1,70 @@
 $(document).ready(function () {
+    function showManualAlert(site) {
+        // 1. Cek jika alert lain sedang aktif
+        if (window.isAlertShowing) {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'info',
+                title: 'Harap tunggu, alert lain sedang tampil.',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            return;
+        }
+
+        // 2. Ambil data dari cache
+        const alertData = window.cachedChartData[site];
+        if (!alertData || !alertData.out_of_control) {
+            console.warn("Tidak ada data alert di cache untuk:", site);
+            return;
+        }
+
+        // 3. Ambil info text (line, app, file, header)
+        const $row = $(`.line[data-site="${site}"]`).closest('.row');
+        const lineText = $row.find('.line option:selected').text() || '-';
+        const appText = $row.find('.application option:selected').text() || '-';
+        const fileText = $row.find('.file option:selected').text() || '-';
+        const headerText = $row.find('.headers option:selected').text() || '-';
+
+        // 4. Set lock dan tampilkan Swal
+        window.isAlertShowing = true;
+
+        Swal.fire({
+            icon: 'warning',
+            title: '⚠️ Data di luar batas kendali!',
+            html: `
+        <div class="text-start">
+            <p><b>📍 Site:</b> ${site.toUpperCase()}</p>
+            <p><b>🏭 Line:</b> ${lineText}</p>
+            <p><b>🧩 Application:</b> ${appText}</p>
+            <p><b>📂 File:</b> ${fileText}</p>
+            <p><b>🧾 Header:</b> ${headerText}</p>
+            <hr>
+            <p>Ada <b>${alertData.out_of_control_count}</b> titik melewati batas kontrol.</p>
+            <p><b>LCL:</b> ${alertData.batas_bawah.toFixed(2)} | <b>UCL:</b> ${alertData.batas_atas.toFixed(2)}</p>
+            <p><b>Nilai ekstrem:</b> ${alertData.min_out?.toFixed(2) || 'N/A'} - ${alertData.max_out?.toFixed(2) || 'N/A'}</p>
+        </div>
+        `,
+            confirmButtonText: 'Tutup',
+            confirmButtonColor: '#007bff'
+        }).then(() => {
+            window.isAlertShowing = false;
+            // PENTING: Panggil showNextAlert() untuk melanjutkan antrian otomatis (jika ada)
+            showNextAlert();
+        });
+    }
+    $(document).on('click', '[id$="AlertIcon"]', function () {
+        let site = $(this).attr('id').replace("AlertIcon", "");
+
+        // Logika khusus untuk 'mainAlertIcon'
+        if (site === 'main') {
+            // 'main' icon mewakili site yang sedang di carousel
+            site = window.currentMainSite;
+        }
+
+        showManualAlert(site);
+    });
     // 1. MAPPING ID CHART dan INSTANCE CHART GLOBAL
     const chartMapping = {
         'main': '#chart_2',
@@ -288,7 +354,9 @@ $(document).ready(function () {
                     window.cachedChartData[site] = response;
 
                     // 🟠 Cek dan tampilkan alert (hanya sekali per site)
-                    if (response.out_of_control && !window.shownAlerts[site]) {
+                    const isAlertEnabled = window.alertSettings && window.alertSettings[site];
+
+                    if (isAlertEnabled && response.out_of_control && !window.shownAlerts[site]) {
                         window.shownAlerts[site] = true;
 
                         const $row = $(`.line[data-site="${site}"]`).closest('.row');
@@ -543,23 +611,25 @@ $(document).ready(function () {
 
     $(document).on('change', '.dashboard-toggle input', function () {
         const site = $(this).closest('.dashboard-toggle').data('site');
+        const isAlertEnabled = $(this).is(':checked');
         saveSiteSettings(site);
 
-        const chartId = chartMapping[site];
+        // Simpan status alert per site secara global
+        if (!window.alertSettings) window.alertSettings = {};
+        window.alertSettings[site] = isAlertEnabled;
 
-        if ($(this).is(':checked')) {
-            loadHistogramChart(site);
-        } else {
-            $(chartId).html('<div class="text-muted small">Chart dinonaktifkan.</div>');
-            if (window.apexChartsInstances[site]) {
-                window.apexChartsInstances[site].destroy();
-                window.apexChartsInstances[site] = null;
-            }
-        }
+        // 🟢 Chart tetap tampil selalu
+        // loadHistogramChart(site, false, true);
     });
 
     // FUNGSI 4: TRIGGER AWAL SAAT HALAMAN DIMUAT (DISIMPLIFIKASI)
     $(document).ready(function () {
+        if (!window.alertSettings) window.alertSettings = {};
+        $('.dashboard-toggle input').each(function () {
+            const site = $(this).closest('.dashboard-toggle').data('site');
+            const isAlertEnabled = $(this).is(':checked');
+            window.alertSettings[site] = isAlertEnabled;
+        });
         // Hanya memicu event di dropdown .line yang memiliki nilai tersimpan.
         // Ini akan memulai rantai cascading dan memuat chart hanya sekali.
         $('.line').each(function () {
@@ -578,6 +648,7 @@ $(document).ready(function () {
         let currentIndex = 0;
         let isPaused = false;
         let carouselInterval;
+        window.currentMainSite = "main";
 
         // Tombol Play/Pause
         const btn = document.getElementById("toggleCarousel");
@@ -590,6 +661,7 @@ $(document).ready(function () {
         // Fungsi jalan otomatis tiap 5 detik
         function nextChart() {
             if (isPaused) return;
+            window.currentMainSite = sites[currentIndex];
             const site = sites[currentIndex];
             updateMainTitle(site); // 🟢 tampilkan judul baru
             loadHistogramChart(site, true);
@@ -597,7 +669,8 @@ $(document).ready(function () {
         }
 
         // Inisialisasi awal (chart pertama = main)
-        updateMainChart(sites[currentIndex]);
+        window.currentMainSite = sites[currentIndex];
+        updateMainChart(window.currentMainSite);
 
         // Jalankan auto-rotate
         carouselInterval = setInterval(nextChart, 5000);
@@ -614,14 +687,19 @@ $(document).ready(function () {
         });
 
     });
-    // 🕒 AUTO REFRESH DATA CACHE TIAP 10 DETIK TANPA SPAM ALERT
-    setInterval(() => {
-        const sites = ["site1", "site2", "site3", "site4", "site5"];
 
-        sites.forEach(site => {
-            // Paksa refresh cache, tapi jangan munculkan alert lagi
+
+    const sites = ["site1", "site2", "site3", "site4", "site5"];
+
+    sites.forEach(site => {
+        // Ambil interval masing-masing site (default 15 detik kalau tidak ada)
+        const interval = (window.userIntervals && window.userIntervals[site])
+            ? window.userIntervals[site] * 1000
+            : 15000;
+
+        setInterval(() => {
+            // window.shownAlerts = {};
             loadHistogramChart(site, false, true);
-        });
-    }, 15000);
-
+        }, interval);
+    });
 });
