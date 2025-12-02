@@ -1,0 +1,183 @@
+ (Berada di Column B8) Standard Upper = =Summary!D8
+ (Berada di Column B9) Standard Lower = =Summary!D9 
+ (Berada di Column B10) Lower Boundary = =Summary!D10 
+ (Berada di Column B11) Interval Width = =Summary!D11 
+ (Berada di Column B12) Quantity = =COUNT(Data!$B:$B) 
+ (Berada di Column B13) Max = =MAX(Data!$B:$B)
+ (Berada di Column B14) Min = =MIN(Data!$B:$B)
+ (Berada di Column B15) Min = =MIN(Data!$B:$B)
+ (Berada di Column B15) Average = =AVERAGE(Data!$B:$B)
+ (Berada di Column B15) Stdev = =STDEV(Data!$B:$B)
+ (Berada di Column B15) Cp = =IF(C8<>"",IF(C9<>"",(C8-C9)/(6*C16),""),"") penjelasan rumus =IF(Standard Upper<>"",IF(Standard Lower<>"",(Standard Upper-Standard Lower)/(6*Stdev),""),"") 
+ (Berada di Column B15) Cpu = =IF(C8<>"",(C8-C15)/(3*C16),"") penjelasan rumus =IF(Standard Upper<>"",(Standard Upper-Average)/(3*Stdev),"")
+ (Berada di Column B15) Cpl = =IF(C9<>"",(C15-C9)/(3*C16),"") penjelasan rumus =IF(Standard Lower<>"",(Average-Standard Lower)/(3*Stdev),"")
+ (Berada di Column B15) Cpk = =IF(C23<C24,C23,C24) penjelasan rumus =IF(Cpu<Cpl,Cpu,Cpl)
+ (Berada di Column B15) Keu = =STANDARDIZE(C8,C15,C16) penjelasan rumus =STANDARDIZE(Standard Upper, Average, Stdev)
+ (Berada di Column B15) eu = =1-NORMSDIST(C25) penjelasan rumus =1-NORMSDIST(Keu)
+ (Berada di Column B15) Kel = =ABS(STANDARDIZE(C9,C15,C16)) penjelasan rumus =ABS(STANDARDIZE(Standard Lower,Average,Stdev))
+ (Berada di Column B15) el = =NORMSDIST(-C27) penjelasan rumus =NORMSDIST(-Kel)
+ (Berada di Column B15) estimated population defect rate
+ = =C26+C28 penjelasan rumus =eu+el
+
+
+interval = 0
+Mid-Point =  =((2*$C10)+$C11*(1+(E8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 0)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(E9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point+Interval Width))
+Predicted Value = =NORMDIST(E9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 1
+Mid-Point =  =((2*$C10)+$C11*(1+(F8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 1)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(F9+$C11))-COUNTIF(Data!$B:$B,"<="&(E9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 1)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 0)+Interval Width))
+Predicted Value = =NORMDIST(F9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(E9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 1)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 0)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 2
+Mid-Point =  =((2*$C10)+$C11*(1+(G8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 2)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(G9+$C11))-COUNTIF(Data!$B:$B,"<="&(F9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 2)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 1)+Interval Width))
+Predicted Value = =NORMDIST(G9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(F9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 2)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 1)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 3
+Mid-Point =  =((2*$C10)+$C11*(1+(H8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 3)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(H9+$C11))-COUNTIF(Data!$B:$B,"<="&(G9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 3)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 2)+Interval Width))
+Predicted Value = =NORMDIST(H9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(G9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 3)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 2)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 4
+Mid-Point =  =((2*$C10)+$C11*(1+(I8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 4)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(I9+$C11))-COUNTIF(Data!$B:$B,"<="&(H9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 4)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 3)+Interval Width))
+Predicted Value = =NORMDIST(I9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(H9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 4)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 3)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 5
+Mid-Point =  =((2*$C10)+$C11*(1+(J8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 5)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(J9+$C11))-COUNTIF(Data!$B:$B,"<="&(I9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 5)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 4)+Interval Width))
+Predicted Value = =NORMDIST(J9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(I9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 5)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 4)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 6
+Mid-Point =  =((2*$C10)+$C11*(1+(K8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 6)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(K9+$C11))-COUNTIF(Data!$B:$B,"<="&(J9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 6)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 5)+Interval Width))
+Predicted Value = =NORMDIST(K9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(J9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 6)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 5)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 7
+Mid-Point =  =((2*$C10)+$C11*(1+(L8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 7)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(L9+$C11))-COUNTIF(Data!$B:$B,"<="&(K9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 7)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 6)+Interval Width))
+Predicted Value = =NORMDIST(L9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(K9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 7)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 6)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 8
+Mid-Point =  =((2*$C10)+$C11*(1+(M8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 8)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(M9+$C11))-COUNTIF(Data!$B:$B,"<="&(L9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 8)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 7)+Interval Width))
+Predicted Value = =NORMDIST(M9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(L9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 8)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 7)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 9
+Mid-Point =  =((2*$C10)+$C11*(1+(N8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 9)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(N9+$C11))-COUNTIF(Data!$B:$B,"<="&(M9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 9)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 8)+Interval Width))
+Predicted Value = =NORMDIST(N9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(M9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 9)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 8)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 10
+Mid-Point =  =((2*$C10)+$C11*(1+(O8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 10)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(O9+$C11))-COUNTIF(Data!$B:$B,"<="&(N9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 10)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 9)+Interval Width))
+Predicted Value = =NORMDIST(O9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(N9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 10)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 9)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 11
+Mid-Point =  =((2*$C10)+$C11*(1+(P8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 11)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(P9+$C11))-COUNTIF(Data!$B:$B,"<="&(O9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 11)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 10)+Interval Width))
+Predicted Value = =NORMDIST(P9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(O9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 11)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 10)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 12
+Mid-Point =  =((2*$C10)+$C11*(1+(Q8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 12)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(Q9+$C11))-COUNTIF(Data!$B:$B,"<="&(P9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 12)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 11)+Interval Width))
+Predicted Value = =NORMDIST(Q9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(P9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 12)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 11)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 13
+Mid-Point =  =((2*$C10)+$C11*(1+(R8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 13)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(R9+$C11))-COUNTIF(Data!$B:$B,"<="&(Q9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 13)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 12)+Interval Width))
+Predicted Value = =NORMDIST(R9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(Q9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 13)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 12)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 14
+Mid-Point =  =((2*$C10)+$C11*(1+(S8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 14)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(S9+$C11))-COUNTIF(Data!$B:$B,"<="&(R9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 14)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 13)+Interval Width))
+Predicted Value = =NORMDIST(S9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(R9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 14)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 13)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 15
+Mid-Point =  =((2*$C10)+$C11*(1+(T8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 15)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(T9+$C11))-COUNTIF(Data!$B:$B,"<="&(S9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 15)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 14)+Interval Width))
+Predicted Value = =NORMDIST(T9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(S9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 15)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 14)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 16
+Mid-Point =  =((2*$C10)+$C11*(1+(U8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 16)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(U9+$C11))-COUNTIF(Data!$B:$B,"<="&(T9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 16)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 15)+Interval Width))
+Predicted Value = =NORMDIST(U9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(T9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 16)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 15)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 17
+Mid-Point =  =((2*$C10)+$C11*(1+(V8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 17)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(V9+$C11))-COUNTIF(Data!$B:$B,"<="&(U9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 17)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 16)+Interval Width))
+Predicted Value = =NORMDIST(V9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(U9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 17)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 16)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 18
+Mid-Point =  =((2*$C10)+$C11*(1+(W8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 18)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(W9+$C11))-COUNTIF(Data!$B:$B,"<="&(V9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 18)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 17)+Interval Width))
+Predicted Value = =NORMDIST(W9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(V9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 18)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 17)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 19
+Mid-Point =  =((2*$C10)+$C11*(1+(X8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 19)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(X9+$C11))-COUNTIF(Data!$B:$B,"<="&(W9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 19)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 18)+Interval Width))
+Predicted Value = =NORMDIST(X9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(W9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 19)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 18)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 20
+Mid-Point =  =((2*$C10)+$C11*(1+(Y8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 20)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(Y9+$C11))-COUNTIF(Data!$B:$B,"<="&(X9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 20)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 19)+Interval Width))
+Predicted Value = =NORMDIST(Y9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(X9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 20)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 19)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 21
+Mid-Point =  =((2*$C10)+$C11*(1+(Z8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 21)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(Z9+$C11))-COUNTIF(Data!$B:$B,"<="&(Y9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 21)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 20)+Interval Width))
+Predicted Value = =NORMDIST(Z9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(Y9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 21)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 20)+Interval Width,Average,Stdev,TRUE)*Quantity
+
+interval = 22
+Mid-Point =  =((2*$C10)+$C11*(1+(AA8*2)))/2 penjelasan rumus =((2*Lower Boundary)+Interval Width*(1+(interval(yaitu 22)*2)))/2
+min = Standard Lower
+max = Standard Upper
+Observed Values = =COUNTIF(Data!$B:$B,"<="&(AA9+$C11))-COUNTIF(Data!$B:$B,"<="&(Z9+$C11)) penjelasan rumus =COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 22)+Interval Width))-COUNTIF(Data!$B:$B,"<="&(Mid Point(dari interval 21)+Interval Width))
+Predicted Value = =NORMDIST(AA9+$C11,$C15,$C16,TRUE)*$C12-NORMDIST(Z9+$C11,$C15,$C16,TRUE)*$C12 penjelasan rumus =NORMDIST(Mid Point(dari interval 22)+Interval Width,Average,Stdev,TRUE)*Quantity-NORMDIST(Mid Point(dari interval 21)+Interval Width,Average,Stdev,TRUE)*Quantity
+

@@ -170,12 +170,12 @@ function echoActiveClass($currentMenu, $menuName)
                                     </a>
                                     <div class="menu-submenu "><i class="menu-arrow"></i>
                                         <ul class="menu-subnav">
-                                            <li class="menu-item <?= echoActiveClass($menu, 'admin') ?>" aria-haspopup="true">
+                                            <!-- <li class="menu-item <?= echoActiveClass($menu, 'admin') ?>" aria-haspopup="true">
                                                 <a href="<?= BASE_URL ?>pages/setting/admin/" class="menu-link ">
                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>
                                                     <span class="menu-text">Admin</span>
                                                 </a>
-                                            </li>
+                                            </li> -->
                                             <li class="menu-item <?= echoActiveClass($menu, 'user') ?>" aria-haspopup="true">
                                                 <a href="<?= BASE_URL ?>pages/setting/user/" class="menu-link ">
                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>
