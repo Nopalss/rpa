@@ -76,14 +76,14 @@ function renderSiteSettingItem($i, $site_name, $lines, $site_settings)
             </select>
         </div>
 
-        <div class="col-xl-2 mb-3 d-flex justify-content-center align-items-center">
+        <div class="col-xl-3 mb-3 d-flex justify-content-center align-items-center">
             <label class="mr-2 mb-0 small">Header</label>
             <select class="form-control form-control-sm headers" data-site="<?= $site_name ?>">
                 <option value="">Select</option>
             </select>
         </div>
 
-        <div class="col-xl-2 mb-3 d-flex justify-content-center align-items-center">
+        <!-- <div class="col-xl-2 mb-3 d-flex justify-content-center align-items-center">
             <button class="btn btn-info mr-2 btn-sm">Alert</button>
             <span class="switch switch-outline switch-icon switch-success dashboard-toggle" data-site="<?= $site_name ?>">
                 <label>
@@ -91,7 +91,7 @@ function renderSiteSettingItem($i, $site_name, $lines, $site_settings)
                     <span></span>
                 </label>
             </span>
-        </div>
+        </div> -->
 
         <div class="col-lg-12 d-flex justify-content-center flex-wrap align-items-center mt-2">
             <div class="row  mt-2">
@@ -195,8 +195,8 @@ function renderSiteSettingItem($i, $site_name, $lines, $site_settings)
                         <div class="card-header pb-2 d-flex justify-content-between align-items-center">
                             <h3 class="card-title d-flex align-items-center mb-2">
                                 <a class="card-label text-dark">Main</a>
-                                <div id="mainStatusIcon" class="ml-2" style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
-                                <i id="mainAlertIcon" class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h3 cursor-pointer" style="display:none;"></i>
+                                <!-- <div id="mainStatusIcon" class="ml-2" style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
+                                <i id="mainAlertIcon" class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h3 cursor-pointer" style="display:none;"></i> -->
                             </h3>
                             <div>
                                 <button id="btnMainAlert" class="btn btn-sm btn-info mr-2">Alert</button>
