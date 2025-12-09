@@ -36,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // untuk melacak perubahan, mirip seperti 'create_by' di contoh Anda.
         $sql = "UPDATE tbl_line 
                 SET 
+                    line_id = :line_idnew, 
                     line_name = :line_name, 
                     update_by = :update_by, 
                     update_date = NOW() 
@@ -44,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
+            ':line_idnew'  => $line_name,
             ':line_name'  => $line_name,
             ':update_by'  => $_SESSION['username'], // Asumsi session sudah ada
             ':line_id'    => $line_id

@@ -599,7 +599,7 @@ $(document).ready(function () {
             type: 'POST',
             data: postData,
             dataType: 'json',
-            timeout: 15000,
+            timeout: 60000,
             success: function (response) {
                 // PATCH: robust validate
                 if (typeof response !== 'object' || response === null) {
@@ -970,7 +970,17 @@ $(document).ready(function () {
                 $header.prop('disabled', false).html('<option value="">Select</option>');
                 const tableType = response.type || 'type1';
                 $header.data('table-type', tableType);
-                $.each(response.headers || response, function (i, item) { $header.append(`<option value="${item.header_name}">${item.header_name}</option>`); });
+                if (response.headers && Array.isArray(response.headers)) {
+                    $.each(response.headers, function (i, item) {
+                        const type = item.table_type || 'type1';
+                        $header.append(`<option value="${item.header_name}" data-table-type="${type}">${item.header_name}</option>`);
+                    });
+
+                    // simpan default type dari header pertama
+                    const firstType = response.headers[0]?.table_type || 'type1';
+                    $header.data('table-type', firstType);
+                }
+
                 const savedHeaderName = $(`.line[data-site="${site}"]`).data('header-name');
                 if (savedHeaderName) {
                     $header.val(savedHeaderName);
@@ -983,6 +993,9 @@ $(document).ready(function () {
 
     $(document).on('change', '.headers', function () {
         const site = $(this).data('site');
+        const selectedType = $(this).find('option:selected').data('table-type') || 'type1';
+        $(this).data('table-type', selectedType); // ✅ baris tambahan penting
+
         if (site) window.shownAlerts[site] = false;
         saveSiteSettings(site);
         if ($(this).val()) loadHistogramChart(site, false, true);

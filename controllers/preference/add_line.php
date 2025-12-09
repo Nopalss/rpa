@@ -33,11 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Asumsi tabel Anda adalah 'tbl_line' dan Anda ingin mencatat 'create_by'
             // seperti di contoh Anda.
-            $sql = "INSERT INTO tbl_line (line_name, create_by) 
-                    VALUES (:line_name, :create_by)";
+            $sql = "INSERT INTO tbl_line (line_id,line_name, create_by) 
+                    VALUES (:line_id, :line_name, :create_by)";
 
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
+                ':line_id' => $line_name,
                 ':line_name' => $line_name,
                 ':create_by' => $_SESSION['username'] // Asumsi config.php sudah session_start()
             ]);

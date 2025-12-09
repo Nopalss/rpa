@@ -2,6 +2,7 @@
 // api/chart_data_3sigma_excel_clone.php
 require_once __DIR__ . '/../includes/config.php';
 header('Content-Type: application/json');
+set_time_limit(0);
 
 // Jaga presisi float agar setara Excel (IEEE-754 double)
 ini_set('precision', 17);
@@ -93,6 +94,10 @@ $bind_params = [':file_id' => $file_id, ':header_name' => $header_name];
 if (!empty($line_id)) {
     $stratification_sql = " AND d.line_id = :line_id ";
     $bind_params[':line_id'] = $line_id;
+}
+if (!empty($application_id)) {
+    $stratification_sql .= " AND d.application_id = :application_id ";
+    $bind_params[':application_id'] = $application_id;
 }
 
 // --- (1) Statistik dasar
