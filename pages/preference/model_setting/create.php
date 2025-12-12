@@ -47,7 +47,7 @@ require __DIR__ . '/../../../includes/navbar.php';
                                             <input type="text" class="form-control" id="application_path" disabled="disabled" required value="<?= $_SESSION['form_add_csv']["application_name"] ?? "" ?>">
                                         </div>
                                         <div class="col-md-10">
-                                            <input type="text" id="csv_path" class="form-control" name="csv_path" placeholder="/csv/..../...(example)" value="<?= $_SESSION['form_add_csv']["csv_path"] ?? "" ?>">
+                                            <input type="text" id="csv_path" class="form-control" name="csv_path" placeholder="Data\CSV\(example)" value="<?= $_SESSION['form_add_csv']["csv_path"] ?? "" ?>">
                                         </div>
                                     </div>
                                     <div class="form-group mt-10">
@@ -57,8 +57,6 @@ require __DIR__ . '/../../../includes/navbar.php';
                                             <a href="#" id="addCsvBtn" class="btn btn-primary font-weight-bolder btn-safe-navigation">
                                                 Add CSV
                                             </a>
-
-
                                         </div>
                                         <table class="table">
                                             <thead>
