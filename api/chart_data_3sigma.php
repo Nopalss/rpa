@@ -316,6 +316,10 @@ $output['std_limit_cpk'] = $std_limit_cpk;
 $max_freq = !empty($bins) ? max($bins) : 0;
 $output['y_axis_min'] = 0;
 $output['y_axis_max'] = $max_freq * 1.1;
+$output['x_axis_min'] = min($lsl, $min_val) - abs($user_interval_width);
+$output['x_axis_max'] = max($usl, $max_val) + abs($user_interval_width);
+$output['midpoint_labels'] = array_map(fn($m) => round($m, 3), $midpoints);
+
 
 echo json_encode($output, JSON_UNESCAPED_UNICODE);
 exit;

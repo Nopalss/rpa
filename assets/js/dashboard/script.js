@@ -248,6 +248,33 @@ $(document).ready(function () {
         //--------------------------------------------------------------
         // 3. ApexCharts Options
         //--------------------------------------------------------------
+        // --- Helper: geser LSL/USL ke midpoint terdekat agar sejajar dengan batang ---
+        function alignLimitToMidpoint(value, data) {
+            if (!data || !Array.isArray(data.series_data) || data.series_data.length === 0) {
+                return value;
+            }
+            const mids = data.series_data.map(d => d[0]).sort((a, b) => a - b);
+            const step = mids.length > 1 ? (mids[1] - mids[0]) : 1;
+
+            // Jika nilai di bawah range
+            if (value <= mids[0]) return mids[0] - step / 2;
+            // Jika nilai di atas range
+            if (value >= mids[mids.length - 1]) return mids[mids.length - 1] + step / 2;
+
+            // Jika di tengah, geser ke midpoint terdekat
+            let nearest = mids[0];
+            let diff = Math.abs(value - nearest);
+            for (const m of mids) {
+                const d = Math.abs(value - m);
+                if (d < diff) {
+                    diff = d;
+                    nearest = m;
+                }
+            }
+            return nearest;
+        }
+
+
         const options = {
             chart: {
                 height: chartHeight,
@@ -281,14 +308,29 @@ $(document).ready(function () {
             //----------------------------------------------------------
             // 4. X-axis is CATEGORY OF BOUNDARIES (Excel style)
             //----------------------------------------------------------
+            //----------------------------------------------------------
+            // 4. X-axis pakai label midpoint (bukan auto numeric)
+            //----------------------------------------------------------
             xaxis: {
-                type: 'numeric',
+                type: 'numeric', // tetap numeric supaya kurva halus
+                tickAmount: bars.length, // jumlah tick = jumlah batang
                 labels: {
-                    formatter: val => parseFloat(val).toFixed(2),
-                    style: { fontSize: '10px' }
+                    show: true,
+                    formatter: function (val, idx) {
+                        // ambil label midpoint asli dari data.series_data
+                        const mids = data.series_data.map(d => parseFloat(d[0]));
+                        const i = Math.min(idx, mids.length - 1);
+                        // pastikan tetap dua digit di belakang koma
+                        return Number.isFinite(mids[i]) ? mids[i].toFixed(2) : '';
+                    },
+                    rotate: -45,
+                    style: { fontSize: '9px' }
                 },
-
+                // jaga rentang agar batang tidak nempel tepi
+                min: Math.min(...bars.map(b => b.x)) - Math.abs(data.debug_interval_width || 1),
+                max: Math.max(...bars.map(b => b.x)) + Math.abs(data.debug_interval_width || 1)
             },
+
 
             //----------------------------------------------------------
             // 5. Tooltip uses midpoint instead of category label
@@ -327,26 +369,34 @@ $(document).ready(function () {
                 forceNiceScale: true,     // biar jarak antar ticks rapi
                 stepSize: 100,            // setiap 100 satu label
             },
-
-            //----------------------------------------------------------
-            // 6. UCL / LCL lines
-            //----------------------------------------------------------
             annotations: {
                 xaxis: [
                     (Number.isFinite(data.lsl) ? {
-                        x: data.lsl,
+                        x: alignLimitToMidpoint(data.lsl, data),
                         strokeDashArray: 4,
                         borderColor: '#ff0000',
-                        label: { text: 'LSL', style: { background: '#ff0000', color: '#fff' } }
+                        label: {
+                            text: 'LSL',
+                            style: { background: '#ff0000', color: '#fff', fontSize: '9px' },
+                            orientation: 'vertical',  // biar rapi
+                            offsetY: -10
+                        }
                     } : null),
                     (Number.isFinite(data.usl) ? {
-                        x: data.usl,
+                        x: alignLimitToMidpoint(data.usl, data),
                         strokeDashArray: 4,
                         borderColor: '#ff0000',
-                        label: { text: 'USL', style: { background: '#ff0000', color: '#fff' } }
+                        label: {
+                            text: 'USL',
+                            style: { background: '#ff0000', color: '#fff', fontSize: '9px' },
+                            orientation: 'vertical',
+                            offsetY: -10
+                        }
                     } : null)
                 ].filter(Boolean)
             },
+
+
 
             legend: { show: isViewer }
         };

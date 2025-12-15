@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // validasi 
         if (empty($application_name) || empty($csv_path) || empty($file_name)) {
-            throw new Exception("Application name dan CSV path wajib diisi!");
+            handlePdoError("Harap diisi dengan benar", 'pages/preference/model_setting/create.php');
         }
 
         // Kumpulkan semua kolom untuk table header (max 190)
