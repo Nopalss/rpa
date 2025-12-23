@@ -9,9 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $application_name = sanitize($_POST['application_name'] ?? '');
         $csv_path = sanitize($_POST['csv_path'] ?? '');
         $application_id = sanitize($_POST['application_id'] ?? '');
+        $line_id = sanitize($_POST['line_id'] ?? '');
 
         if (empty($application_name) || empty($csv_path) || empty($application_id)) {
-            setAlert('error', "Oops!", 'Application name dan CSV path wajib diisi!', 'danger', 'Coba Lagi');
+            setAlert('error', "Oops!", 'Application name, CSV path wajib diisi!', 'danger', 'Coba Lagi');
             redirect('pages/preference/model_setting/create.php');
         }
 
@@ -27,6 +28,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ":created_by" => $_SESSION['username'],
             ":modify_by" => $_SESSION['username']
         ]);
+        if ($line_id) {
+            // tbl_detail_line
+            $stmt = $pdo->prepare("
+            INSERT INTO tbl_detail_line (line_id, application_id)
+            SELECT ?, ? WHERE NOT EXISTS (
+                SELECT 1 FROM tbl_detail_line WHERE line_id = ? AND application_id = ?
+            )
+            ");
+            $stmt->execute([$line_id, $application_id, $line_id, $application_id]);
+        }
+
+
 
         // SQL untuk memindahkan dari temp_id ke application_id
         $sql = "UPDATE tbl_filename 

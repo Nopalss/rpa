@@ -27,7 +27,7 @@ if ($user_id > 0) {
 
     foreach ($results as $row) {
         $user_settings[$row['site_name']] = $row;
-        $user_intervals[$row['site_name']] = (int) ($row['second'] ?? 15);
+        $user_intervals[$row['site_name']] = 15;
     }
 }
 
@@ -38,10 +38,33 @@ function renderSiteSettingItem($i, $site_name, $lines, $site_settings)
 ?>
     <div class="row mb-7 site-setting-row" data-site="<?= $site_name ?>" id="row_<?= $site_name ?>">
         <div class="col-xl-12 d-flex justify-content-between align-items-center mb-3">
-            <p class="h6 mb-0 text-muted font-weight-bold">Site <?= $i ?></p>
+            <div class="d-flex justify-content-center align-items-center">
+                <div class="d-flex align-items-center">
+                    <h6 class="h6 site-label-text font-weight-bolder mr-2 "
+                        data-site="<?= $site_name ?>">
+                        <?= htmlspecialchars(
+                            !empty($site_settings['site_label'])
+                                ? $site_settings['site_label']
+                                : ('Site ' . $i)
+                        ) ?>
+                    </h6>
+
+                    <i class="fas fa-edit text-primary cursor-pointer site-label-edit ml-1"
+                        data-site="<?= $site_name ?>"></i>
+                    <i class="fas fa-check text-success cursor-pointer site-label-save  d-none ml-2 mr-3"
+                        data-site="<?= $site_name ?>"></i>
+                </div>
+
+                <input type="text"
+                    class="form-control form-control-sm mt-2 site-label-input d-none"
+                    data-site="<?= $site_name ?>"
+                    value="<?= htmlspecialchars($site_settings['site_label'] ?? '') ?>"
+                    placeholder="Nama Site">
+            </div>
+
             <?php if ($i > 5): // Tombol Hapus hanya untuk Site 6 ke atas 
             ?>
-                <button type="button" class="btn btn-xs btn-light-danger btn-remove-site" data-site="<?= $site_name ?>">
+                <button type="button" class="btn btn-xs btn-light-danger btn-remove-site text-right" data-site="<?= $site_name ?>">
                     <i class="flaticon-delete-1"></i> Hapus
                 </button>
             <?php endif; ?>
@@ -116,12 +139,12 @@ function renderSiteSettingItem($i, $site_name, $lines, $site_settings)
                         data-site="<?= $site_name ?>" data-type="interval" placeholder="ex: 1">
                 </div>
                 <div class="col">
-                    <label class="form-label fw-bold small mb-0">Limit CP</label>
+                    <label class="form-label fw-bold small mb-0">Standard CP</label>
                     <input type="number" step="0.0001" class="form-control form-control-sm limit-input"
                         data-site="<?= $site_name ?>" data-type="cp_limit" placeholder="ex: 0.85">
                 </div>
                 <div class="col">
-                    <label class="form-label fw-bold small mb-0">Limit CPK</label>
+                    <label class="form-label fw-bold small mb-0">Standard CPK</label>
                     <input type="number" step="0.0001" class="form-control form-control-sm limit-input"
                         data-site="<?= $site_name ?>" data-type="cpk_limit" placeholder="ex: 0.85">
                 </div>
@@ -141,7 +164,7 @@ function renderSiteSettingItem($i, $site_name, $lines, $site_settings)
                         <div class="d-flex flex-column">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="mb-3 pl-5 d-flex align-items-center">
-                                    <p class="font-weight-bold mb-0">Site 1</p>
+                                    <p class="font-weight-bold mb-0" id="site1Label">Site 1</p>
                                     <div id="site1StatusIcon" class="ml-2" style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
                                     <i id="site1AlertIcon" class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6 cursor-pointer" style="display:none;"></i>
                                 </div>
@@ -159,7 +182,7 @@ function renderSiteSettingItem($i, $site_name, $lines, $site_settings)
                         <div class="d-flex flex-column">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="mb-3 pl-5 d-flex align-items-center">
-                                    <p class="font-weight-bold mb-0">Site 2</p>
+                                    <p class="font-weight-bold mb-0" id="site2Label">Site 2</p>
                                     <div id="site2StatusIcon" class="ml-2" style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
                                     <i id="site2AlertIcon" class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6 cursor-pointer" style="display:none;"></i>
                                 </div>
@@ -177,7 +200,7 @@ function renderSiteSettingItem($i, $site_name, $lines, $site_settings)
                         <div class="d-flex flex-column">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="mb-3 pl-5 d-flex align-items-center">
-                                    <p class="font-weight-bold mb-0">Site 3</p>
+                                    <p class="font-weight-bold mb-0" id="site3Label">Site 3</p>
                                     <div id="site3StatusIcon" class="ml-2" style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
                                     <i id="site3AlertIcon" class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6 cursor-pointer" style="display:none;"></i>
                                 </div>
@@ -204,6 +227,23 @@ function renderSiteSettingItem($i, $site_name, $lines, $site_settings)
                             </div>
                         </div>
                         <div class="card-body pt-2">
+                            <table class="table table-bordered table-striped table-sm text-center" style="width: 35%;">
+                                <tr>
+                                    <th></th>
+                                    <th>Standard</th>
+                                    <th>Actual</th>
+                                </tr>
+                                <tr>
+                                    <th>CP</th>
+                                    <td id="mainCpStandard">-</td>
+                                    <td id="mainCpActual">-</td>
+                                </tr>
+                                <tr>
+                                    <th>CPK</th>
+                                    <td id="mainCpkStandard">-</td>
+                                    <td id="mainCpkActual">-</td>
+                                </tr>
+                            </table>
                             <div id="mainChartViewer" style="height: 400px;"></div>
                             <div id="mainChartTitle" class="fw-semibold text-center mb-2"></div>
                             <div class="text-center mt-3">
@@ -218,7 +258,7 @@ function renderSiteSettingItem($i, $site_name, $lines, $site_settings)
                             <div class="d-flex flex-column">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="mb-3 pl-5 d-flex align-items-center">
-                                        <p class="font-weight-bold mb-0">Site 4</p>
+                                        <p class="font-weight-bold mb-0" id="site4Label">Site 4</p>
                                         <div id="site4StatusIcon" class="ml-2" style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
                                         <i id="site4AlertIcon" class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6 cursor-pointer" style="display:none;"></i>
                                     </div>
@@ -236,7 +276,7 @@ function renderSiteSettingItem($i, $site_name, $lines, $site_settings)
                             <div class="d-flex flex-column">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="mb-3 pl-5 d-flex align-items-center">
-                                        <p class="font-weight-bold mb-0">Site 5</p>
+                                        <p class="font-weight-bold mb-0" id="site5Label">Site 5</p>
                                         <div id="site5StatusIcon" class="ml-2" style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
                                         <i id="site5AlertIcon" class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6 cursor-pointer" style="display:none;"></i>
                                     </div>

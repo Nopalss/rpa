@@ -5,12 +5,16 @@ $(document).ready(function () {
 
     // Fungsi untuk mendeteksi site apa saja yang ada di halaman saat ini (Site 1...Site N)
     function getAllSites() {
-        const sites = [];
+        const set = new Set();
         $('.site-setting-row').each(function () {
-            sites.push($(this).data('site'));
+            const s = $(this).attr('data-site');
+            if (s) set.add(s);
         });
-        return sites.length > 0 ? sites : ["site1", "site2", "site3", "site4", "site5"];
+        return set.size
+            ? Array.from(set)
+            : ["site1", "site2", "site3", "site4", "site5"];
     }
+
 
     let SITES = getAllSites();
 
@@ -47,6 +51,34 @@ $(document).ready(function () {
         return (site === 'main' || site === 'viewer') ? window.currentMainSite : site;
     }
 
+    function updateSiteLabel(site) {
+        const cfg = window.dbConfig?.[site];
+        const label = cfg?.site_label || site.toUpperCase();
+        const el = document.getElementById(`${site}Label`);
+        if (el) el.textContent = label;
+    }
+
+    function ensureRemoveButton($row, siteName) {
+        // Site 1–5 tidak boleh ada tombol hapus
+        const siteNum = parseInt(siteName.replace('site', ''));
+        if (siteNum <= 5) return;
+
+        // Cegah duplikasi
+        if ($row.find('.btn-remove-site').length) return;
+
+        const $headerCol = $row.find('.col-xl-12').first();
+
+        const $btn = $(`
+        <button type="button"
+            class="btn btn-xs btn-light-danger btn-remove-site text-right"
+            data-site="${siteName}">
+            <i class="flaticon-delete-1"></i> Hapus
+        </button>
+    `);
+
+        $headerCol.append($btn);
+    }
+
     function safeRowForSite(site) {
         const actual = resolveSite(site);
         const $row = $(`.site-setting-row[data-site="${actual}"]`);
@@ -64,6 +96,25 @@ $(document).ready(function () {
                 loadHistogramChart(site, false, true);
             });
         }, intervalMs);
+    }
+
+    function initSite(siteName) {
+        const $row = $(`.site-setting-row[data-site="${siteName}"]`);
+        if (!$row.length) return;
+
+        // Aktifkan dropdown line
+        $row.find('.line').prop('disabled', false);
+
+        // Dropdown lain reset & disable (menunggu cascade)
+        $row.find('.application, .file, .headers')
+            .prop('disabled', true)
+            .html('<option value="">Select</option>');
+
+        // Reset limit input
+        $row.find('.limit-input').val('');
+
+        // Clear cache chart (penting)
+        delete window.cachedChartData[siteName];
     }
 
     // -------------------------
@@ -88,11 +139,13 @@ $(document).ready(function () {
             Swal.fire('ℹ️', 'Belum ada data CP/CPK untuk site ini.', 'info');
             return;
         }
+        const hasOOC = Number(data.out_of_control_count || 0) > 0;
 
         const { $row } = safeRowForSite(actual);
+
         const info = {
             type: "cp_result",
-            site: actual.toUpperCase(),
+            site: window.dbConfig?.[actual]?.site_label || actual.toUpperCase(),
             line: $row.find('.line option:selected').text() || '-',
             app: $row.find('.application option:selected').text() || '-',
             file: $row.find('.file option:selected').text() || '-',
@@ -109,9 +162,19 @@ $(document).ready(function () {
             ng_actual: data?.out_of_control_percent !== undefined && data?.out_of_control_percent !== null
                 ? Number(data.out_of_control_percent / 100).toPrecision(8) // kalau kamu simpan dalam persen, ubah ke proporsi
                 : '-',
-        };
 
-        const isOk = (info.cp_status === "OK" && info.cpk_status === "OK");
+            has_ooc: hasOOC,
+            ooc_count: data.out_of_control_count ?? 0,
+            ooc_min: data.out_of_control_min ?? '-',
+            ooc_max: data.out_of_control_max ?? '-',
+            lsl: data.lsl ?? '-',
+            usl: data.usl ?? '-',
+
+        };
+        const isOk =
+            info.cp_status === "OK" &&
+            info.cpk_status === "OK" &&
+            !hasOOC;
 
         window.isAlertShowing = true;
 
@@ -133,6 +196,13 @@ $(document).ready(function () {
                 <hr>
                 <p><b>NG Estimation:</b> ${info.ng_estimation}%</p>
                 <p><b>NG Actual:</b> ${info.ng_actual}%</p>
+                <hr>
+                ${info.has_ooc ? `
+                <p><b>⚠️ Out of Control:</b> ${info.ooc_count} titik</p>
+                <p><b>LCL:</b> ${info.lsl}</p>
+                <p><b>UCL:</b> ${info.usl}</p>
+                <p><b>Range:</b> ${info.ooc_min} - ${info.ooc_max}</p>
+                ` : ''}
                 <hr>
                 <p><b>Status:</b> 
                     <span class="${isOk ? 'text-success' : 'text-danger'}">
@@ -161,7 +231,8 @@ $(document).ready(function () {
     function fireSwal(info) {
         if (info.type === "cp_result") {
             Swal.fire({
-                icon: info.icon || (info.cp_status === "OK" && info.cpk_status === "OK" ? "success" : "error"),
+                icon: info.final_status === "OK" ? "success" : "error",
+
                 title: '📊 Hasil Analisis CP / CPK',
                 html: `
                 <div class="text-start">
@@ -173,10 +244,16 @@ $(document).ready(function () {
                     <hr>
                     <p><b>CP:</b> ${info.cp ?? '-'} (${info.cp_status ?? '-'})</p>
                     <p><b>CPK:</b> ${info.cpk ?? '-'} (${info.cpk_status ?? '-'})</p>
+                    ${info.has_ooc ? `
+                        <hr>
+                        <p><b>⚠️ Out of Control:</b> ${info.ooc_count} titik</p>
+                        <p><b>LSL:</b> ${info.lsl} | <b>USL:</b> ${info.usl}</p>
+                        <p><b>Range:</b> ${info.ooc_min} - ${info.ooc_max}</p>
+                        ` : ''}
                 </div>
             `,
                 confirmButtonText: 'OK',
-                confirmButtonColor: info.cp_status === "OK" && info.cpk_status === "OK" ? '#28a745' : '#d33'
+                confirmButtonColor: info.final_status === "OK" ? '#28a745' : '#d33',
             }).then(() => {
                 window.isAlertShowing = false;
                 showNextAlert();
@@ -274,6 +351,8 @@ $(document).ready(function () {
             return nearest;
         }
 
+        const midpoints = data.series_data.map(d => Number(d[0]));
+        const step = midpoints.length > 1 ? (midpoints[1] - midpoints[0]) : 1;
 
         const options = {
             chart: {
@@ -281,8 +360,11 @@ $(document).ready(function () {
                 type: 'line',
                 toolbar: { show: isViewer },
                 animations: { enabled: false },
-                zoom: { enabled: false }
+                zoom: { enabled: false },
+
             },
+
+
 
             series: [
                 { name: 'Observed values', type: 'column', data: bars },
@@ -312,26 +394,27 @@ $(document).ready(function () {
             // 4. X-axis pakai label midpoint (bukan auto numeric)
             //----------------------------------------------------------
             xaxis: {
-                type: 'numeric', // tetap numeric supaya kurva halus
-                tickAmount: bars.length, // jumlah tick = jumlah batang
+                type: 'numeric',
+                tickAmount: midpoints.length - 1,
+                min: midpoints[0],
+                max: midpoints[midpoints.length - 1],
+
                 labels: {
                     show: true,
-                    formatter: function (val, idx) {
-                        // ambil label midpoint asli dari data.series_data
-                        const mids = data.series_data.map(d => parseFloat(d[0]));
-                        const i = Math.min(idx, mids.length - 1);
-                        // pastikan tetap dua digit di belakang koma
-                        return Number.isFinite(mids[i]) ? mids[i].toFixed(2) : '';
-                    },
                     rotate: -45,
-                    style: { fontSize: '9px' }
-                },
-                // jaga rentang agar batang tidak nempel tepi
-                min: Math.min(...bars.map(b => b.x)) - Math.abs(data.debug_interval_width || 1),
-                max: Math.max(...bars.map(b => b.x)) + Math.abs(data.debug_interval_width || 1)
+                    rotateAlways: true,
+                    formatter: function (val) {
+                        // Snap val ke grid midpoint
+                        const idx = Math.round((val - midpoints[0]) / step);
+
+                        if (idx >= 0 && idx < midpoints.length) {
+                            return midpoints[idx].toFixed(2);
+                        }
+                        return '';
+                    },
+                    style: { fontSize: '7.9px' }
+                }
             },
-
-
             //----------------------------------------------------------
             // 5. Tooltip uses midpoint instead of category label
             //----------------------------------------------------------
@@ -660,7 +743,6 @@ $(document).ready(function () {
                     }
                     return;
                 }
-
                 if (!response.success) {
                     if (window.cachedChartData[actual]) {
                         renderApexHistogram(chartId, window.cachedChartData[actual], actual, instanceKey);
@@ -683,6 +765,11 @@ $(document).ready(function () {
                 window.dbConfig[actual].custom_ucl = stdUpper;
                 window.dbConfig[actual].lower_boundary = lowBoundary;
                 window.dbConfig[actual].interval_width = intWidth;
+                window.dbConfig[actual].cp_limit =
+                    $row.find('input[data-type="cp_limit"]').val();
+
+                window.dbConfig[actual].cpk_limit =
+                    $row.find('input[data-type="cpk_limit"]').val();
 
                 // render
                 renderApexHistogram(chartId, response, actual, instanceKey);
@@ -693,12 +780,22 @@ $(document).ready(function () {
                     renderViewerFromCache(actual);
                 }
 
+                if (actual === window.currentMainSite) {
+                    updateMainCpCpkTable(actual);
+                }
                 // 🔔 Jika CP/CPK NG, tampilkan alert
-                if (response.cp_status && response.cpk_status) {
+                const hasOOC = Number(response.out_of_control_count || 0) > 0;
+                const finalStatus =
+                    response.cp_status === "OK" &&
+                        response.cpk_status === "OK" &&
+                        !hasOOC
+                        ? "OK"
+                        : "NG";
+                if (finalStatus === "NG") {
                     const { $row } = safeRowForSite(actual);
                     const info = {
                         type: "cp_result",
-                        site: actual.toUpperCase(),
+                        site: window.dbConfig?.[actual]?.site_label || actual.toUpperCase(),
                         line: $row.find('.line option:selected').text() || '-',
                         app: $row.find('.application option:selected').text() || '-',
                         file: $row.find('.file option:selected').text() || '-',
@@ -706,17 +803,26 @@ $(document).ready(function () {
                         cp: response.cp?.toFixed(3),
                         cpk: response.cpk?.toFixed(3),
                         cp_status: response.cp_status,
-                        cpk_status: response.cpk_status
+                        cpk_status: response.cpk_status,
+                        has_ooc: hasOOC,
+                        ooc_count: response.out_of_control_count,
+                        lsl: response.lsl,
+                        usl: response.usl,
+                        ooc_min: response.out_of_control_min,
+                        ooc_max: response.out_of_control_max,
+                        final_status: finalStatus
                     };
 
                     // ✅ Tambahkan pengecekan supaya tidak muncul berulang
                     const lastAlert = window.lastCpCpkAlert?.[actual];
-                    const currentKey = `${info.cp_status}_${info.cpk_status}_${info.cp}_${info.cpk}`;
+                    const currentKey =
+                        `${info.cp_status}_${info.cpk_status}_${info.cp}_${info.cpk}_${info.has_ooc}_${info.ooc_count}`;
+
 
                     if (!lastAlert || lastAlert !== currentKey) {
                         window.lastCpCpkAlert = window.lastCpCpkAlert || {};
                         window.lastCpCpkAlert[actual] = currentKey;
-                        if (info.cp_status !== "OK" || info.cpk_status !== "OK") {
+                        if (info.final_status === "NG") {
                             window.alertQueue.push(info);
                             showNextAlert();
                         }
@@ -727,16 +833,13 @@ $(document).ready(function () {
                 const statusIcon = document.getElementById(`${actual}StatusIcon`);
                 const alertIcon = document.getElementById(`${actual}AlertIcon`);
 
-                if (statusIcon && alertIcon) {
-                    if (response.cp_status === "OK" && response.cpk_status === "OK") {
-                        // ✅ Kondisi normal: hijau
-                        statusIcon.style.backgroundColor = "green";
-                        alertIcon.style.display = "none";
-                    } else {
-                        // ⚠️ CP atau CPK NG: tampilkan tanda seru merah
-                        statusIcon.style.display = "none";
-                        alertIcon.style.display = "inline-block";
-                    }
+                if (finalStatus === "OK") {
+                    statusIcon.style.display = "inline-block";
+                    statusIcon.style.backgroundColor = "green";
+                    alertIcon.style.display = "none";
+                } else {
+                    statusIcon.style.display = "none";
+                    alertIcon.style.display = "inline-block";
                 }
 
                 // update icons / alerts
@@ -790,7 +893,9 @@ $(document).ready(function () {
         const actual = resolveSite(site);
         const { $row } = safeRowForSite(actual);
         if (!$row || $row.length === 0) {
-            $("#mainChartTitle").html(`<div class="fs-6 text-dark"><span class="fw-bold">📊 ${actual.toUpperCase()}</span><br><small>Site config belum tersedia</small></div>`);
+            const label = window.dbConfig?.[actual]?.site_label || actual.toUpperCase();
+
+            $("#mainChartTitle").html(`<div class="fs-6 text-dark"><span class="fw-bold">📊 ${label}</span><br><small>Site config belum tersedia</small></div>`);
             return;
         }
         const lineText = $row.find('.line option:selected').text() || '-';
@@ -800,7 +905,7 @@ $(document).ready(function () {
 
         const titleHTML = `
             <div class="fs-6 text-dark">
-                <span class="fw-bold">📊 ${actual.toUpperCase()}</span><br>
+                <span class="fw-bold">📊 ${window.dbConfig?.[actual]?.site_label || actual.toUpperCase()}</span>
                 <small>Line: <span class="text-primary">${lineText}</span> |
                 App: <span class="text-success">${appText}</span> |
                 File: <span class="text-info">${fileText}</span> |
@@ -808,6 +913,33 @@ $(document).ready(function () {
             </div>
         `;
         $("#mainChartTitle").html(titleHTML);
+    }
+
+    function updateMainCpCpkTable(site) {
+        const actual = resolveSite(site);
+
+        const data = window.cachedChartData[actual];
+        const cfg = window.dbConfig?.[actual];
+
+        // Jika belum ada data
+        if (!data) {
+            $('#mainCpStandard, #mainCpActual, #mainCpkStandard, #mainCpkActual').text('-');
+            return;
+        }
+
+        // Standard (limit)
+        const cpLimit = cfg?.cp_limit ? parseFloat(cfg.cp_limit) : '-';
+        const cpkLimit = cfg?.cpk_limit ? parseFloat(cfg.cpk_limit) : '-';
+
+        // Actual (hasil perhitungan)
+        const cpActual = Number.isFinite(data.cp) ? data.cp.toFixed(3) : '-';
+        const cpkActual = Number.isFinite(data.cpk) ? data.cpk.toFixed(3) : '-';
+
+        $('#mainCpStandard').text(cpLimit !== '-' ? cpLimit.toFixed(3) : '-');
+        $('#mainCpkStandard').text(cpkLimit !== '-' ? cpkLimit.toFixed(3) : '-');
+
+        $('#mainCpActual').text(cpActual);
+        $('#mainCpkActual').text(cpkActual);
     }
 
     // -------------------------
@@ -837,7 +969,7 @@ $(document).ready(function () {
         settingsData.interval_width = $row.find('input[data-type="interval"]').val();
         settingsData.cp_limit = $row.find('input[data-type="cp_limit"]').val();
         settingsData.cpk_limit = $row.find('input[data-type="cpk_limit"]').val();
-
+        settingsData.site_label = $row.find('.site-label-input').val() || null;
         $.ajax({
             url: `${HOST_URL}api/save_dashboard_setting.php`,
             type: 'POST',
@@ -851,6 +983,7 @@ $(document).ready(function () {
     // Event: Tambah Site
     $('#btnAddSite').click(function () {
         let lastNum = 0;
+
         $('.site-setting-row').each(function () {
             const num = parseInt($(this).data('site').replace('site', ''));
             if (num > lastNum) lastNum = num;
@@ -859,34 +992,64 @@ $(document).ready(function () {
         const newNum = lastNum + 1;
         const newSiteName = 'site' + newNum;
 
-        // Clone template dari site1
-        const $clone = $('.site-setting-row[data-site="site1"]').clone();
+        // 1. Clone dari site1
+        const $clone = $('.site-setting-row[data-site="site1"]').clone(true, true);
 
+        // 2. Update row
         $clone.attr('id', 'row_' + newSiteName);
         $clone.attr('data-site', newSiteName);
-        $clone.find('.h6').text('Site ' + newNum);
+        $clone.find('[data-site]').each(function () {
+            $(this)
+                .attr('data-site', newSiteName)
+                .data('site', newSiteName); // 🔥 INI YANG KRUSIAL
+        });
 
-        // Tambah tombol hapus
-        $clone.find('.btn-remove-site').remove();
-        $clone.find('.h6').parent().append(`<button type="button" class="btn btn-xs btn-light-danger btn-remove-site" data-site="${newSiteName}">Hapus</button>`);
 
-        // Reset Value
-        $clone.find('select').val('').prop('disabled', false);
-        $clone.find('.line').attr('data-site', newSiteName).val('');
-        $clone.find('.application').attr('data-site', newSiteName).html('<option value="">Select</option>').prop('disabled', true);
-        $clone.find('.file').attr('data-site', newSiteName).html('<option value="">Select</option>').prop('disabled', true);
-        $clone.find('.headers').attr('data-site', newSiteName).html('<option value="">Select</option>').prop('disabled', true);
+        // 3. Reset label
+        $clone.find('.site-label-text').text('Site ' + newNum).removeClass('d-none');
+        $clone.find('.site-label-input').val('').addClass('d-none');
+        $clone.find('.site-label-save').addClass('d-none');
+        $clone.find('.site-label-edit').removeClass('d-none');
 
-        $clone.find('.dashboard-toggle').attr('data-site', newSiteName);
-        $clone.find('.dashboard-toggle input').prop('checked', true);
-        $clone.find('.limit-input').attr('data-site', newSiteName).val('');
+        // 4. Reset dropdown & input
+        $clone.find('select').val('');
+        $clone.find('.application, .file, .headers')
+            .html('<option value="">Select</option>')
+            .prop('disabled', true);
 
+        $clone.find('.limit-input').val('');
+
+        // 5. Append
         $('#settingsContainer').append($clone);
         $('#settingsContainer').append('<div class="separator separator-dashed my-5"></div>');
+        ensureRemoveButton($clone, newSiteName);
+
+
+        // 6. INIT STATE (🔥 PALING PENTING)
+        window.dbConfig[newSiteName] = {
+            site_label: 'Site ' + newNum
+        };
+        initSite(newSiteName);
+
+        // 7. Set jadi main site
+        window.currentMainSite = newSiteName;
+
+        // 8. Update UI (SETELAH state siap)
+        updateSiteLabel(newSiteName);
+        updateMainTitle(newSiteName);
+        updateMainCpCpkTable(newSiteName);
+
+        $('#mainChartViewer').html(`
+        <div class="d-flex justify-content-center align-items-center h-100">
+            <div class="text-muted small">Pilih Line untuk mulai</div>
+        </div>
+    `);
+
+
 
         SITES = getAllSites();
-        window.alertSettings[newSiteName] = true;
     });
+
 
     // Event: Hapus Site
     $(document).on('click', '.btn-remove-site', function () {
@@ -936,7 +1099,7 @@ $(document).ready(function () {
     let debounceTimers = {};
 
     $(document).on('input change', '.limit-input', function () {
-        const site = $(this).data('site');
+        const site = $(this).attr('data-site');
         const chartId = getChartSelectorForSite(site, false);
 
         // Hentikan timer sebelumnya kalau user masih mengetik
@@ -964,7 +1127,7 @@ $(document).ready(function () {
 
     // Event Listener Dropdown (Cascade)
     $(document).on('change', '.line', function () {
-        const site = $(this).data('site');
+        const site = $(this).attr('data-site');
         const lineId = $(this).val();
         const $application = $(`.application[data-site="${site}"]`);
         $application.prop('disabled', true).html('<option value="">Select</option>');
@@ -978,14 +1141,19 @@ $(document).ready(function () {
                 $application.prop('disabled', false).html('<option value="">Select</option>');
                 $.each(response, function (i, item) { $application.append(`<option value="${item.id}">${item.name}</option>`); });
                 const savedAppId = $(`.line[data-site="${site}"]`).data('app-id');
-                if (savedAppId) { $application.val(savedAppId); $application.trigger('change'); }
-                $(`.line[data-site="${site}"]`).data('app-id', null);
+                if (savedAppId) {
+                    $application.val(savedAppId);
+                    $application.trigger('change');
+                } else {
+                    // 🔥 SITE BARU: pastikan dropdown aktif & bisa dipilih
+                    $application.prop('disabled', false);
+                }
             }
         });
     });
 
     $(document).on('change', '.application', function () {
-        const site = $(this).data('site');
+        const site = $(this).attr('data-site');
         const appId = $(this).val();
         const $file = $(`.file[data-site="${site}"]`);
         $file.prop('disabled', true).html('<option value="">Select</option>');
@@ -1006,7 +1174,7 @@ $(document).ready(function () {
     });
 
     $(document).on('change', '.file', function () {
-        const site = $(this).data('site');
+        const site = $(this).attr('data-site');
         const fileId = $(this).val();
         const $header = $(`.headers[data-site="${site}"]`);
         $header.prop('disabled', true).html('<option value="">Select</option>');
@@ -1042,7 +1210,7 @@ $(document).ready(function () {
     });
 
     $(document).on('change', '.headers', function () {
-        const site = $(this).data('site');
+        const site = $(this).attr('data-site');
         const selectedType = $(this).find('option:selected').data('table-type') || 'type1';
         $(this).data('table-type', selectedType); // ✅ baris tambahan penting
 
@@ -1052,7 +1220,7 @@ $(document).ready(function () {
     });
 
     $(document).on('change', '.dashboard-toggle input', function () {
-        const site = $(this).closest('.dashboard-toggle').data('site');
+        const site = $(this).closest('.dashboard-toggle').attr('data-site');
         saveSiteSettings(site);
         window.alertSettings[site] = $(this).is(':checked');
         if (!window.alertSettings[site]) window.shownAlerts[site] = false;
@@ -1068,6 +1236,11 @@ $(document).ready(function () {
             Swal.fire('ℹ️', 'Belum ada data untuk site ini.', 'info');
             return;
         }
+        const hasOOC = Number(data.out_of_control_count || 0) > 0;
+        const isOk =
+            data.cp_status === "OK" &&
+            data.cpk_status === "OK" &&
+            !hasOOC;
 
         Swal.fire({
             icon: 'info',
@@ -1087,9 +1260,17 @@ $(document).ready(function () {
             <p><b>NG Estimation:</b> ${parseFloat(data.estimated_defect_rate).toFixed(5)}</p>
             <p><b>NG Actual:</b> ${(data.out_of_control_percent).toFixed(3)}%</p>
             <hr>
+           
+          ${hasOOC ? `
+                <p><b>⚠️ Out of Control:</b> ${data.out_of_control_count} titik</p>
+                <p><b>LCL:</b> ${data.lsl}</p>
+                <p><b>UCL:</b> ${data.usl}</p>
+                <p><b>Range:</b> ${data.out_of_control_min} - ${data.out_of_control_max}</p>
+            ` : ''}
+            <hr>
             <p><b>Status:</b> 
-                <span class="${(data.cp_status === 'OK' && data.cpk_status === 'OK') ? 'text-success' : 'text-danger'}">
-                    ${(data.cp_status === 'OK' && data.cpk_status === 'OK') ? 'OK ✅' : 'NG ❌'}
+                <span class="${isOk ? 'text-success' : 'text-danger'}">
+                    ${isOk ? 'OK ✅' : 'NG ❌'}
                 </span>
             </p>
         </div>
@@ -1122,6 +1303,11 @@ $(document).ready(function () {
             Swal.fire('ℹ️', 'Belum ada data untuk site ini.', 'info');
             return;
         }
+        const hasOOC = Number(data.out_of_control_count || 0) > 0;
+        const isOk =
+            data.cp_status === "OK" &&
+            data.cpk_status === "OK" &&
+            !hasOOC;
 
         Swal.fire({
             icon: 'info',
@@ -1141,9 +1327,16 @@ $(document).ready(function () {
           <p><b>NG Estimation:</b> ${parseFloat(data.estimated_defect_rate).toFixed(5)}</p>
             <p><b>NG Actual:</b> ${(data.out_of_control_percent).toFixed(3)}%</p>
             <hr>
+              ${hasOOC ? `
+            <p><b>⚠️ Out of Control:</b> ${data.ooc_count} titik</p>
+            <p><b>LCL:</b> ${data.lsl}</p>
+            <p><b>UCL:</b> ${data.usl}</p>
+            <p><b>Range:</b> ${data.ooc_min} - ${data.ooc_max}</p>
+            ` : ''}
+            <hr>
             <p><b>Status:</b> 
-                <span class="${(data.cp_status === 'OK' && data.cpk_status === 'OK') ? 'text-success' : 'text-danger'}">
-                    ${(data.cp_status === 'OK' && data.cpk_status === 'OK') ? 'OK ✅' : 'NG ❌'}
+                <span class="${isOk ? 'text-success' : 'text-danger'}">
+                    ${isOk ? 'OK ✅' : 'NG ❌'}
                 </span>
             </p>
         </div>
@@ -1172,7 +1365,9 @@ $(document).ready(function () {
 
             // Tampilkan SEMUA (tidak skip toggle off)
             window.currentMainSite = site;
+            updateSiteLabel(site);
             updateMainTitle(site);
+            updateMainCpCpkTable(site);
 
             // Indikator Loading Main
             if (!window.cachedChartData[site]) {
@@ -1201,12 +1396,20 @@ $(document).ready(function () {
 
     (function initPageLoad() {
         $('.dashboard-toggle input').each(function () {
-            const site = $(this).closest('.dashboard-toggle').data('site');
+            const site = $(this).closest('.dashboard-toggle').attr('data-site');
             window.alertSettings[site] = $(this).is(':checked');
         });
+        // 🔥 TAMBAHAN INI
+        Object.keys(window.dbConfig || {}).forEach(site => {
+            if (window.dbConfig[site]?.site_label) {
+                const el = document.getElementById(`${site}Label`);
+                if (el) el.textContent = window.dbConfig[site].site_label;
+            }
+        });
+
         $('.line').each(function () { if ($(this).val()) $(this).trigger('change'); });
         $('.site-setting-row').each(function () {
-            const site = $(this).data('site');
+            const site = $(this).attr('data-site');
             const cfg = window.dbConfig[site];
             if (!cfg) return;
 
@@ -1225,6 +1428,54 @@ $(document).ready(function () {
         if (site === 'main') site = window.currentMainSite;
         showManualAlert(site);
     });
+
+    // ===============================
+    // SITE LABEL EDIT / SAVE
+    // ===============================
+    $(document).on('click', '.site-label-edit', function () {
+        const site = $(this).attr('data-site');
+        const $row = $(`.site-setting-row[data-site="${site}"]`);
+
+        $row.find('.site-label-text').addClass('d-none');
+        $row.find('.site-label-edit').addClass('d-none');
+
+        $row.find('.site-label-input').removeClass('d-none').focus();
+        $row.find('.site-label-save').removeClass('d-none');
+    });
+
+    $(document).on('click', '.site-label-save', function () {
+        const site = $(this).attr('data-site');
+        const $row = $(`.site-setting-row[data-site="${site}"]`);
+
+        const newLabel =
+            $row.find('.site-label-input').val().trim() || site.toUpperCase();
+
+        // Update Settings UI
+        $row.find('.site-label-text')
+            .text(newLabel)
+            .removeClass('d-none');
+
+        $row.find('.site-label-input').addClass('d-none');
+        $row.find('.site-label-save').addClass('d-none');
+        $row.find('.site-label-edit').removeClass('d-none');
+
+        // 🔥 SIMPAN KE STATE
+        window.dbConfig[site] = window.dbConfig[site] || {};
+        window.dbConfig[site].site_label = newLabel;
+
+        // 🔥 UPDATE MINI CARD
+        const labelEl = document.getElementById(`${site}Label`);
+        if (labelEl) labelEl.textContent = newLabel;
+
+        // 🔥 UPDATE MAIN TITLE JIKA AKTIF
+        if (site === window.currentMainSite) {
+            updateMainTitle(site);
+        }
+
+        // 🔥 SAVE KE DB
+        saveSiteSettings(site);
+    });
+
 
     $(window).on('beforeunload unload', function () {
         if (globalPollingId) clearInterval(globalPollingId);

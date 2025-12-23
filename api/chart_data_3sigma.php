@@ -7,6 +7,29 @@ set_time_limit(0);
 // Jaga presisi float agar setara Excel (IEEE-754 double)
 ini_set('precision', 17);
 ini_set('serialize_precision', -1);
+date_default_timezone_set('Asia/Jakarta');
+
+
+function get_production_date($cutoff_hour = 6, $cutoff_minute = 0)
+{
+    $now = new DateTime('now');
+
+    $hour = (int)$now->format('H');
+    $minute = (int)$now->format('i');
+
+    if (
+        $hour < $cutoff_hour ||
+        ($hour === $cutoff_hour && $minute <= $cutoff_minute)
+    ) {
+        // sebelum cutoff → pakai tanggal kemarin
+        $now->modify('-1 day');
+    }
+
+    return $now->format('Y-m-d');
+}
+$production_date = get_production_date(10, 0);
+
+
 
 $file_id = $_POST['file_id'] ?? 0;
 $header_name = $_POST['header_name'] ?? '';
@@ -91,6 +114,8 @@ $numeric_where = "{$clean_data_col} REGEXP '^-?([0-9]+\\.?[0-9]*|\\.[0-9]+)$'";
 
 $stratification_sql = '';
 $bind_params = [':file_id' => $file_id, ':header_name' => $header_name];
+$bind_params[':production_date'] = $production_date;
+
 if (!empty($line_id)) {
     $stratification_sql = " AND d.line_id = :line_id ";
     $bind_params[':line_id'] = $line_id;
@@ -115,7 +140,7 @@ try {
           AND d.file_id = :file_id
           AND {$numeric_where}
           {$stratification_sql}
-           AND d.date = CURDATE()
+           AND d.date = :production_date
     ";
     $stmtAgg = $pdo->prepare($agg_sql);
     $stmtAgg->execute($bind_params);
@@ -161,7 +186,7 @@ $value_sql = "
       AND d.file_id = :file_id
       AND {$numeric_where}
       {$stratification_sql}
-       AND d.date = CURDATE()
+       AND d.date = :production_date
 ";
 $stmt = $pdo->prepare($value_sql);
 $stmt->execute($bind_params);

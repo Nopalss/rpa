@@ -4,6 +4,9 @@ require_once __DIR__ . '/../../../helper/handlePdoError.php';
 $_SESSION['menu'] = 'model_setting';
 $_SESSION['halaman'] = 'Model Setting';
 
+$stmt = $pdo->prepare("SELECT * FROM tbl_line");
+$stmt->execute();
+$lines = $stmt->fetchAll(PDO::FETCH_ASSOC);
 if (isset($_SESSION['form_add_csv']['application_id'])) {
     try {
         $stmt = $pdo->prepare("SELECT * FROM tbl_filename  WHERE temp_id = :application_id");
@@ -118,6 +121,15 @@ require __DIR__ . '/../../../includes/navbar.php';
                                             </tbody>
                                         </table>
                                     </div>
+                                    <!-- <div class="form-group">
+                                        <label for="lin3">Line/Belt</label>
+                                        <select name="line_id" id="line" class="form-control">
+                                            <option value="">Pilih Line</option>
+                                            <?php foreach ($lines as $l): ?>
+                                                <option value="<?= $l['line_id'] ?>"><?= $l['line_name'] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div> -->
                                 </div>
 
                             </div>

@@ -68,7 +68,7 @@
             <ol>
                 <li>Setelah file selesai diunduh, ekstrak file <b>.zip</b> terlebih dahulu.</li>
                 <li>Buka folder hasil ekstrak tersebut.</li>
-                <li>Klik dua kali pada file <b>setup_startup.bat</b> untuk menjalankan proses awal.</li>
+                <li>ketika aplikasi tidak berjalan, Klik dua kali pada file <b>setup_startup.bat</b> di desktop untuk menjalankan proses awal.</li>
                 <li>Setelah selesai, jalankan aplikasi dengan klik dua kali file <b>ClientUploader2.exe</b>.</li>
             </ol>
         </div>

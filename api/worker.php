@@ -52,10 +52,10 @@ function connectRedis()
             if (defined('Redis::OPT_TCP_KEEPALIVE')) {
                 $redis->setOption(Redis::OPT_TCP_KEEPALIVE, 1); // aktifkan keep-alive socket
             }
-            writeLog("✅ Connected to Redis at $REDIS_HOST:$REDIS_PORT");
+            writeLog("Connected to Redis at $REDIS_HOST:$REDIS_PORT");
             return $redis;
         } catch (Exception $e) {
-            writeLog("❌ Redis connect failed: {$e->getMessage()}, retrying in 3s...");
+            writeLog("Redis connect failed: {$e->getMessage()}, retrying in 3s...");
             sleep(3);
         }
     }
@@ -72,10 +72,10 @@ function connectMysql()
         try {
             $pdo = new PDO($dsn, $user, $pass, $options);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            writeLog("✅ Connected to MySQL");
+            writeLog("Connected to MySQL");
             return $pdo;
         } catch (PDOException $e) {
-            writeLog("❌ MySQL connect failed: {$e->getMessage()}, retrying in 5s...");
+            writeLog("MySQL connect failed: {$e->getMessage()}, retrying in 5s...");
             sleep(5);
         }
     }
@@ -108,7 +108,7 @@ function redisAlive($redis)
 // ==============================
 // MAIN LOOP
 // ==============================
-writeLog("🚀 Worker started...");
+writeLog("Worker started...");
 $redis = connectRedis();
 $pdo   = connectMysql();
 
@@ -126,22 +126,22 @@ while (true) {
                 continue;
             }
 
-            writeLog("⚠️ Redis lost connection. Reconnecting...");
+            writeLog("Redis lost connection. Reconnecting...");
             $redis = connectRedis();
             $redisDown = false;
             $lastRedisConnect = time();
-            writeLog("🔄 Redis reconnected successfully.");
+            writeLog("Redis reconnected successfully.");
             sleep(2); // cooldown supaya ping berikutnya gak false
             continue;
         }
 
         // -------- Cek koneksi MySQL --------
         if (!mysqlAlive($pdo)) {
-            if (!$mysqlDown) writeLog("⚠️ MySQL lost connection. Reconnecting...");
+            if (!$mysqlDown) writeLog("MySQL lost connection. Reconnecting...");
             $mysqlDown = true;
             $pdo = connectMysql();
             $mysqlDown = false;
-            writeLog("🔄 MySQL reconnected successfully.");
+            writeLog("MySQL reconnected successfully.");
             continue;
         }
 
@@ -151,7 +151,7 @@ while (true) {
             $job = @$redis->blPop([$QUEUE_NAME], 5);
         } catch (RedisException $e) {
             if (stripos($e->getMessage(), '10054') !== false || stripos($e->getMessage(), 'connection') !== false) {
-                writeLog("⚠️ Redis connection forcibly closed, reconnecting...");
+                writeLog("Redis connection forcibly closed, reconnecting...");
                 $redis = connectRedis();
                 $lastRedisConnect = time();
                 sleep(2);
@@ -164,13 +164,13 @@ while (true) {
         // -------- Decode job JSON --------
         $data = json_decode($job[1], true);
         if (!$data) {
-            writeLog("⚠️ Invalid job format, skipping...");
+            writeLog("Invalid job format, skipping...");
             continue;
         }
 
         // -------- Pastikan MySQL hidup --------
         if (!mysqlAlive($pdo)) {
-            writeLog("⚠️ MySQL lost, requeue job...");
+            writeLog("MySQL lost, requeue job...");
             @$redis->rPush($QUEUE_NAME, $job[1]);
             $pdo = connectMysql();
             continue;
@@ -182,6 +182,7 @@ while (true) {
         $application_id = sanitize($data['application_id']);
         $file_id        = sanitize($data['file_id']);
         $header_id      = sanitize($data['header_id']);
+        $production_date = $data['production_date'] ?? null;
 
         // tbl_detail_line
         $stmt = $pdo->prepare("
@@ -199,10 +200,10 @@ while (true) {
             $vals1[] = $data["data_$i"] ?? null;
         }
 
-        $sql1 = "INSERT INTO tbl_data (record_no, line_id, application_id, file_id, header_id, "
+        $sql1 = "INSERT INTO tbl_data (record_no, date, line_id, application_id, file_id, header_id, "
             . implode(',', $cols1) . ")
-              VALUES (" . implode(',', array_fill(0, count($vals1) + 5, '?')) . ")";
-        $pdo->prepare($sql1)->execute(array_merge([$record_no, $line_id, $application_id, $file_id, $header_id], $vals1));
+              VALUES (" . implode(',', array_fill(0, count($vals1) + 6, '?')) . ")";
+        $pdo->prepare($sql1)->execute(array_merge([$record_no, $production_date, $line_id, $application_id, $file_id, $header_id], $vals1));
 
         // tbl_data2 (191–380)
         $cols2 = $vals2 = [];
@@ -211,14 +212,15 @@ while (true) {
             $vals2[] = $data["data_$i"] ?? null;
         }
 
-        $sql2 = "INSERT INTO tbl_data2 (record_no, line_id, application_id, file_id, header_id, "
+        $sql2 = "INSERT INTO tbl_data2 (record_no, date, line_id, application_id, file_id, header_id, "
             . implode(',', $cols2) . ")
-              VALUES (" . implode(',', array_fill(0, count($vals2) + 5, '?')) . ")";
-        $pdo->prepare($sql2)->execute(array_merge([$record_no, $line_id, $application_id, $file_id, $header_id], $vals2));
+              VALUES (" . implode(',', array_fill(0, count($vals2) + 6, '?')) . ")";
+        $pdo->prepare($sql2)->execute(array_merge([$record_no, $production_date, $line_id, $application_id, $file_id, $header_id], $vals2));
 
-        writeLog("✅ Job success: record_no=$record_no");
+        writeLog("Job success: record_no=$record_no");
+        file_put_contents(__DIR__ . '/worker.status', time());
     } catch (Exception $e) {
-        writeLog("⚠️ General Error: " . $e->getMessage());
+        writeLog("General Error: " . $e->getMessage());
         sleep(2);
     }
 }

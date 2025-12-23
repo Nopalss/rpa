@@ -39,7 +39,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (array_key_exists('custom_ucl', $data) && $data['custom_ucl'] !== '' && $data['custom_ucl'] !== null) {
             $custom_ucl = (float)$data['custom_ucl'];
         }
-
+        $site_label = null;
+        if (array_key_exists('site_label', $data) && $data['site_label'] !== '') {
+            $site_label = trim($data['site_label']);
+        }
         // ------------------------
         // NEW: lower_boundary & interval_width
         // ------------------------
@@ -61,26 +64,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // INSERT / UPDATE
         // ------------------------
         $sql = "INSERT INTO tbl_user_settings (
-                    user_id, site_name, line_id, application_id, file_id, header_name, is_active,
-                    custom_lcl, custom_ucl, lower_boundary, interval_width,
-                    cp_limit, cpk_limit
-                ) VALUES (
-                    :user_id, :site_name, :line_id, :app_id, :file_id, :header_name, :is_active,
-                    :custom_lcl, :custom_ucl, :lower_boundary, :interval_width,
-                    :cp_limit, :cpk_limit
-                )
-                ON DUPLICATE KEY UPDATE
-                    line_id        = VALUES(line_id),
-                    application_id = VALUES(application_id),
-                    file_id        = VALUES(file_id),
-                    header_name    = VALUES(header_name),
-                    is_active      = VALUES(is_active),
-                    custom_lcl     = VALUES(custom_lcl),
-                    custom_ucl     = VALUES(custom_ucl),
-                    lower_boundary = VALUES(lower_boundary),
-                    interval_width = VALUES(interval_width),
-                    cp_limit       = VALUES(cp_limit),
-                    cpk_limit      = VALUES(cpk_limit)";
+    user_id, site_name, site_label,
+    line_id, application_id, file_id, header_name, is_active,
+    custom_lcl, custom_ucl, lower_boundary, interval_width,
+    cp_limit, cpk_limit
+) VALUES (
+    :user_id, :site_name, :site_label,
+    :line_id, :app_id, :file_id, :header_name, :is_active,
+    :custom_lcl, :custom_ucl, :lower_boundary, :interval_width,
+    :cp_limit, :cpk_limit
+)
+ON DUPLICATE KEY UPDATE
+    site_label     = VALUES(site_label),
+    line_id        = VALUES(line_id),
+    application_id = VALUES(application_id),
+    file_id        = VALUES(file_id),
+    header_name    = VALUES(header_name),
+    is_active      = VALUES(is_active),
+    custom_lcl     = VALUES(custom_lcl),
+    custom_ucl     = VALUES(custom_ucl),
+    lower_boundary = VALUES(lower_boundary),
+    interval_width = VALUES(interval_width),
+    cp_limit       = VALUES(cp_limit),
+    cpk_limit      = VALUES(cpk_limit);";
 
 
         $stmt = $pdo->prepare($sql);
@@ -97,7 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':lower_boundary' => $lower_boundary,
             ':interval_width' => $interval_width,
             ':cp_limit'       => isset($data['cp_limit']) ? (float)$data['cp_limit'] : null,
-            ':cpk_limit'      => isset($data['cpk_limit']) ? (float)$data['cpk_limit'] : null
+            ':cpk_limit'      => isset($data['cpk_limit']) ? (float)$data['cpk_limit'] : null,
+            ':site_label' => $site_label
         ]);
 
 
