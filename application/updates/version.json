@@ -1,6 +1,6 @@
 {
   "app": "ClientUploader2",
-  "version": "0.0.0",
+  "version": "2.12.24",
   "url": "http://192.168.2.11/rpa/application/updates/ClientUploader2.exe",
   "force": false
 }

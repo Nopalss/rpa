@@ -20,14 +20,11 @@ set TARGET_APP=%TARGET_DIR%\%APP_NAME%
 set TARGET_UPDATER=%TARGET_DIR%\%UPDATER_NAME%
 set TARGET_ENV=%TARGET_DIR%\%ENV_NAME%
 
-:: shortcut
+:: shortcut startup
 set STARTUP_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup
-set DESKTOP_DIR=%USERPROFILE%\Desktop
-
 set STARTUP_LNK=%STARTUP_DIR%\ClientUploader2.lnk
-set DESKTOP_LNK=%DESKTOP_DIR%\ClientUploader2.lnk
 
-:: lokasi lama (untuk migrasi)
+:: lokasi lama
 set OLD_DIR=D:\RPA\ClientUploader2
 
 echo ==========================================
@@ -35,22 +32,18 @@ echo [SETUP] ClientUploader2 Installer (FINAL)
 echo ==========================================
 
 :: ==================================================
-:: VALIDASI FILE WAJIB
+:: VALIDASI FILE
 :: ==================================================
 if not exist "%SRC_APP%" (
-    echo [ERROR] %APP_NAME% tidak ditemukan.
+    echo [ERROR] %APP_NAME% tidak ditemukan
     pause
     exit /b
 )
 
 if not exist "%SRC_UPDATER%" (
-    echo [ERROR] %UPDATER_NAME% tidak ditemukan.
+    echo [ERROR] %UPDATER_NAME% tidak ditemukan
     pause
     exit /b
-)
-
-if not exist "%SRC_ENV%" (
-    echo [WARN] File .env tidak ditemukan di package
 )
 
 :: ==================================================
@@ -87,7 +80,7 @@ if not exist "%TARGET_DIR%" (
 )
 
 :: ==================================================
-:: COPY FILE APLIKASI
+:: COPY FILE
 :: ==================================================
 echo [INFO] Menyalin ClientUploader2.exe
 copy /Y "%SRC_APP%" "%TARGET_APP%" >nul
@@ -96,7 +89,7 @@ echo [INFO] Menyalin Updater.exe
 copy /Y "%SRC_UPDATER%" "%TARGET_UPDATER%" >nul
 
 :: ==================================================
-:: COPY .env (HANYA JIKA BELUM ADA)
+:: COPY .env (TIDAK OVERWRITE)
 :: ==================================================
 if exist "%SRC_ENV%" (
     if not exist "%TARGET_ENV%" (
@@ -110,35 +103,29 @@ if exist "%SRC_ENV%" (
 :: ==================================================
 :: HAPUS SHORTCUT LAMA
 :: ==================================================
-if exist "%STARTUP_LNK%" (
-    echo [INFO] Menghapus shortcut Startup lama
-    del "%STARTUP_LNK%" >nul 2>&1
-)
-
-if exist "%DESKTOP_LNK%" (
-    echo [INFO] Menghapus shortcut Desktop lama
-    del "%DESKTOP_LNK%" >nul 2>&1
-)
+if exist "%STARTUP_LNK%" del "%STARTUP_LNK%" >nul 2>&1
 
 :: ==================================================
-:: BUAT SHORTCUT BARU
+:: BUAT SHORTCUT (DINAMIS & AMAN)
 :: ==================================================
-echo [INFO] Membuat shortcut Startup (Updater)
-echo [INFO] Membuat shortcut Desktop (ClientUploader2)
+echo [INFO] Membuat shortcut Startup + Desktop
 
 powershell -NoProfile -ExecutionPolicy Bypass -Command ^
 "$ws = New-Object -ComObject WScript.Shell; ^
+$desktop = [Environment]::GetFolderPath('Desktop'); ^
 $s = $ws.CreateShortcut('%STARTUP_LNK%'); ^
 $s.TargetPath = '%TARGET_UPDATER%'; ^
 $s.WorkingDirectory = '%TARGET_DIR%'; ^
 $s.Save(); ^
-$s2 = $ws.CreateShortcut('%DESKTOP_LNK%'); ^
-$s2.TargetPath = '%TARGET_APP%'; ^
-$s2.WorkingDirectory = '%TARGET_DIR%'; ^
-$s2.Save()"
+if ($desktop -and (Test-Path $desktop)) { ^
+    $s2 = $ws.CreateShortcut(\"$desktop\ClientUploader2.lnk\"); ^
+    $s2.TargetPath = '%TARGET_APP%'; ^
+    $s2.WorkingDirectory = '%TARGET_DIR%'; ^
+    $s2.Save(); ^
+}"
 
 :: ==================================================
-:: JALANKAN UPDATER (PERTAMA KALI)
+:: JALANKAN UPDATER
 :: ==================================================
 echo [INFO] Menjalankan Updater...
 start "" "%TARGET_UPDATER%"
@@ -149,7 +136,7 @@ echo [SUCCESS]
 echo - Install path : %TARGET_DIR%
 echo - Startup      : Updater.exe
 echo - Desktop      : ClientUploader2.exe
-echo - .env         : AMAN (tidak overwrite)
+echo - .env         : AMAN
 echo - Install lama : D: DIBERSIHKAN
 echo ==========================================
 pause

@@ -139,7 +139,7 @@ $(document).ready(function () {
             Swal.fire('ℹ️', 'Belum ada data CP/CPK untuk site ini.', 'info');
             return;
         }
-        const hasOOC = Number(data.out_of_control_count || 0) > 0;
+        // const hasOOC = Number(data.out_of_control_count || 0) > 0;
 
         const { $row } = safeRowForSite(actual);
 
@@ -163,18 +163,18 @@ $(document).ready(function () {
                 ? Number(data.out_of_control_percent / 100).toPrecision(8) // kalau kamu simpan dalam persen, ubah ke proporsi
                 : '-',
 
-            has_ooc: hasOOC,
-            ooc_count: data.out_of_control_count ?? 0,
-            ooc_min: data.out_of_control_min ?? '-',
-            ooc_max: data.out_of_control_max ?? '-',
-            lsl: data.lsl ?? '-',
-            usl: data.usl ?? '-',
+            // has_ooc: hasOOC,
+            // ooc_count: data.out_of_control_count ?? 0,
+            // ooc_min: data.out_of_control_min ?? '-',
+            // ooc_max: data.out_of_control_max ?? '-',
+            // lsl: data.lsl ?? '-',
+            // usl: data.usl ?? '-',
 
         };
         const isOk =
             info.cp_status === "OK" &&
-            info.cpk_status === "OK" &&
-            !hasOOC;
+            info.cpk_status === "OK";
+        // !hasOOC;
 
         window.isAlertShowing = true;
 
@@ -196,13 +196,6 @@ $(document).ready(function () {
                 <hr>
                 <p><b>NG Estimation:</b> ${info.ng_estimation}%</p>
                 <p><b>NG Actual:</b> ${info.ng_actual}%</p>
-                <hr>
-                ${info.has_ooc ? `
-                <p><b>⚠️ Out of Control:</b> ${info.ooc_count} titik</p>
-                <p><b>LCL:</b> ${info.lsl}</p>
-                <p><b>UCL:</b> ${info.usl}</p>
-                <p><b>Range:</b> ${info.ooc_min} - ${info.ooc_max}</p>
-                ` : ''}
                 <hr>
                 <p><b>Status:</b> 
                     <span class="${isOk ? 'text-success' : 'text-danger'}">
@@ -244,12 +237,6 @@ $(document).ready(function () {
                     <hr>
                     <p><b>CP:</b> ${info.cp ?? '-'} (${info.cp_status ?? '-'})</p>
                     <p><b>CPK:</b> ${info.cpk ?? '-'} (${info.cpk_status ?? '-'})</p>
-                    ${info.has_ooc ? `
-                        <hr>
-                        <p><b>⚠️ Out of Control:</b> ${info.ooc_count} titik</p>
-                        <p><b>LSL:</b> ${info.lsl} | <b>USL:</b> ${info.usl}</p>
-                        <p><b>Range:</b> ${info.ooc_min} - ${info.ooc_max}</p>
-                        ` : ''}
                 </div>
             `,
                 confirmButtonText: 'OK',
@@ -784,13 +771,19 @@ $(document).ready(function () {
                     updateMainCpCpkTable(actual);
                 }
                 // 🔔 Jika CP/CPK NG, tampilkan alert
-                const hasOOC = Number(response.out_of_control_count || 0) > 0;
+                // const hasOOC = Number(response.out_of_control_count || 0) > 0;
+                // const finalStatus =
+                //     response.cp_status === "OK" &&
+                //         response.cpk_status === "OK" &&
+                //         !hasOOC
+                //         ? "OK"
+                //         : "NG";
                 const finalStatus =
                     response.cp_status === "OK" &&
-                        response.cpk_status === "OK" &&
-                        !hasOOC
+                        response.cpk_status === "OK"
                         ? "OK"
                         : "NG";
+
                 if (finalStatus === "NG") {
                     const { $row } = safeRowForSite(actual);
                     const info = {
@@ -804,19 +797,13 @@ $(document).ready(function () {
                         cpk: response.cpk?.toFixed(3),
                         cp_status: response.cp_status,
                         cpk_status: response.cpk_status,
-                        has_ooc: hasOOC,
-                        ooc_count: response.out_of_control_count,
-                        lsl: response.lsl,
-                        usl: response.usl,
-                        ooc_min: response.out_of_control_min,
-                        ooc_max: response.out_of_control_max,
                         final_status: finalStatus
                     };
 
                     // ✅ Tambahkan pengecekan supaya tidak muncul berulang
                     const lastAlert = window.lastCpCpkAlert?.[actual];
                     const currentKey =
-                        `${info.cp_status}_${info.cpk_status}_${info.cp}_${info.cpk}_${info.has_ooc}_${info.ooc_count}`;
+                        `${info.cp_status}_${info.cpk_status}_${info.cp}_${info.cpk}`;
 
 
                     if (!lastAlert || lastAlert !== currentKey) {
@@ -891,6 +878,9 @@ $(document).ready(function () {
     // -------------------------
     function updateMainTitle(site) {
         const actual = resolveSite(site);
+        const siteLabel =
+            window.dbConfig?.[actual]?.site_label || actual.toUpperCase();
+        $('#mainHeaderTitle').text(siteLabel);
         const { $row } = safeRowForSite(actual);
         if (!$row || $row.length === 0) {
             const label = window.dbConfig?.[actual]?.site_label || actual.toUpperCase();
@@ -1236,11 +1226,10 @@ $(document).ready(function () {
             Swal.fire('ℹ️', 'Belum ada data untuk site ini.', 'info');
             return;
         }
-        const hasOOC = Number(data.out_of_control_count || 0) > 0;
         const isOk =
             data.cp_status === "OK" &&
-            data.cpk_status === "OK" &&
-            !hasOOC;
+            data.cpk_status === "OK";
+
 
         Swal.fire({
             icon: 'info',
@@ -1259,14 +1248,6 @@ $(document).ready(function () {
             <p><b>CPK Limit:</b> ${data.std_limit_cpk ?? '-'}</p>
             <p><b>NG Estimation:</b> ${parseFloat(data.estimated_defect_rate).toFixed(5)}</p>
             <p><b>NG Actual:</b> ${(data.out_of_control_percent).toFixed(3)}%</p>
-            <hr>
-           
-          ${hasOOC ? `
-                <p><b>⚠️ Out of Control:</b> ${data.out_of_control_count} titik</p>
-                <p><b>LCL:</b> ${data.lsl}</p>
-                <p><b>UCL:</b> ${data.usl}</p>
-                <p><b>Range:</b> ${data.out_of_control_min} - ${data.out_of_control_max}</p>
-            ` : ''}
             <hr>
             <p><b>Status:</b> 
                 <span class="${isOk ? 'text-success' : 'text-danger'}">
@@ -1303,11 +1284,14 @@ $(document).ready(function () {
             Swal.fire('ℹ️', 'Belum ada data untuk site ini.', 'info');
             return;
         }
-        const hasOOC = Number(data.out_of_control_count || 0) > 0;
+        // const hasOOC = Number(data.out_of_control_count || 0) > 0;
+        // const isOk =
+        //     data.cp_status === "OK" &&
+        //     data.cpk_status === "OK" &&
+        //     !hasOOC;
         const isOk =
             data.cp_status === "OK" &&
-            data.cpk_status === "OK" &&
-            !hasOOC;
+            data.cpk_status === "OK";
 
         Swal.fire({
             icon: 'info',
@@ -1326,13 +1310,6 @@ $(document).ready(function () {
             <p><b>CPK Limit:</b> ${data.std_limit_cpk ?? '-'}</p>
           <p><b>NG Estimation:</b> ${parseFloat(data.estimated_defect_rate).toFixed(5)}</p>
             <p><b>NG Actual:</b> ${(data.out_of_control_percent).toFixed(3)}%</p>
-            <hr>
-              ${hasOOC ? `
-            <p><b>⚠️ Out of Control:</b> ${data.ooc_count} titik</p>
-            <p><b>LCL:</b> ${data.lsl}</p>
-            <p><b>UCL:</b> ${data.usl}</p>
-            <p><b>Range:</b> ${data.ooc_min} - ${data.ooc_max}</p>
-            ` : ''}
             <hr>
             <p><b>Status:</b> 
                 <span class="${isOk ? 'text-success' : 'text-danger'}">
@@ -1475,7 +1452,6 @@ $(document).ready(function () {
         // 🔥 SAVE KE DB
         saveSiteSettings(site);
     });
-
 
     $(window).on('beforeunload unload', function () {
         if (globalPollingId) clearInterval(globalPollingId);

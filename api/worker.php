@@ -116,6 +116,27 @@ $redisDown = false;
 $mysqlDown = false;
 $lastRedisConnect = time();
 
+date_default_timezone_set('Asia/Jakarta');
+
+
+function get_production_date($cutoff_hour = 6, $cutoff_minute = 0)
+{
+    $now = new DateTime('now');
+
+    $hour = (int)$now->format('H');
+    $minute = (int)$now->format('i');
+
+    if (
+        $hour < $cutoff_hour ||
+        ($hour === $cutoff_hour && $minute <= $cutoff_minute)
+    ) {
+        // sebelum cutoff → pakai tanggal kemarin
+        $now->modify('-1 day');
+    }
+
+    return $now->format('Y-m-d');
+}
+
 while (true) {
     try {
         // -------- Cek koneksi Redis --------
@@ -182,7 +203,7 @@ while (true) {
         $application_id = sanitize($data['application_id']);
         $file_id        = sanitize($data['file_id']);
         $header_id      = sanitize($data['header_id']);
-        $production_date = $data['production_date'] ?? null;
+        $production_date = $data['production_date'] ?? get_production_date();
 
         // tbl_detail_line
         $stmt = $pdo->prepare("

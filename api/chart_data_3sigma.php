@@ -27,8 +27,7 @@ function get_production_date($cutoff_hour = 6, $cutoff_minute = 0)
 
     return $now->format('Y-m-d');
 }
-$production_date = get_production_date(10, 0);
-
+$production_date = get_production_date(6, 0);
 
 
 $file_id = $_POST['file_id'] ?? 0;

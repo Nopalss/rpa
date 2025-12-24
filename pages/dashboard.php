@@ -217,7 +217,7 @@ function renderSiteSettingItem($i, $site_name, $lines, $site_settings)
                     <div class="card shadow">
                         <div class="card-header pb-2 d-flex justify-content-between align-items-center">
                             <h3 class="card-title d-flex align-items-center mb-2">
-                                <a class="card-label text-dark">Main</a>
+                                <a class="card-label text-dark" id="mainHeaderTitle">Main</a>
                                 <!-- <div id="mainStatusIcon" class="ml-2" style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
                                 <i id="mainAlertIcon" class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h3 cursor-pointer" style="display:none;"></i> -->
                             </h3>
