@@ -86,17 +86,26 @@ $(document).ready(function () {
     }
 
     // [BARU] Fungsi Menjalankan Timer Global
-    function startGlobalPolling(intervalMs) {
-        if (globalPollingId) clearInterval(globalPollingId);
-        // console.log("Global Polling started: " + intervalMs + "ms");
+    function startFocusedPolling(baseIntervalMs) {
+        if (globalPollingId) clearTimeout(globalPollingId);
 
-        globalPollingId = setInterval(() => {
-            const currentSites = getAllSites();
-            currentSites.forEach(site => {
+        function pollOnce() {
+            const site = window.currentMainSite;
+            if (site) {
                 loadHistogramChart(site, false, true);
-            });
-        }, intervalMs);
+            }
+
+            const jitter =
+                baseIntervalMs +
+                Math.floor(Math.random() * 6000) - 3000;
+
+            globalPollingId = setTimeout(pollOnce, Math.max(8000, jitter));
+        }
+
+        pollOnce();
     }
+
+
 
     function initSite(siteName) {
         const $row = $(`.site-setting-row[data-site="${siteName}"]`);
@@ -1367,9 +1376,11 @@ $(document).ready(function () {
 
     // Init Polling Global
     (function initGlobalPolling() {
-        const defaultInterval = parseInt($('#globalIntervalSelect').val()) || 15000;
-        startGlobalPolling(defaultInterval);
+        const defaultInterval =
+            parseInt($('#globalIntervalSelect').val()) || 20000;
+        startFocusedPolling(defaultInterval);
     })();
+
 
     (function initPageLoad() {
         $('.dashboard-toggle input').each(function () {

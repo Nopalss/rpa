@@ -1,0 +1,680 @@
+[2026-01-08 15:02:20] Worker started
+[2026-01-08 15:02:20] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:02:20] Connected to MySQL
+[2026-01-08 15:02:20] Job success | file_id=1 | date=2026-01-08 | scm=147028
+[2026-01-08 15:02:20] Job success | file_id=1 | date=2026-01-08 | scm=22123
+[2026-01-08 15:02:20] Job success | file_id=1 | date=2026-01-08 | scm=22124
+[2026-01-08 15:02:20] Job success | file_id=1 | date=2026-01-08 | scm=22125
+[2026-01-08 15:02:20] Job success | file_id=1 | date=2026-01-08 | scm=22126
+[2026-01-08 15:02:20] Job success | file_id=1 | date=2026-01-08 | scm=22127
+[2026-01-08 15:02:20] Job success | file_id=1 | date=2026-01-08 | scm=22128
+[2026-01-08 15:02:20] Job success | file_id=1 | date=2026-01-08 | scm=22128
+[2026-01-08 15:02:20] Job success | file_id=1 | date=2026-01-08 | scm=22127
+[2026-01-08 15:02:20] Job success | file_id=1 | date=2026-01-08 | scm=22129
+[2026-01-08 15:02:20] Job success | file_id=1 | date=2026-01-08 | scm=22130
+[2026-01-08 15:02:20] Job success | file_id=1 | date=2026-01-08 | scm=22131
+[2026-01-08 15:02:20] Job success | file_id=1 | date=2026-01-08 | scm=22131
+[2026-01-08 15:02:20] Job success | file_id=1 | date=2026-01-08 | scm=22132
+[2026-01-08 15:02:20] Job success | file_id=5 | date=2026-01-08 | scm=147028
+[2026-01-08 15:02:20] Job success | file_id=5 | date=2026-01-08 | scm=22123
+[2026-01-08 15:03:35] Worker started
+[2026-01-08 15:03:35] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:03:35] Connected to MySQL
+[2026-01-08 15:03:50] Worker started
+[2026-01-08 15:03:50] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:03:50] Connected to MySQL
+[2026-01-08 15:04:05] Worker started
+[2026-01-08 15:04:05] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:04:05] Connected to MySQL
+[2026-01-08 15:04:20] Worker started
+[2026-01-08 15:04:20] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:04:20] Connected to MySQL
+[2026-01-08 15:04:35] Worker started
+[2026-01-08 15:04:35] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:04:35] Connected to MySQL
+[2026-01-08 15:04:51] Worker started
+[2026-01-08 15:04:51] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:04:51] Connected to MySQL
+[2026-01-08 15:05:06] Worker started
+[2026-01-08 15:05:06] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:05:06] Connected to MySQL
+[2026-01-08 15:05:07] Job success | file_id=1 | date=2026-01-08 | scm=147028
+[2026-01-08 15:05:10] Job success | file_id=1 | date=2026-01-08 | scm=22123
+[2026-01-08 15:05:13] Job success | file_id=1 | date=2026-01-08 | scm=22123
+[2026-01-08 15:05:16] Job success | file_id=1 | date=2026-01-08 | scm=22123
+[2026-01-08 15:05:20] Job success | file_id=1 | date=2026-01-08 | scm=22124
+[2026-01-08 15:05:25] Job success | file_id=1 | date=2026-01-08 | scm=22125
+[2026-01-08 15:05:29] Job success | file_id=1 | date=2026-01-08 | scm=22126
+[2026-01-08 15:05:32] Job success | file_id=1 | date=2026-01-08 | scm=22127
+[2026-01-08 15:05:37] Job success | file_id=1 | date=2026-01-08 | scm=22128
+[2026-01-08 15:05:40] Job success | file_id=1 | date=2026-01-08 | scm=22128
+[2026-01-08 15:05:43] Job success | file_id=1 | date=2026-01-08 | scm=22127
+[2026-01-08 15:05:47] Job success | file_id=1 | date=2026-01-08 | scm=22129
+[2026-01-08 15:05:50] Job success | file_id=1 | date=2026-01-08 | scm=22130
+[2026-01-08 15:05:54] Job success | file_id=1 | date=2026-01-08 | scm=22131
+[2026-01-08 15:05:56] Job success | file_id=1 | date=2026-01-08 | scm=22131
+[2026-01-08 15:06:01] Job success | file_id=1 | date=2026-01-08 | scm=22132
+[2026-01-08 15:06:04] Job success | file_id=5 | date=2026-01-08 | scm=147028
+[2026-01-08 15:06:08] Job success | file_id=5 | date=2026-01-08 | scm=22123
+[2026-01-08 15:07:21] Worker started
+[2026-01-08 15:07:21] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:07:21] Connected to MySQL
+[2026-01-08 15:07:36] Worker started
+[2026-01-08 15:07:36] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:07:36] Connected to MySQL
+[2026-01-08 15:07:51] Worker started
+[2026-01-08 15:07:51] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:07:51] Connected to MySQL
+[2026-01-08 15:08:07] Worker started
+[2026-01-08 15:08:07] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:08:07] Connected to MySQL
+[2026-01-08 15:08:21] Worker started
+[2026-01-08 15:08:21] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:08:21] Connected to MySQL
+[2026-01-08 15:08:37] Worker started
+[2026-01-08 15:08:37] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:08:37] Connected to MySQL
+[2026-01-08 15:08:41] Job success | file_id=1 | date=2026-01-08 | scm=147028
+[2026-01-08 15:08:45] Job success | file_id=1 | date=2026-01-08 | scm=22123
+[2026-01-08 15:08:49] Job success | file_id=1 | date=2026-01-08 | scm=22123
+[2026-01-08 15:08:52] Job success | file_id=1 | date=2026-01-08 | scm=22123
+[2026-01-08 15:08:56] Job success | file_id=1 | date=2026-01-08 | scm=22123
+[2026-01-08 15:08:59] Job success | file_id=1 | date=2026-01-08 | scm=22124
+[2026-01-08 15:09:02] Job success | file_id=1 | date=2026-01-08 | scm=22125
+[2026-01-08 15:09:05] Job success | file_id=1 | date=2026-01-08 | scm=22126
+[2026-01-08 15:09:08] Job success | file_id=1 | date=2026-01-08 | scm=22126
+[2026-01-08 15:09:11] Job success | file_id=1 | date=2026-01-08 | scm=22127
+[2026-01-08 15:09:15] Job success | file_id=1 | date=2026-01-08 | scm=22128
+[2026-01-08 15:09:19] Job success | file_id=1 | date=2026-01-08 | scm=22128
+[2026-01-08 15:09:22] Job success | file_id=1 | date=2026-01-08 | scm=22127
+[2026-01-08 15:09:26] Job success | file_id=1 | date=2026-01-08 | scm=22129
+[2026-01-08 15:09:30] Job success | file_id=1 | date=2026-01-08 | scm=22130
+[2026-01-08 15:09:33] Job success | file_id=1 | date=2026-01-08 | scm=22131
+[2026-01-08 15:09:36] Job success | file_id=1 | date=2026-01-08 | scm=22131
+[2026-01-08 15:09:40] Job success | file_id=1 | date=2026-01-08 | scm=22132
+[2026-01-08 15:09:44] Job success | file_id=5 | date=2026-01-08 | scm=147028
+[2026-01-08 15:09:47] Job success | file_id=5 | date=2026-01-08 | scm=22123
+[2026-01-08 15:11:02] Worker started
+[2026-01-08 15:11:02] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:11:02] Connected to MySQL
+[2026-01-08 15:11:17] Worker started
+[2026-01-08 15:11:17] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:11:17] Connected to MySQL
+[2026-01-08 15:11:32] Worker started
+[2026-01-08 15:11:32] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:11:32] Connected to MySQL
+[2026-01-08 15:11:47] Worker started
+[2026-01-08 15:11:47] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:11:47] Connected to MySQL
+[2026-01-08 15:12:02] Worker started
+[2026-01-08 15:12:02] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:12:02] Connected to MySQL
+[2026-01-08 15:12:17] Worker started
+[2026-01-08 15:12:17] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:12:17] Connected to MySQL
+[2026-01-08 15:12:32] Worker started
+[2026-01-08 15:12:32] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:12:33] Connected to MySQL
+[2026-01-08 15:12:48] Worker started
+[2026-01-08 15:12:48] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:12:48] Connected to MySQL
+[2026-01-08 15:13:03] Worker started
+[2026-01-08 15:13:03] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:13:03] Connected to MySQL
+[2026-01-08 15:13:18] Worker started
+[2026-01-08 15:13:18] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:13:18] Connected to MySQL
+[2026-01-08 15:13:33] Worker started
+[2026-01-08 15:13:33] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:13:33] Connected to MySQL
+[2026-01-08 15:13:48] Worker started
+[2026-01-08 15:13:48] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:13:48] Connected to MySQL
+[2026-01-08 15:14:03] Worker started
+[2026-01-08 15:14:03] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:14:03] Connected to MySQL
+[2026-01-08 15:14:18] Worker started
+[2026-01-08 15:14:18] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:14:18] Connected to MySQL
+[2026-01-08 15:14:34] Worker started
+[2026-01-08 15:14:34] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:14:34] Connected to MySQL
+[2026-01-08 15:14:48] Worker started
+[2026-01-08 15:14:48] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:14:48] Connected to MySQL
+[2026-01-08 15:15:03] Worker started
+[2026-01-08 15:15:03] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:15:03] Connected to MySQL
+[2026-01-08 15:15:19] Worker started
+[2026-01-08 15:15:19] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:15:19] Connected to MySQL
+[2026-01-08 15:15:34] Worker started
+[2026-01-08 15:15:34] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:15:34] Connected to MySQL
+[2026-01-08 15:15:49] Worker started
+[2026-01-08 15:15:49] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:15:49] Connected to MySQL
+[2026-01-08 15:16:04] Worker started
+[2026-01-08 15:16:04] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:16:04] Connected to MySQL
+[2026-01-08 15:16:19] Worker started
+[2026-01-08 15:16:19] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:16:19] Connected to MySQL
+[2026-01-08 15:16:34] Worker started
+[2026-01-08 15:16:34] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:16:34] Connected to MySQL
+[2026-01-08 15:16:49] Worker started
+[2026-01-08 15:16:49] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:16:49] Connected to MySQL
+[2026-01-08 15:17:04] Worker started
+[2026-01-08 15:17:04] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:17:04] Connected to MySQL
+[2026-01-08 15:17:19] Worker started
+[2026-01-08 15:17:19] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:17:19] Connected to MySQL
+[2026-01-08 15:17:35] Worker started
+[2026-01-08 15:17:35] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:17:35] Connected to MySQL
+[2026-01-08 15:17:35] Job success | file_id=1 | date=2026-01-08 | scm=147028
+[2026-01-08 15:17:38] Job success | file_id=1 | date=2026-01-08 | scm=22123
+[2026-01-08 15:17:42] Job success | file_id=1 | date=2026-01-08 | scm=22123
+[2026-01-08 15:17:47] Job success | file_id=1 | date=2026-01-08 | scm=22123
+[2026-01-08 15:17:49] Job success | file_id=1 | date=2026-01-08 | scm=22123
+[2026-01-08 15:17:54] Job success | file_id=1 | date=2026-01-08 | scm=22124
+[2026-01-08 15:17:57] Job success | file_id=1 | date=2026-01-08 | scm=22125
+[2026-01-08 15:18:01] Job success | file_id=1 | date=2026-01-08 | scm=22126
+[2026-01-08 15:18:06] Job success | file_id=1 | date=2026-01-08 | scm=22126
+[2026-01-08 15:18:09] Job success | file_id=1 | date=2026-01-08 | scm=22127
+[2026-01-08 15:18:12] Job success | file_id=1 | date=2026-01-08 | scm=22128
+[2026-01-08 15:18:15] Job success | file_id=1 | date=2026-01-08 | scm=22128
+[2026-01-08 15:18:18] Job success | file_id=1 | date=2026-01-08 | scm=22127
+[2026-01-08 15:18:22] Job success | file_id=1 | date=2026-01-08 | scm=22129
+[2026-01-08 15:18:25] Job success | file_id=1 | date=2026-01-08 | scm=22130
+[2026-01-08 15:18:29] Job success | file_id=1 | date=2026-01-08 | scm=22131
+[2026-01-08 15:18:33] Job success | file_id=1 | date=2026-01-08 | scm=22131
+[2026-01-08 15:18:38] Job success | file_id=1 | date=2026-01-08 | scm=22132
+[2026-01-08 15:18:42] Job success | file_id=5 | date=2026-01-08 | scm=147028
+[2026-01-08 15:18:45] Job success | file_id=5 | date=2026-01-08 | scm=22123
+[2026-01-08 15:20:00] Worker started
+[2026-01-08 15:20:00] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:20:00] Connected to MySQL
+[2026-01-08 15:20:15] Worker started
+[2026-01-08 15:20:15] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:20:15] Connected to MySQL
+[2026-01-08 15:20:30] Worker started
+[2026-01-08 15:20:30] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:20:30] Connected to MySQL
+[2026-01-08 15:20:45] Worker started
+[2026-01-08 15:20:45] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:20:45] Connected to MySQL
+[2026-01-08 15:21:00] Worker started
+[2026-01-08 15:21:00] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:21:00] Connected to MySQL
+[2026-01-08 15:21:15] Worker started
+[2026-01-08 15:21:15] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:21:15] Connected to MySQL
+[2026-01-08 15:21:31] Worker started
+[2026-01-08 15:21:31] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:21:31] Connected to MySQL
+[2026-01-08 15:21:46] Worker started
+[2026-01-08 15:21:46] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:21:46] Connected to MySQL
+[2026-01-08 15:22:01] Worker started
+[2026-01-08 15:22:01] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:22:01] Connected to MySQL
+[2026-01-08 15:22:16] Worker started
+[2026-01-08 15:22:16] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:22:16] Connected to MySQL
+[2026-01-08 15:22:31] Worker started
+[2026-01-08 15:22:31] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:22:31] Connected to MySQL
+[2026-01-08 15:22:46] Worker started
+[2026-01-08 15:22:46] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:22:46] Connected to MySQL
+[2026-01-08 15:23:01] Worker started
+[2026-01-08 15:23:01] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:23:01] Connected to MySQL
+[2026-01-08 15:23:16] Worker started
+[2026-01-08 15:23:16] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:23:16] Connected to MySQL
+[2026-01-08 15:23:31] Worker started
+[2026-01-08 15:23:31] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:23:31] Connected to MySQL
+[2026-01-08 15:23:46] Worker started
+[2026-01-08 15:23:46] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:23:46] Connected to MySQL
+[2026-01-08 15:24:01] Worker started
+[2026-01-08 15:24:01] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:24:01] Connected to MySQL
+[2026-01-08 15:24:17] Worker started
+[2026-01-08 15:24:17] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:24:17] Connected to MySQL
+[2026-01-08 15:24:32] Worker started
+[2026-01-08 15:24:32] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:24:32] Connected to MySQL
+[2026-01-08 15:24:47] Worker started
+[2026-01-08 15:24:47] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:24:47] Connected to MySQL
+[2026-01-08 15:25:02] Worker started
+[2026-01-08 15:25:02] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:25:02] Connected to MySQL
+[2026-01-08 15:25:17] Worker started
+[2026-01-08 15:25:17] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:25:17] Connected to MySQL
+[2026-01-08 15:25:32] Worker started
+[2026-01-08 15:25:32] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:25:32] Connected to MySQL
+[2026-01-08 15:25:47] Worker started
+[2026-01-08 15:25:47] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:25:47] Connected to MySQL
+[2026-01-08 15:26:02] Worker started
+[2026-01-08 15:26:02] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:26:02] Connected to MySQL
+[2026-01-08 15:26:17] Worker started
+[2026-01-08 15:26:17] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:26:17] Connected to MySQL
+[2026-01-08 15:26:32] Worker started
+[2026-01-08 15:26:32] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:26:32] Connected to MySQL
+[2026-01-08 15:26:48] Worker started
+[2026-01-08 15:26:48] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:26:48] Connected to MySQL
+[2026-01-08 15:27:03] Worker started
+[2026-01-08 15:27:03] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:27:03] Connected to MySQL
+[2026-01-08 15:27:18] Worker started
+[2026-01-08 15:27:18] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:27:18] Connected to MySQL
+[2026-01-08 15:27:33] Worker started
+[2026-01-08 15:27:33] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:27:33] Connected to MySQL
+[2026-01-08 15:27:48] Worker started
+[2026-01-08 15:27:48] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:27:48] Connected to MySQL
+[2026-01-08 15:28:03] Worker started
+[2026-01-08 15:28:03] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:28:03] Connected to MySQL
+[2026-01-08 15:28:18] Worker started
+[2026-01-08 15:28:18] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:28:18] Connected to MySQL
+[2026-01-08 15:28:33] Worker started
+[2026-01-08 15:28:33] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:28:33] Connected to MySQL
+[2026-01-08 15:28:48] Worker started
+[2026-01-08 15:28:48] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:28:48] Connected to MySQL
+[2026-01-08 15:29:04] Worker started
+[2026-01-08 15:29:04] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:29:04] Connected to MySQL
+[2026-01-08 15:29:19] Worker started
+[2026-01-08 15:29:19] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:29:19] Connected to MySQL
+[2026-01-08 15:29:34] Worker started
+[2026-01-08 15:29:34] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:29:34] Connected to MySQL
+[2026-01-08 15:29:49] Worker started
+[2026-01-08 15:29:49] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:29:49] Connected to MySQL
+[2026-01-08 15:30:04] Worker started
+[2026-01-08 15:30:04] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:30:04] Connected to MySQL
+[2026-01-08 15:30:19] Worker started
+[2026-01-08 15:30:19] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:30:19] Connected to MySQL
+[2026-01-08 15:30:34] Worker started
+[2026-01-08 15:30:34] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:30:34] Connected to MySQL
+[2026-01-08 15:30:49] Worker started
+[2026-01-08 15:30:49] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:30:49] Connected to MySQL
+[2026-01-08 15:31:04] Worker started
+[2026-01-08 15:31:04] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:31:04] Connected to MySQL
+[2026-01-08 15:31:19] Worker started
+[2026-01-08 15:31:19] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:31:19] Connected to MySQL
+[2026-01-08 15:31:35] Worker started
+[2026-01-08 15:31:35] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:31:35] Connected to MySQL
+[2026-01-08 15:31:50] Worker started
+[2026-01-08 15:31:50] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:31:50] Connected to MySQL
+[2026-01-08 15:32:05] Worker started
+[2026-01-08 15:32:05] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:32:05] Connected to MySQL
+[2026-01-08 15:32:20] Worker started
+[2026-01-08 15:32:20] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:32:20] Connected to MySQL
+[2026-01-08 15:32:35] Worker started
+[2026-01-08 15:32:35] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:32:35] Connected to MySQL
+[2026-01-08 15:32:50] Worker started
+[2026-01-08 15:32:50] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:32:50] Connected to MySQL
+[2026-01-08 15:33:05] Worker started
+[2026-01-08 15:33:05] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:33:05] Connected to MySQL
+[2026-01-08 15:33:20] Worker started
+[2026-01-08 15:33:20] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:33:20] Connected to MySQL
+[2026-01-08 15:33:35] Worker started
+[2026-01-08 15:33:35] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:33:35] Connected to MySQL
+[2026-01-08 15:33:50] Worker started
+[2026-01-08 15:33:50] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:33:50] Connected to MySQL
+[2026-01-08 15:34:06] Worker started
+[2026-01-08 15:34:06] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:34:06] Connected to MySQL
+[2026-01-08 15:34:21] Worker started
+[2026-01-08 15:34:21] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:34:21] Connected to MySQL
+[2026-01-08 15:34:36] Worker started
+[2026-01-08 15:34:36] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:34:36] Connected to MySQL
+[2026-01-08 15:34:51] Worker started
+[2026-01-08 15:34:51] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:34:51] Connected to MySQL
+[2026-01-08 15:35:06] Worker started
+[2026-01-08 15:35:06] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:35:06] Connected to MySQL
+[2026-01-08 15:35:21] Worker started
+[2026-01-08 15:35:21] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:35:21] Connected to MySQL
+[2026-01-08 15:35:36] Worker started
+[2026-01-08 15:35:36] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:35:36] Connected to MySQL
+[2026-01-08 15:35:51] Worker started
+[2026-01-08 15:35:51] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:35:51] Connected to MySQL
+[2026-01-08 15:36:06] Worker started
+[2026-01-08 15:36:06] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:36:06] Connected to MySQL
+[2026-01-08 15:36:21] Worker started
+[2026-01-08 15:36:21] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:36:21] Connected to MySQL
+[2026-01-08 15:36:37] Worker started
+[2026-01-08 15:36:37] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:36:37] Connected to MySQL
+[2026-01-08 15:36:52] Worker started
+[2026-01-08 15:36:52] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:36:52] Connected to MySQL
+[2026-01-08 15:37:07] Worker started
+[2026-01-08 15:37:07] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:37:07] Connected to MySQL
+[2026-01-08 15:37:22] Worker started
+[2026-01-08 15:37:22] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:37:22] Connected to MySQL
+[2026-01-08 15:37:37] Worker started
+[2026-01-08 15:37:37] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:37:37] Connected to MySQL
+[2026-01-08 15:37:52] Worker started
+[2026-01-08 15:37:52] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:37:52] Connected to MySQL
+[2026-01-08 15:38:07] Worker started
+[2026-01-08 15:38:07] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:38:07] Connected to MySQL
+[2026-01-08 15:38:22] Worker started
+[2026-01-08 15:38:22] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:38:22] Connected to MySQL
+[2026-01-08 15:38:37] Worker started
+[2026-01-08 15:38:37] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:38:37] Connected to MySQL
+[2026-01-08 15:38:52] Worker started
+[2026-01-08 15:38:52] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:38:52] Connected to MySQL
+[2026-01-08 15:39:08] Worker started
+[2026-01-08 15:39:08] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:39:08] Connected to MySQL
+[2026-01-08 15:39:23] Worker started
+[2026-01-08 15:39:23] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:39:23] Connected to MySQL
+[2026-01-08 15:39:38] Worker started
+[2026-01-08 15:39:38] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:39:38] Connected to MySQL
+[2026-01-08 15:39:53] Worker started
+[2026-01-08 15:39:53] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:39:53] Connected to MySQL
+[2026-01-08 15:40:08] Worker started
+[2026-01-08 15:40:08] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:40:08] Connected to MySQL
+[2026-01-08 15:40:23] Worker started
+[2026-01-08 15:40:23] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:40:23] Connected to MySQL
+[2026-01-08 15:40:38] Worker started
+[2026-01-08 15:40:38] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:40:38] Connected to MySQL
+[2026-01-08 15:40:53] Worker started
+[2026-01-08 15:40:53] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:40:53] Connected to MySQL
+[2026-01-08 15:41:08] Worker started
+[2026-01-08 15:41:08] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:41:08] Connected to MySQL
+[2026-01-08 15:41:23] Worker started
+[2026-01-08 15:41:23] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:41:23] Connected to MySQL
+[2026-01-08 15:41:38] Worker started
+[2026-01-08 15:41:39] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:41:39] Connected to MySQL
+[2026-01-08 15:41:54] Worker started
+[2026-01-08 15:41:54] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:41:54] Connected to MySQL
+[2026-01-08 15:42:09] Worker started
+[2026-01-08 15:42:09] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:42:09] Connected to MySQL
+[2026-01-08 15:42:24] Worker started
+[2026-01-08 15:42:24] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:42:24] Connected to MySQL
+[2026-01-08 15:42:39] Worker started
+[2026-01-08 15:42:39] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:42:39] Connected to MySQL
+[2026-01-08 15:42:54] Worker started
+[2026-01-08 15:42:54] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:42:54] Connected to MySQL
+[2026-01-08 15:43:09] Worker started
+[2026-01-08 15:43:09] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:43:09] Connected to MySQL
+[2026-01-08 15:43:24] Worker started
+[2026-01-08 15:43:24] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:43:24] Connected to MySQL
+[2026-01-08 15:43:39] Worker started
+[2026-01-08 15:43:39] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:43:39] Connected to MySQL
+[2026-01-08 15:43:54] Worker started
+[2026-01-08 15:43:54] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:43:54] Connected to MySQL
+[2026-01-08 15:44:09] Worker started
+[2026-01-08 15:44:09] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:44:09] Connected to MySQL
+[2026-01-08 15:44:25] Worker started
+[2026-01-08 15:44:25] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:44:25] Connected to MySQL
+[2026-01-08 15:44:40] Worker started
+[2026-01-08 15:44:40] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:44:40] Connected to MySQL
+[2026-01-08 15:44:55] Worker started
+[2026-01-08 15:44:55] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:44:55] Connected to MySQL
+[2026-01-08 15:45:10] Worker started
+[2026-01-08 15:45:10] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:45:10] Connected to MySQL
+[2026-01-08 15:45:25] Worker started
+[2026-01-08 15:45:25] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:45:25] Connected to MySQL
+[2026-01-08 15:45:40] Worker started
+[2026-01-08 15:45:40] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:45:40] Connected to MySQL
+[2026-01-08 15:45:55] Worker started
+[2026-01-08 15:45:55] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:45:55] Connected to MySQL
+[2026-01-08 15:46:10] Worker started
+[2026-01-08 15:46:10] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:46:10] Connected to MySQL
+[2026-01-08 15:46:25] Worker started
+[2026-01-08 15:46:25] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:46:25] Connected to MySQL
+[2026-01-08 15:46:41] Worker started
+[2026-01-08 15:46:41] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:46:41] Connected to MySQL
+[2026-01-08 15:46:56] Worker started
+[2026-01-08 15:46:56] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:46:56] Connected to MySQL
+[2026-01-08 15:47:11] Worker started
+[2026-01-08 15:47:11] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:47:11] Connected to MySQL
+[2026-01-08 15:47:26] Worker started
+[2026-01-08 15:47:26] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:47:26] Connected to MySQL
+[2026-01-08 15:47:41] Worker started
+[2026-01-08 15:47:41] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:47:41] Connected to MySQL
+[2026-01-08 15:47:56] Worker started
+[2026-01-08 15:47:56] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:47:56] Connected to MySQL
+[2026-01-08 15:48:11] Worker started
+[2026-01-08 15:48:11] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:48:11] Connected to MySQL
+[2026-01-08 15:48:26] Worker started
+[2026-01-08 15:48:26] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:48:26] Connected to MySQL
+[2026-01-08 15:48:41] Worker started
+[2026-01-08 15:48:41] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:48:41] Connected to MySQL
+[2026-01-08 15:48:56] Worker started
+[2026-01-08 15:48:56] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:48:56] Connected to MySQL
+[2026-01-08 15:49:11] Worker started
+[2026-01-08 15:49:11] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:49:11] Connected to MySQL
+[2026-01-08 15:49:27] Worker started
+[2026-01-08 15:49:27] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:49:27] Connected to MySQL
+[2026-01-08 15:49:42] Worker started
+[2026-01-08 15:49:42] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:49:42] Connected to MySQL
+[2026-01-08 15:49:57] Worker started
+[2026-01-08 15:49:57] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:49:57] Connected to MySQL
+[2026-01-08 15:50:12] Worker started
+[2026-01-08 15:50:12] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:50:12] Connected to MySQL
+[2026-01-08 15:50:27] Worker started
+[2026-01-08 15:50:27] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:50:27] Connected to MySQL
+[2026-01-08 15:50:42] Worker started
+[2026-01-08 15:50:42] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:50:42] Connected to MySQL
+[2026-01-08 15:50:57] Worker started
+[2026-01-08 15:50:57] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:50:57] Connected to MySQL
+[2026-01-08 15:51:12] Worker started
+[2026-01-08 15:51:12] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:51:12] Connected to MySQL
+[2026-01-08 15:51:27] Worker started
+[2026-01-08 15:51:27] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:51:27] Connected to MySQL
+[2026-01-08 15:51:42] Worker started
+[2026-01-08 15:51:42] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:51:42] Connected to MySQL
+[2026-01-08 15:51:58] Worker started
+[2026-01-08 15:51:58] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:51:58] Connected to MySQL
+[2026-01-08 15:52:13] Worker started
+[2026-01-08 15:52:13] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:52:13] Connected to MySQL
+[2026-01-08 15:52:28] Worker started
+[2026-01-08 15:52:28] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:52:28] Connected to MySQL
+[2026-01-08 15:52:43] Worker started
+[2026-01-08 15:52:43] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:52:43] Connected to MySQL
+[2026-01-08 15:52:58] Worker started
+[2026-01-08 15:52:58] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:52:58] Connected to MySQL
+[2026-01-08 15:53:13] Worker started
+[2026-01-08 15:53:13] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:53:13] Connected to MySQL
+[2026-01-08 15:53:28] Worker started
+[2026-01-08 15:53:28] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:53:28] Connected to MySQL
+[2026-01-08 15:53:43] Worker started
+[2026-01-08 15:53:43] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:53:43] Connected to MySQL
+[2026-01-08 15:53:58] Worker started
+[2026-01-08 15:53:58] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:53:58] Connected to MySQL
+[2026-01-08 15:54:13] Worker started
+[2026-01-08 15:54:13] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:54:13] Connected to MySQL
+[2026-01-08 15:54:29] Worker started
+[2026-01-08 15:54:29] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:54:29] Connected to MySQL
+[2026-01-08 15:54:44] Worker started
+[2026-01-08 15:54:44] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:54:44] Connected to MySQL
+[2026-01-08 15:54:59] Worker started
+[2026-01-08 15:54:59] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:54:59] Connected to MySQL
+[2026-01-08 15:55:14] Worker started
+[2026-01-08 15:55:14] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:55:14] Connected to MySQL
+[2026-01-08 15:55:29] Worker started
+[2026-01-08 15:55:29] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:55:29] Connected to MySQL
+[2026-01-08 15:55:44] Worker started
+[2026-01-08 15:55:44] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:55:44] Connected to MySQL
+[2026-01-08 15:55:59] Worker started
+[2026-01-08 15:55:59] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:55:59] Connected to MySQL
+[2026-01-08 15:56:14] Worker started
+[2026-01-08 15:56:14] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:56:14] Connected to MySQL
+[2026-01-08 15:56:29] Worker started
+[2026-01-08 15:56:29] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:56:29] Connected to MySQL
+[2026-01-08 15:56:44] Worker started
+[2026-01-08 15:56:44] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:56:44] Connected to MySQL
+[2026-01-08 15:57:00] Worker started
+[2026-01-08 15:57:00] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:57:00] Connected to MySQL
+[2026-01-08 15:57:15] Worker started
+[2026-01-08 15:57:15] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:57:15] Connected to MySQL
+[2026-01-08 15:57:30] Worker started
+[2026-01-08 15:57:30] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:57:30] Connected to MySQL
+[2026-01-08 15:57:45] Worker started
+[2026-01-08 15:57:45] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:57:45] Connected to MySQL
+[2026-01-08 15:58:00] Worker started
+[2026-01-08 15:58:00] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:58:00] Connected to MySQL
+[2026-01-08 15:58:15] Worker started
+[2026-01-08 15:58:15] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:58:15] Connected to MySQL
+[2026-01-08 15:58:31] Worker started
+[2026-01-08 15:58:31] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:58:31] Connected to MySQL
+[2026-01-08 15:58:46] Worker started
+[2026-01-08 15:58:46] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:58:46] Connected to MySQL
+[2026-01-08 15:59:01] Worker started
+[2026-01-08 15:59:01] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:59:01] Connected to MySQL
+[2026-01-08 15:59:16] Worker started
+[2026-01-08 15:59:16] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:59:16] Connected to MySQL
+[2026-01-08 15:59:31] Worker started
+[2026-01-08 15:59:31] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:59:31] Connected to MySQL
+[2026-01-08 15:59:46] Worker started
+[2026-01-08 15:59:46] Connected to Redis 127.0.0.1:6379
+[2026-01-08 15:59:46] Connected to MySQL
+[2026-01-08 16:00:03] Worker started
+[2026-01-08 16:00:03] Connected to Redis 127.0.0.1:6379
+[2026-01-08 16:00:03] Connected to MySQL
+[2026-01-08 16:00:17] Worker started
+[2026-01-08 16:00:17] Connected to Redis 127.0.0.1:6379
+[2026-01-08 16:00:17] Connected to MySQL
