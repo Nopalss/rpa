@@ -1,0 +1,2144 @@
+[2026-01-20 04:07:31] Worker started
+[2026-01-20 04:07:31] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:07:31] Connected to MySQL
+[2026-01-20 04:07:45] Worker started
+[2026-01-20 04:07:45] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:07:45] Connected to MySQL
+[2026-01-20 04:07:59] Worker started
+[2026-01-20 04:07:59] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:07:59] Connected to MySQL
+[2026-01-20 04:08:15] Worker started
+[2026-01-20 04:08:15] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:08:15] Connected to MySQL
+[2026-01-20 04:08:30] Worker started
+[2026-01-20 04:08:30] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:08:30] Connected to MySQL
+[2026-01-20 04:08:45] Worker started
+[2026-01-20 04:08:45] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:08:45] Connected to MySQL
+[2026-01-20 04:09:00] Worker started
+[2026-01-20 04:09:00] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:09:00] Connected to MySQL
+[2026-01-20 04:09:15] Worker started
+[2026-01-20 04:09:15] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:09:15] Connected to MySQL
+[2026-01-20 04:09:30] Worker started
+[2026-01-20 04:09:30] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:09:30] Connected to MySQL
+[2026-01-20 04:09:45] Worker started
+[2026-01-20 04:09:45] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:09:45] Connected to MySQL
+[2026-01-20 04:10:00] Worker started
+[2026-01-20 04:10:00] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:10:00] Connected to MySQL
+[2026-01-20 04:10:15] Worker started
+[2026-01-20 04:10:15] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:10:15] Connected to MySQL
+[2026-01-20 04:10:30] Worker started
+[2026-01-20 04:10:30] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:10:30] Connected to MySQL
+[2026-01-20 04:10:46] Worker started
+[2026-01-20 04:10:46] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:10:46] Connected to MySQL
+[2026-01-20 04:11:01] Worker started
+[2026-01-20 04:11:01] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:11:01] Connected to MySQL
+[2026-01-20 04:11:16] Worker started
+[2026-01-20 04:11:16] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:11:16] Connected to MySQL
+[2026-01-20 04:11:31] Worker started
+[2026-01-20 04:11:31] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:11:31] Connected to MySQL
+[2026-01-20 04:11:46] Worker started
+[2026-01-20 04:11:46] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:11:46] Connected to MySQL
+[2026-01-20 04:12:01] Worker started
+[2026-01-20 04:12:01] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:12:01] Connected to MySQL
+[2026-01-20 04:12:16] Worker started
+[2026-01-20 04:12:16] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:12:16] Connected to MySQL
+[2026-01-20 04:12:31] Worker started
+[2026-01-20 04:12:31] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:12:31] Connected to MySQL
+[2026-01-20 04:12:47] Worker started
+[2026-01-20 04:12:47] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:12:47] Connected to MySQL
+[2026-01-20 04:13:02] Worker started
+[2026-01-20 04:13:02] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:13:02] Connected to MySQL
+[2026-01-20 04:13:17] Worker started
+[2026-01-20 04:13:17] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:13:17] Connected to MySQL
+[2026-01-20 04:13:32] Worker started
+[2026-01-20 04:13:32] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:13:32] Connected to MySQL
+[2026-01-20 04:13:47] Worker started
+[2026-01-20 04:13:47] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:13:47] Connected to MySQL
+[2026-01-20 04:14:02] Worker started
+[2026-01-20 04:14:02] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:14:02] Connected to MySQL
+[2026-01-20 04:14:18] Worker started
+[2026-01-20 04:14:18] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:14:18] Connected to MySQL
+[2026-01-20 04:14:33] Worker started
+[2026-01-20 04:14:33] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:14:33] Connected to MySQL
+[2026-01-20 04:14:48] Worker started
+[2026-01-20 04:14:48] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:14:48] Connected to MySQL
+[2026-01-20 04:15:03] Worker started
+[2026-01-20 04:15:03] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:15:03] Connected to MySQL
+[2026-01-20 04:15:18] Worker started
+[2026-01-20 04:15:18] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:15:18] Connected to MySQL
+[2026-01-20 04:15:33] Worker started
+[2026-01-20 04:15:33] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:15:33] Connected to MySQL
+[2026-01-20 04:15:49] Worker started
+[2026-01-20 04:15:49] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:15:49] Connected to MySQL
+[2026-01-20 04:16:05] Worker started
+[2026-01-20 04:16:05] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:16:05] Connected to MySQL
+[2026-01-20 04:16:19] Worker started
+[2026-01-20 04:16:19] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:16:19] Connected to MySQL
+[2026-01-20 04:16:34] Worker started
+[2026-01-20 04:16:34] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:16:34] Connected to MySQL
+[2026-01-20 04:16:49] Worker started
+[2026-01-20 04:16:49] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:16:49] Connected to MySQL
+[2026-01-20 04:17:04] Worker started
+[2026-01-20 04:17:04] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:17:04] Connected to MySQL
+[2026-01-20 04:17:20] Worker started
+[2026-01-20 04:17:20] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:17:20] Connected to MySQL
+[2026-01-20 04:17:35] Worker started
+[2026-01-20 04:17:35] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:17:35] Connected to MySQL
+[2026-01-20 04:17:50] Worker started
+[2026-01-20 04:17:50] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:17:50] Connected to MySQL
+[2026-01-20 04:18:05] Worker started
+[2026-01-20 04:18:05] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:18:05] Connected to MySQL
+[2026-01-20 04:18:20] Worker started
+[2026-01-20 04:18:20] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:18:20] Connected to MySQL
+[2026-01-20 04:18:35] Worker started
+[2026-01-20 04:18:35] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:18:35] Connected to MySQL
+[2026-01-20 04:18:50] Worker started
+[2026-01-20 04:18:50] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:18:50] Connected to MySQL
+[2026-01-20 04:19:05] Worker started
+[2026-01-20 04:19:05] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:19:05] Connected to MySQL
+[2026-01-20 04:19:20] Worker started
+[2026-01-20 04:19:20] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:19:21] Connected to MySQL
+[2026-01-20 04:19:35] Worker started
+[2026-01-20 04:19:35] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:19:35] Connected to MySQL
+[2026-01-20 04:19:50] Worker started
+[2026-01-20 04:19:50] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:19:50] Connected to MySQL
+[2026-01-20 04:20:06] Worker started
+[2026-01-20 04:20:06] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:20:06] Connected to MySQL
+[2026-01-20 04:20:21] Worker started
+[2026-01-20 04:20:21] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:20:21] Connected to MySQL
+[2026-01-20 04:20:36] Worker started
+[2026-01-20 04:20:36] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:20:36] Connected to MySQL
+[2026-01-20 04:20:51] Worker started
+[2026-01-20 04:20:51] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:20:51] Connected to MySQL
+[2026-01-20 04:21:06] Worker started
+[2026-01-20 04:21:06] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:21:06] Connected to MySQL
+[2026-01-20 04:21:21] Worker started
+[2026-01-20 04:21:21] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:21:21] Connected to MySQL
+[2026-01-20 04:21:36] Worker started
+[2026-01-20 04:21:36] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:21:36] Connected to MySQL
+[2026-01-20 04:21:52] Worker started
+[2026-01-20 04:21:52] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:21:52] Connected to MySQL
+[2026-01-20 04:22:07] Worker started
+[2026-01-20 04:22:07] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:22:07] Connected to MySQL
+[2026-01-20 04:22:22] Worker started
+[2026-01-20 04:22:22] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:22:22] Connected to MySQL
+[2026-01-20 04:22:37] Worker started
+[2026-01-20 04:22:37] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:22:37] Connected to MySQL
+[2026-01-20 04:22:52] Worker started
+[2026-01-20 04:22:52] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:22:52] Connected to MySQL
+[2026-01-20 04:23:07] Worker started
+[2026-01-20 04:23:07] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:23:07] Connected to MySQL
+[2026-01-20 04:23:22] Worker started
+[2026-01-20 04:23:22] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:23:22] Connected to MySQL
+[2026-01-20 04:23:37] Worker started
+[2026-01-20 04:23:37] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:23:37] Connected to MySQL
+[2026-01-20 04:23:52] Worker started
+[2026-01-20 04:23:52] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:23:52] Connected to MySQL
+[2026-01-20 04:24:07] Worker started
+[2026-01-20 04:24:07] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:24:07] Connected to MySQL
+[2026-01-20 04:24:22] Worker started
+[2026-01-20 04:24:22] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:24:22] Connected to MySQL
+[2026-01-20 04:24:37] Worker started
+[2026-01-20 04:24:37] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:24:37] Connected to MySQL
+[2026-01-20 04:24:52] Worker started
+[2026-01-20 04:24:52] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:24:52] Connected to MySQL
+[2026-01-20 04:25:07] Worker started
+[2026-01-20 04:25:07] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:25:07] Connected to MySQL
+[2026-01-20 04:25:23] Worker started
+[2026-01-20 04:25:23] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:25:23] Connected to MySQL
+[2026-01-20 04:25:38] Worker started
+[2026-01-20 04:25:38] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:25:38] Connected to MySQL
+[2026-01-20 04:25:53] Worker started
+[2026-01-20 04:25:53] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:25:53] Connected to MySQL
+[2026-01-20 04:26:08] Worker started
+[2026-01-20 04:26:08] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:26:08] Connected to MySQL
+[2026-01-20 04:26:23] Worker started
+[2026-01-20 04:26:23] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:26:23] Connected to MySQL
+[2026-01-20 04:26:38] Worker started
+[2026-01-20 04:26:38] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:26:38] Connected to MySQL
+[2026-01-20 04:26:53] Worker started
+[2026-01-20 04:26:53] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:26:53] Connected to MySQL
+[2026-01-20 04:27:08] Worker started
+[2026-01-20 04:27:08] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:27:08] Connected to MySQL
+[2026-01-20 04:27:23] Worker started
+[2026-01-20 04:27:23] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:27:23] Connected to MySQL
+[2026-01-20 04:27:39] Worker started
+[2026-01-20 04:27:39] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:27:39] Connected to MySQL
+[2026-01-20 04:27:54] Worker started
+[2026-01-20 04:27:54] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:27:54] Connected to MySQL
+[2026-01-20 04:28:09] Worker started
+[2026-01-20 04:28:09] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:28:09] Connected to MySQL
+[2026-01-20 04:28:24] Worker started
+[2026-01-20 04:28:24] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:28:24] Connected to MySQL
+[2026-01-20 04:28:39] Worker started
+[2026-01-20 04:28:39] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:28:39] Connected to MySQL
+[2026-01-20 04:28:54] Worker started
+[2026-01-20 04:28:54] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:28:54] Connected to MySQL
+[2026-01-20 04:29:09] Worker started
+[2026-01-20 04:29:09] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:29:09] Connected to MySQL
+[2026-01-20 04:29:24] Worker started
+[2026-01-20 04:29:24] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:29:24] Connected to MySQL
+[2026-01-20 04:29:39] Worker started
+[2026-01-20 04:29:39] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:29:39] Connected to MySQL
+[2026-01-20 04:29:54] Worker started
+[2026-01-20 04:29:54] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:29:54] Connected to MySQL
+[2026-01-20 04:30:09] Worker started
+[2026-01-20 04:30:09] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:30:09] Connected to MySQL
+[2026-01-20 04:30:25] Worker started
+[2026-01-20 04:30:25] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:30:25] Connected to MySQL
+[2026-01-20 04:30:41] Worker started
+[2026-01-20 04:30:41] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:30:41] Connected to MySQL
+[2026-01-20 04:30:55] Worker started
+[2026-01-20 04:30:55] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:30:56] Connected to MySQL
+[2026-01-20 04:31:11] Worker started
+[2026-01-20 04:31:11] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:31:11] Connected to MySQL
+[2026-01-20 04:46:25] Worker started
+[2026-01-20 04:46:25] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:46:25] Connected to MySQL
+[2026-01-20 04:46:38] Worker started
+[2026-01-20 04:46:38] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:46:38] Connected to MySQL
+[2026-01-20 04:46:53] Worker started
+[2026-01-20 04:46:53] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:46:53] Connected to MySQL
+[2026-01-20 04:47:08] Worker started
+[2026-01-20 04:47:08] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:47:08] Connected to MySQL
+[2026-01-20 04:47:23] Worker started
+[2026-01-20 04:47:23] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:47:23] Connected to MySQL
+[2026-01-20 04:47:38] Worker started
+[2026-01-20 04:47:38] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:47:38] Connected to MySQL
+[2026-01-20 04:47:54] Worker started
+[2026-01-20 04:47:54] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:47:54] Connected to MySQL
+[2026-01-20 04:48:09] Worker started
+[2026-01-20 04:48:09] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:48:09] Connected to MySQL
+[2026-01-20 04:48:24] Worker started
+[2026-01-20 04:48:24] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:48:24] Connected to MySQL
+[2026-01-20 04:48:39] Worker started
+[2026-01-20 04:48:39] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:48:39] Connected to MySQL
+[2026-01-20 04:48:54] Worker started
+[2026-01-20 04:48:54] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:48:54] Connected to MySQL
+[2026-01-20 04:49:09] Worker started
+[2026-01-20 04:49:09] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:49:09] Connected to MySQL
+[2026-01-20 04:49:24] Worker started
+[2026-01-20 04:49:24] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:49:24] Connected to MySQL
+[2026-01-20 04:49:39] Worker started
+[2026-01-20 04:49:39] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:49:39] Connected to MySQL
+[2026-01-20 04:49:54] Worker started
+[2026-01-20 04:49:54] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:49:54] Connected to MySQL
+[2026-01-20 04:50:10] Worker started
+[2026-01-20 04:50:10] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:50:10] Connected to MySQL
+[2026-01-20 04:50:25] Worker started
+[2026-01-20 04:50:25] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:50:25] Connected to MySQL
+[2026-01-20 04:50:40] Worker started
+[2026-01-20 04:50:40] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:50:40] Connected to MySQL
+[2026-01-20 04:50:55] Worker started
+[2026-01-20 04:50:55] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:50:55] Connected to MySQL
+[2026-01-20 04:51:10] Worker started
+[2026-01-20 04:51:10] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:51:10] Connected to MySQL
+[2026-01-20 04:51:25] Worker started
+[2026-01-20 04:51:26] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:51:26] Connected to MySQL
+[2026-01-20 04:51:41] Worker started
+[2026-01-20 04:51:41] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:51:41] Connected to MySQL
+[2026-01-20 04:51:56] Worker started
+[2026-01-20 04:51:56] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:51:56] Connected to MySQL
+[2026-01-20 04:52:11] Worker started
+[2026-01-20 04:52:11] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:52:11] Connected to MySQL
+[2026-01-20 04:52:26] Worker started
+[2026-01-20 04:52:26] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:52:26] Connected to MySQL
+[2026-01-20 04:52:42] Worker started
+[2026-01-20 04:52:42] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:52:42] Connected to MySQL
+[2026-01-20 04:52:57] Worker started
+[2026-01-20 04:52:57] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:52:57] Connected to MySQL
+[2026-01-20 04:53:12] Worker started
+[2026-01-20 04:53:12] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:53:12] Connected to MySQL
+[2026-01-20 04:53:27] Worker started
+[2026-01-20 04:53:27] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:53:27] Connected to MySQL
+[2026-01-20 04:53:43] Worker started
+[2026-01-20 04:53:43] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:53:43] Connected to MySQL
+[2026-01-20 04:53:58] Worker started
+[2026-01-20 04:53:58] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:53:58] Connected to MySQL
+[2026-01-20 04:54:13] Worker started
+[2026-01-20 04:54:13] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:54:13] Connected to MySQL
+[2026-01-20 04:54:28] Worker started
+[2026-01-20 04:54:28] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:54:28] Connected to MySQL
+[2026-01-20 04:54:43] Worker started
+[2026-01-20 04:54:43] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:54:43] Connected to MySQL
+[2026-01-20 04:54:58] Worker started
+[2026-01-20 04:54:58] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:54:58] Connected to MySQL
+[2026-01-20 04:55:13] Worker started
+[2026-01-20 04:55:13] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:55:13] Connected to MySQL
+[2026-01-20 04:55:28] Worker started
+[2026-01-20 04:55:28] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:55:28] Connected to MySQL
+[2026-01-20 04:55:43] Worker started
+[2026-01-20 04:55:43] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:55:43] Connected to MySQL
+[2026-01-20 04:55:58] Worker started
+[2026-01-20 04:55:58] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:55:58] Connected to MySQL
+[2026-01-20 04:56:13] Worker started
+[2026-01-20 04:56:13] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:56:13] Connected to MySQL
+[2026-01-20 04:56:29] Worker started
+[2026-01-20 04:56:29] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:56:29] Connected to MySQL
+[2026-01-20 04:56:44] Worker started
+[2026-01-20 04:56:44] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:56:44] Connected to MySQL
+[2026-01-20 04:56:59] Worker started
+[2026-01-20 04:56:59] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:56:59] Connected to MySQL
+[2026-01-20 04:57:14] Worker started
+[2026-01-20 04:57:14] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:57:14] Connected to MySQL
+[2026-01-20 04:57:29] Worker started
+[2026-01-20 04:57:29] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:57:29] Connected to MySQL
+[2026-01-20 04:57:44] Worker started
+[2026-01-20 04:57:44] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:57:44] Connected to MySQL
+[2026-01-20 04:57:59] Worker started
+[2026-01-20 04:57:59] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:57:59] Connected to MySQL
+[2026-01-20 04:58:14] Worker started
+[2026-01-20 04:58:14] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:58:14] Connected to MySQL
+[2026-01-20 04:58:29] Worker started
+[2026-01-20 04:58:29] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:58:29] Connected to MySQL
+[2026-01-20 04:58:45] Worker started
+[2026-01-20 04:58:45] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:58:45] Connected to MySQL
+[2026-01-20 04:59:00] Worker started
+[2026-01-20 04:59:00] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:59:00] Connected to MySQL
+[2026-01-20 04:59:15] Worker started
+[2026-01-20 04:59:15] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:59:15] Connected to MySQL
+[2026-01-20 04:59:30] Worker started
+[2026-01-20 04:59:30] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:59:30] Connected to MySQL
+[2026-01-20 04:59:45] Worker started
+[2026-01-20 04:59:45] Connected to Redis 127.0.0.1:6379
+[2026-01-20 04:59:45] Connected to MySQL
+[2026-01-20 05:00:00] Worker started
+[2026-01-20 05:00:00] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:00:00] Connected to MySQL
+[2026-01-20 05:00:15] Worker started
+[2026-01-20 05:00:15] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:00:15] Connected to MySQL
+[2026-01-20 05:00:31] Worker started
+[2026-01-20 05:00:31] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:00:31] Connected to MySQL
+[2026-01-20 05:00:46] Worker started
+[2026-01-20 05:00:46] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:00:46] Connected to MySQL
+[2026-01-20 05:01:01] Worker started
+[2026-01-20 05:01:01] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:01:01] Connected to MySQL
+[2026-01-20 05:01:16] Worker started
+[2026-01-20 05:01:16] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:01:16] Connected to MySQL
+[2026-01-20 05:01:31] Worker started
+[2026-01-20 05:01:31] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:01:31] Connected to MySQL
+[2026-01-20 05:01:46] Worker started
+[2026-01-20 05:01:46] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:01:46] Connected to MySQL
+[2026-01-20 05:02:01] Worker started
+[2026-01-20 05:02:01] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:02:01] Connected to MySQL
+[2026-01-20 05:02:16] Worker started
+[2026-01-20 05:02:16] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:02:16] Connected to MySQL
+[2026-01-20 05:02:31] Worker started
+[2026-01-20 05:02:31] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:02:31] Connected to MySQL
+[2026-01-20 05:02:46] Worker started
+[2026-01-20 05:02:46] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:02:46] Connected to MySQL
+[2026-01-20 05:03:01] Worker started
+[2026-01-20 05:03:01] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:03:02] Connected to MySQL
+[2026-01-20 05:03:17] Worker started
+[2026-01-20 05:03:17] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:03:17] Connected to MySQL
+[2026-01-20 05:03:32] Worker started
+[2026-01-20 05:03:32] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:03:32] Connected to MySQL
+[2026-01-20 05:03:47] Worker started
+[2026-01-20 05:03:47] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:03:47] Connected to MySQL
+[2026-01-20 05:04:02] Worker started
+[2026-01-20 05:04:02] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:04:02] Connected to MySQL
+[2026-01-20 05:04:17] Worker started
+[2026-01-20 05:04:17] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:04:17] Connected to MySQL
+[2026-01-20 05:04:32] Worker started
+[2026-01-20 05:04:32] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:04:32] Connected to MySQL
+[2026-01-20 05:04:48] Worker started
+[2026-01-20 05:04:48] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:04:48] Connected to MySQL
+[2026-01-20 05:05:05] Worker started
+[2026-01-20 05:05:05] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:05:05] Connected to MySQL
+[2026-01-20 05:05:19] Worker started
+[2026-01-20 05:05:19] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:05:19] Connected to MySQL
+[2026-01-20 05:05:34] Worker started
+[2026-01-20 05:05:34] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:05:34] Connected to MySQL
+[2026-01-20 05:05:49] Worker started
+[2026-01-20 05:05:49] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:05:49] Connected to MySQL
+[2026-01-20 05:06:04] Worker started
+[2026-01-20 05:06:04] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:06:04] Connected to MySQL
+[2026-01-20 05:06:19] Worker started
+[2026-01-20 05:06:19] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:06:19] Connected to MySQL
+[2026-01-20 05:06:34] Worker started
+[2026-01-20 05:06:34] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:06:34] Connected to MySQL
+[2026-01-20 05:06:49] Worker started
+[2026-01-20 05:06:49] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:06:49] Connected to MySQL
+[2026-01-20 05:07:04] Worker started
+[2026-01-20 05:07:04] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:07:04] Connected to MySQL
+[2026-01-20 05:07:20] Worker started
+[2026-01-20 05:07:20] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:07:20] Connected to MySQL
+[2026-01-20 05:07:35] Worker started
+[2026-01-20 05:07:35] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:07:35] Connected to MySQL
+[2026-01-20 05:07:50] Worker started
+[2026-01-20 05:07:50] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:07:50] Connected to MySQL
+[2026-01-20 05:08:05] Worker started
+[2026-01-20 05:08:05] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:08:05] Connected to MySQL
+[2026-01-20 05:08:20] Worker started
+[2026-01-20 05:08:20] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:08:20] Connected to MySQL
+[2026-01-20 05:08:35] Worker started
+[2026-01-20 05:08:35] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:08:35] Connected to MySQL
+[2026-01-20 05:08:50] Worker started
+[2026-01-20 05:08:50] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:08:50] Connected to MySQL
+[2026-01-20 05:09:06] Worker started
+[2026-01-20 05:09:06] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:09:06] Connected to MySQL
+[2026-01-20 05:09:20] Worker started
+[2026-01-20 05:09:20] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:09:20] Connected to MySQL
+[2026-01-20 05:09:35] Worker started
+[2026-01-20 05:09:35] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:09:35] Connected to MySQL
+[2026-01-20 05:09:51] Worker started
+[2026-01-20 05:09:51] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:09:51] Connected to MySQL
+[2026-01-20 05:10:07] Worker started
+[2026-01-20 05:10:07] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:10:07] Connected to MySQL
+[2026-01-20 05:10:21] Worker started
+[2026-01-20 05:10:21] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:10:21] Connected to MySQL
+[2026-01-20 05:10:36] Worker started
+[2026-01-20 05:10:36] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:10:36] Connected to MySQL
+[2026-01-20 05:10:52] Worker started
+[2026-01-20 05:10:52] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:10:52] Connected to MySQL
+[2026-01-20 05:11:08] Worker started
+[2026-01-20 05:11:08] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:11:08] Connected to MySQL
+[2026-01-20 05:11:23] Worker started
+[2026-01-20 05:11:23] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:11:23] Connected to MySQL
+[2026-01-20 05:11:38] Worker started
+[2026-01-20 05:11:38] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:11:38] Connected to MySQL
+[2026-01-20 05:11:53] Worker started
+[2026-01-20 05:11:53] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:11:53] Connected to MySQL
+[2026-01-20 05:12:08] Worker started
+[2026-01-20 05:12:08] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:12:08] Connected to MySQL
+[2026-01-20 05:12:23] Worker started
+[2026-01-20 05:12:23] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:12:23] Connected to MySQL
+[2026-01-20 05:12:38] Worker started
+[2026-01-20 05:12:38] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:12:38] Connected to MySQL
+[2026-01-20 05:12:53] Worker started
+[2026-01-20 05:12:53] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:12:53] Connected to MySQL
+[2026-01-20 05:13:08] Worker started
+[2026-01-20 05:13:08] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:13:08] Connected to MySQL
+[2026-01-20 05:13:24] Worker started
+[2026-01-20 05:13:24] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:13:24] Connected to MySQL
+[2026-01-20 05:13:39] Worker started
+[2026-01-20 05:13:39] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:13:39] Connected to MySQL
+[2026-01-20 05:13:54] Worker started
+[2026-01-20 05:13:54] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:13:54] Connected to MySQL
+[2026-01-20 05:14:09] Worker started
+[2026-01-20 05:14:09] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:14:09] Connected to MySQL
+[2026-01-20 05:14:24] Worker started
+[2026-01-20 05:14:24] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:14:24] Connected to MySQL
+[2026-01-20 05:14:39] Worker started
+[2026-01-20 05:14:39] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:14:39] Connected to MySQL
+[2026-01-20 05:14:54] Worker started
+[2026-01-20 05:14:54] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:14:54] Connected to MySQL
+[2026-01-20 05:15:09] Worker started
+[2026-01-20 05:15:09] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:15:09] Connected to MySQL
+[2026-01-20 05:15:25] Worker started
+[2026-01-20 05:15:25] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:15:25] Connected to MySQL
+[2026-01-20 05:15:40] Worker started
+[2026-01-20 05:15:40] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:15:40] Connected to MySQL
+[2026-01-20 05:15:55] Worker started
+[2026-01-20 05:15:55] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:15:55] Connected to MySQL
+[2026-01-20 05:16:10] Worker started
+[2026-01-20 05:16:10] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:16:10] Connected to MySQL
+[2026-01-20 05:16:25] Worker started
+[2026-01-20 05:16:25] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:16:25] Connected to MySQL
+[2026-01-20 05:16:40] Worker started
+[2026-01-20 05:16:40] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:16:40] Connected to MySQL
+[2026-01-20 05:16:55] Worker started
+[2026-01-20 05:16:55] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:16:55] Connected to MySQL
+[2026-01-20 05:17:10] Worker started
+[2026-01-20 05:17:11] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:17:11] Connected to MySQL
+[2026-01-20 05:17:26] Worker started
+[2026-01-20 05:17:26] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:17:26] Connected to MySQL
+[2026-01-20 05:17:41] Worker started
+[2026-01-20 05:17:41] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:17:41] Connected to MySQL
+[2026-01-20 05:17:56] Worker started
+[2026-01-20 05:17:56] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:17:56] Connected to MySQL
+[2026-01-20 05:18:11] Worker started
+[2026-01-20 05:18:11] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:18:11] Connected to MySQL
+[2026-01-20 05:18:26] Worker started
+[2026-01-20 05:18:26] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:18:26] Connected to MySQL
+[2026-01-20 05:18:41] Worker started
+[2026-01-20 05:18:41] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:18:41] Connected to MySQL
+[2026-01-20 05:18:56] Worker started
+[2026-01-20 05:18:56] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:18:56] Connected to MySQL
+[2026-01-20 05:19:11] Worker started
+[2026-01-20 05:19:11] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:19:11] Connected to MySQL
+[2026-01-20 05:19:26] Worker started
+[2026-01-20 05:19:26] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:19:26] Connected to MySQL
+[2026-01-20 05:19:42] Worker started
+[2026-01-20 05:19:42] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:19:42] Connected to MySQL
+[2026-01-20 05:19:57] Worker started
+[2026-01-20 05:19:57] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:19:57] Connected to MySQL
+[2026-01-20 05:20:12] Worker started
+[2026-01-20 05:20:12] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:20:12] Connected to MySQL
+[2026-01-20 05:20:27] Worker started
+[2026-01-20 05:20:27] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:20:27] Connected to MySQL
+[2026-01-20 05:20:42] Worker started
+[2026-01-20 05:20:42] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:20:42] Connected to MySQL
+[2026-01-20 05:20:57] Worker started
+[2026-01-20 05:20:57] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:20:57] Connected to MySQL
+[2026-01-20 05:21:12] Worker started
+[2026-01-20 05:21:12] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:21:12] Connected to MySQL
+[2026-01-20 05:21:27] Worker started
+[2026-01-20 05:21:27] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:21:27] Connected to MySQL
+[2026-01-20 05:21:42] Worker started
+[2026-01-20 05:21:42] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:21:42] Connected to MySQL
+[2026-01-20 05:21:57] Worker started
+[2026-01-20 05:21:57] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:21:57] Connected to MySQL
+[2026-01-20 05:22:12] Worker started
+[2026-01-20 05:22:12] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:22:13] Connected to MySQL
+[2026-01-20 05:22:28] Worker started
+[2026-01-20 05:22:28] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:22:28] Connected to MySQL
+[2026-01-20 05:22:43] Worker started
+[2026-01-20 05:22:43] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:22:43] Connected to MySQL
+[2026-01-20 05:22:58] Worker started
+[2026-01-20 05:22:58] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:22:58] Connected to MySQL
+[2026-01-20 05:23:13] Worker started
+[2026-01-20 05:23:13] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:23:13] Connected to MySQL
+[2026-01-20 05:23:29] Worker started
+[2026-01-20 05:23:29] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:23:29] Connected to MySQL
+[2026-01-20 05:23:44] Worker started
+[2026-01-20 05:23:44] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:23:44] Connected to MySQL
+[2026-01-20 05:23:59] Worker started
+[2026-01-20 05:23:59] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:23:59] Connected to MySQL
+[2026-01-20 05:24:14] Worker started
+[2026-01-20 05:24:14] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:24:14] Connected to MySQL
+[2026-01-20 05:24:29] Worker started
+[2026-01-20 05:24:29] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:24:29] Connected to MySQL
+[2026-01-20 05:24:44] Worker started
+[2026-01-20 05:24:44] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:24:44] Connected to MySQL
+[2026-01-20 05:24:59] Worker started
+[2026-01-20 05:24:59] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:24:59] Connected to MySQL
+[2026-01-20 05:25:15] Worker started
+[2026-01-20 05:25:15] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:25:15] Connected to MySQL
+[2026-01-20 05:25:30] Worker started
+[2026-01-20 05:25:30] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:25:30] Connected to MySQL
+[2026-01-20 05:25:45] Worker started
+[2026-01-20 05:25:45] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:25:45] Connected to MySQL
+[2026-01-20 05:26:00] Worker started
+[2026-01-20 05:26:00] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:26:00] Connected to MySQL
+[2026-01-20 05:26:15] Worker started
+[2026-01-20 05:26:15] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:26:15] Connected to MySQL
+[2026-01-20 05:26:30] Worker started
+[2026-01-20 05:26:30] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:26:30] Connected to MySQL
+[2026-01-20 05:26:45] Worker started
+[2026-01-20 05:26:45] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:26:45] Connected to MySQL
+[2026-01-20 05:27:00] Worker started
+[2026-01-20 05:27:01] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:27:01] Connected to MySQL
+[2026-01-20 05:27:18] Worker started
+[2026-01-20 05:27:18] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:27:18] Connected to MySQL
+[2026-01-20 05:27:31] Worker started
+[2026-01-20 05:27:31] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:27:31] Connected to MySQL
+[2026-01-20 05:27:46] Worker started
+[2026-01-20 05:27:46] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:27:46] Connected to MySQL
+[2026-01-20 05:28:01] Worker started
+[2026-01-20 05:28:01] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:28:01] Connected to MySQL
+[2026-01-20 05:28:16] Worker started
+[2026-01-20 05:28:16] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:28:16] Connected to MySQL
+[2026-01-20 05:28:31] Worker started
+[2026-01-20 05:28:31] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:28:31] Connected to MySQL
+[2026-01-20 05:28:46] Worker started
+[2026-01-20 05:28:46] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:28:46] Connected to MySQL
+[2026-01-20 05:29:01] Worker started
+[2026-01-20 05:29:01] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:29:01] Connected to MySQL
+[2026-01-20 05:29:16] Worker started
+[2026-01-20 05:29:16] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:29:16] Connected to MySQL
+[2026-01-20 05:29:31] Worker started
+[2026-01-20 05:29:31] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:29:31] Connected to MySQL
+[2026-01-20 05:29:46] Worker started
+[2026-01-20 05:29:46] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:29:46] Connected to MySQL
+[2026-01-20 05:30:01] Worker started
+[2026-01-20 05:30:01] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:30:01] Connected to MySQL
+[2026-01-20 05:30:17] Worker started
+[2026-01-20 05:30:17] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:30:17] Connected to MySQL
+[2026-01-20 05:30:32] Worker started
+[2026-01-20 05:30:32] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:30:32] Connected to MySQL
+[2026-01-20 05:30:47] Worker started
+[2026-01-20 05:30:47] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:30:47] Connected to MySQL
+[2026-01-20 05:31:02] Worker started
+[2026-01-20 05:31:02] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:31:02] Connected to MySQL
+[2026-01-20 05:31:17] Worker started
+[2026-01-20 05:31:17] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:31:17] Connected to MySQL
+[2026-01-20 05:31:32] Worker started
+[2026-01-20 05:31:32] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:31:32] Connected to MySQL
+[2026-01-20 05:31:47] Worker started
+[2026-01-20 05:31:47] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:31:47] Connected to MySQL
+[2026-01-20 05:32:02] Worker started
+[2026-01-20 05:32:02] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:32:02] Connected to MySQL
+[2026-01-20 05:32:17] Worker started
+[2026-01-20 05:32:17] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:32:17] Connected to MySQL
+[2026-01-20 05:32:32] Worker started
+[2026-01-20 05:32:32] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:32:32] Connected to MySQL
+[2026-01-20 05:32:48] Worker started
+[2026-01-20 05:32:48] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:32:48] Connected to MySQL
+[2026-01-20 05:33:03] Worker started
+[2026-01-20 05:33:03] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:33:03] Connected to MySQL
+[2026-01-20 05:33:18] Worker started
+[2026-01-20 05:33:18] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:33:18] Connected to MySQL
+[2026-01-20 05:33:33] Worker started
+[2026-01-20 05:33:33] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:33:33] Connected to MySQL
+[2026-01-20 05:33:48] Worker started
+[2026-01-20 05:33:48] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:33:48] Connected to MySQL
+[2026-01-20 05:34:03] Worker started
+[2026-01-20 05:34:03] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:34:03] Connected to MySQL
+[2026-01-20 05:34:18] Worker started
+[2026-01-20 05:34:18] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:34:18] Connected to MySQL
+[2026-01-20 05:34:33] Worker started
+[2026-01-20 05:34:33] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:34:33] Connected to MySQL
+[2026-01-20 05:34:48] Worker started
+[2026-01-20 05:34:48] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:34:48] Connected to MySQL
+[2026-01-20 05:35:03] Worker started
+[2026-01-20 05:35:03] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:35:03] Connected to MySQL
+[2026-01-20 05:35:18] Worker started
+[2026-01-20 05:35:18] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:35:18] Connected to MySQL
+[2026-01-20 05:35:33] Worker started
+[2026-01-20 05:35:33] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:35:33] Connected to MySQL
+[2026-01-20 05:35:49] Worker started
+[2026-01-20 05:35:49] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:35:49] Connected to MySQL
+[2026-01-20 05:36:04] Worker started
+[2026-01-20 05:36:04] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:36:04] Connected to MySQL
+[2026-01-20 05:36:19] Worker started
+[2026-01-20 05:36:19] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:36:19] Connected to MySQL
+[2026-01-20 05:36:34] Worker started
+[2026-01-20 05:36:34] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:36:34] Connected to MySQL
+[2026-01-20 05:36:49] Worker started
+[2026-01-20 05:36:49] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:36:49] Connected to MySQL
+[2026-01-20 05:37:04] Worker started
+[2026-01-20 05:37:04] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:37:04] Connected to MySQL
+[2026-01-20 05:37:19] Worker started
+[2026-01-20 05:37:19] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:37:19] Connected to MySQL
+[2026-01-20 05:37:34] Worker started
+[2026-01-20 05:37:34] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:37:34] Connected to MySQL
+[2026-01-20 05:37:50] Worker started
+[2026-01-20 05:37:50] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:37:50] Connected to MySQL
+[2026-01-20 05:38:05] Worker started
+[2026-01-20 05:38:05] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:38:05] Connected to MySQL
+[2026-01-20 05:38:20] Worker started
+[2026-01-20 05:38:20] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:38:20] Connected to MySQL
+[2026-01-20 05:38:35] Worker started
+[2026-01-20 05:38:35] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:38:35] Connected to MySQL
+[2026-01-20 05:38:50] Worker started
+[2026-01-20 05:38:50] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:38:50] Connected to MySQL
+[2026-01-20 05:39:05] Worker started
+[2026-01-20 05:39:05] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:39:05] Connected to MySQL
+[2026-01-20 05:39:20] Worker started
+[2026-01-20 05:39:20] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:39:20] Connected to MySQL
+[2026-01-20 05:39:35] Worker started
+[2026-01-20 05:39:35] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:39:35] Connected to MySQL
+[2026-01-20 05:39:50] Worker started
+[2026-01-20 05:39:50] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:39:50] Connected to MySQL
+[2026-01-20 05:40:05] Worker started
+[2026-01-20 05:40:05] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:40:05] Connected to MySQL
+[2026-01-20 05:40:21] Worker started
+[2026-01-20 05:40:21] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:40:21] Connected to MySQL
+[2026-01-20 05:40:36] Worker started
+[2026-01-20 05:40:36] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:40:36] Connected to MySQL
+[2026-01-20 05:40:51] Worker started
+[2026-01-20 05:40:51] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:40:51] Connected to MySQL
+[2026-01-20 05:41:06] Worker started
+[2026-01-20 05:41:06] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:41:06] Connected to MySQL
+[2026-01-20 05:41:21] Worker started
+[2026-01-20 05:41:21] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:41:21] Connected to MySQL
+[2026-01-20 05:41:36] Worker started
+[2026-01-20 05:41:36] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:41:36] Connected to MySQL
+[2026-01-20 05:41:51] Worker started
+[2026-01-20 05:41:51] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:41:51] Connected to MySQL
+[2026-01-20 05:42:06] Worker started
+[2026-01-20 05:42:06] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:42:06] Connected to MySQL
+[2026-01-20 05:42:21] Worker started
+[2026-01-20 05:42:21] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:42:21] Connected to MySQL
+[2026-01-20 05:42:36] Worker started
+[2026-01-20 05:42:36] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:42:36] Connected to MySQL
+[2026-01-20 05:42:51] Worker started
+[2026-01-20 05:42:51] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:42:51] Connected to MySQL
+[2026-01-20 05:43:07] Worker started
+[2026-01-20 05:43:07] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:43:07] Connected to MySQL
+[2026-01-20 05:43:22] Worker started
+[2026-01-20 05:43:22] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:43:22] Connected to MySQL
+[2026-01-20 05:43:37] Worker started
+[2026-01-20 05:43:37] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:43:37] Connected to MySQL
+[2026-01-20 05:43:52] Worker started
+[2026-01-20 05:43:52] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:43:52] Connected to MySQL
+[2026-01-20 05:44:07] Worker started
+[2026-01-20 05:44:07] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:44:07] Connected to MySQL
+[2026-01-20 05:44:22] Worker started
+[2026-01-20 05:44:22] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:44:22] Connected to MySQL
+[2026-01-20 05:44:37] Worker started
+[2026-01-20 05:44:37] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:44:37] Connected to MySQL
+[2026-01-20 05:44:52] Worker started
+[2026-01-20 05:44:52] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:44:52] Connected to MySQL
+[2026-01-20 05:45:08] Worker started
+[2026-01-20 05:45:08] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:45:08] Connected to MySQL
+[2026-01-20 05:45:23] Worker started
+[2026-01-20 05:45:23] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:45:23] Connected to MySQL
+[2026-01-20 05:45:38] Worker started
+[2026-01-20 05:45:38] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:45:38] Connected to MySQL
+[2026-01-20 05:45:53] Worker started
+[2026-01-20 05:45:53] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:45:53] Connected to MySQL
+[2026-01-20 05:46:08] Worker started
+[2026-01-20 05:46:08] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:46:08] Connected to MySQL
+[2026-01-20 05:46:23] Worker started
+[2026-01-20 05:46:23] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:46:23] Connected to MySQL
+[2026-01-20 05:46:38] Worker started
+[2026-01-20 05:46:38] Connected to Redis 127.0.0.1:6379
+[2026-01-20 05:46:38] Connected to MySQL
+[2026-01-20 06:03:49] Worker started
+[2026-01-20 06:03:49] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:03:49] Connected to MySQL
+[2026-01-20 06:04:04] Worker started
+[2026-01-20 06:04:04] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:04:04] Connected to MySQL
+[2026-01-20 06:04:19] Worker started
+[2026-01-20 06:04:19] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:04:19] Connected to MySQL
+[2026-01-20 06:04:34] Worker started
+[2026-01-20 06:04:34] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:04:34] Connected to MySQL
+[2026-01-20 06:04:49] Worker started
+[2026-01-20 06:04:49] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:04:49] Connected to MySQL
+[2026-01-20 06:05:04] Worker started
+[2026-01-20 06:05:04] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:05:04] Connected to MySQL
+[2026-01-20 06:05:19] Worker started
+[2026-01-20 06:05:19] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:05:19] Connected to MySQL
+[2026-01-20 06:05:35] Worker started
+[2026-01-20 06:05:35] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:05:35] Connected to MySQL
+[2026-01-20 06:35:43] Worker started
+[2026-01-20 06:35:43] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:35:43] Connected to MySQL
+[2026-01-20 06:35:58] Worker started
+[2026-01-20 06:35:58] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:35:58] Connected to MySQL
+[2026-01-20 06:36:13] Worker started
+[2026-01-20 06:36:13] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:36:13] Connected to MySQL
+[2026-01-20 06:36:28] Worker started
+[2026-01-20 06:36:28] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:36:28] Connected to MySQL
+[2026-01-20 06:36:43] Worker started
+[2026-01-20 06:36:43] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:36:43] Connected to MySQL
+[2026-01-20 06:36:58] Worker started
+[2026-01-20 06:36:58] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:36:58] Connected to MySQL
+[2026-01-20 06:37:13] Worker started
+[2026-01-20 06:37:13] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:37:13] Connected to MySQL
+[2026-01-20 06:37:28] Worker started
+[2026-01-20 06:37:28] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:37:28] Connected to MySQL
+[2026-01-20 06:37:44] Worker started
+[2026-01-20 06:37:44] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:37:44] Connected to MySQL
+[2026-01-20 06:37:59] Worker started
+[2026-01-20 06:37:59] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:37:59] Connected to MySQL
+[2026-01-20 06:38:14] Worker started
+[2026-01-20 06:38:14] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:38:14] Connected to MySQL
+[2026-01-20 06:38:29] Worker started
+[2026-01-20 06:38:29] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:38:29] Connected to MySQL
+[2026-01-20 06:38:44] Worker started
+[2026-01-20 06:38:44] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:38:44] Connected to MySQL
+[2026-01-20 06:38:59] Worker started
+[2026-01-20 06:38:59] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:38:59] Connected to MySQL
+[2026-01-20 06:39:14] Worker started
+[2026-01-20 06:39:14] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:39:14] Connected to MySQL
+[2026-01-20 06:39:30] Worker started
+[2026-01-20 06:39:30] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:39:30] Connected to MySQL
+[2026-01-20 06:39:45] Worker started
+[2026-01-20 06:39:45] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:39:45] Connected to MySQL
+[2026-01-20 06:40:00] Worker started
+[2026-01-20 06:40:00] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:40:00] Connected to MySQL
+[2026-01-20 06:40:15] Worker started
+[2026-01-20 06:40:15] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:40:15] Connected to MySQL
+[2026-01-20 06:40:30] Worker started
+[2026-01-20 06:40:30] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:40:30] Connected to MySQL
+[2026-01-20 06:40:45] Worker started
+[2026-01-20 06:40:45] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:40:45] Connected to MySQL
+[2026-01-20 06:41:00] Worker started
+[2026-01-20 06:41:00] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:41:00] Connected to MySQL
+[2026-01-20 06:41:15] Worker started
+[2026-01-20 06:41:15] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:41:15] Connected to MySQL
+[2026-01-20 06:41:30] Worker started
+[2026-01-20 06:41:30] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:41:30] Connected to MySQL
+[2026-01-20 06:41:46] Worker started
+[2026-01-20 06:41:46] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:41:46] Connected to MySQL
+[2026-01-20 06:42:01] Worker started
+[2026-01-20 06:42:01] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:42:01] Connected to MySQL
+[2026-01-20 06:42:16] Worker started
+[2026-01-20 06:42:16] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:42:16] Connected to MySQL
+[2026-01-20 06:42:31] Worker started
+[2026-01-20 06:42:31] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:42:31] Connected to MySQL
+[2026-01-20 06:42:46] Worker started
+[2026-01-20 06:42:46] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:42:46] Connected to MySQL
+[2026-01-20 06:43:01] Worker started
+[2026-01-20 06:43:01] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:43:01] Connected to MySQL
+[2026-01-20 06:43:16] Worker started
+[2026-01-20 06:43:16] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:43:16] Connected to MySQL
+[2026-01-20 06:43:31] Worker started
+[2026-01-20 06:43:31] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:43:31] Connected to MySQL
+[2026-01-20 06:43:46] Worker started
+[2026-01-20 06:43:46] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:43:46] Connected to MySQL
+[2026-01-20 06:44:01] Worker started
+[2026-01-20 06:44:01] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:44:01] Connected to MySQL
+[2026-01-20 06:44:17] Worker started
+[2026-01-20 06:44:17] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:44:17] Connected to MySQL
+[2026-01-20 06:44:32] Worker started
+[2026-01-20 06:44:32] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:44:32] Connected to MySQL
+[2026-01-20 06:44:47] Worker started
+[2026-01-20 06:44:47] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:44:47] Connected to MySQL
+[2026-01-20 06:45:02] Worker started
+[2026-01-20 06:45:02] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:45:02] Connected to MySQL
+[2026-01-20 06:45:17] Worker started
+[2026-01-20 06:45:17] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:45:17] Connected to MySQL
+[2026-01-20 06:45:32] Worker started
+[2026-01-20 06:45:32] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:45:32] Connected to MySQL
+[2026-01-20 06:45:47] Worker started
+[2026-01-20 06:45:47] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:45:47] Connected to MySQL
+[2026-01-20 06:46:02] Worker started
+[2026-01-20 06:46:02] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:46:02] Connected to MySQL
+[2026-01-20 06:46:17] Worker started
+[2026-01-20 06:46:17] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:46:17] Connected to MySQL
+[2026-01-20 06:46:33] Worker started
+[2026-01-20 06:46:33] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:46:33] Connected to MySQL
+[2026-01-20 06:46:48] Worker started
+[2026-01-20 06:46:48] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:46:48] Connected to MySQL
+[2026-01-20 06:47:03] Worker started
+[2026-01-20 06:47:03] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:47:03] Connected to MySQL
+[2026-01-20 06:47:18] Worker started
+[2026-01-20 06:47:18] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:47:18] Connected to MySQL
+[2026-01-20 06:47:33] Worker started
+[2026-01-20 06:47:33] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:47:33] Connected to MySQL
+[2026-01-20 06:47:48] Worker started
+[2026-01-20 06:47:48] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:47:48] Connected to MySQL
+[2026-01-20 06:48:03] Worker started
+[2026-01-20 06:48:03] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:48:03] Connected to MySQL
+[2026-01-20 06:48:18] Worker started
+[2026-01-20 06:48:18] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:48:18] Connected to MySQL
+[2026-01-20 06:48:33] Worker started
+[2026-01-20 06:48:33] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:48:33] Connected to MySQL
+[2026-01-20 06:48:48] Worker started
+[2026-01-20 06:48:48] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:48:48] Connected to MySQL
+[2026-01-20 06:49:03] Worker started
+[2026-01-20 06:49:03] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:49:04] Connected to MySQL
+[2026-01-20 06:49:19] Worker started
+[2026-01-20 06:49:19] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:49:19] Connected to MySQL
+[2026-01-20 06:49:34] Worker started
+[2026-01-20 06:49:34] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:49:34] Connected to MySQL
+[2026-01-20 06:49:49] Worker started
+[2026-01-20 06:49:49] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:49:49] Connected to MySQL
+[2026-01-20 06:50:04] Worker started
+[2026-01-20 06:50:04] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:50:04] Connected to MySQL
+[2026-01-20 06:50:19] Worker started
+[2026-01-20 06:50:19] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:50:19] Connected to MySQL
+[2026-01-20 06:50:34] Worker started
+[2026-01-20 06:50:34] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:50:34] Connected to MySQL
+[2026-01-20 06:50:49] Worker started
+[2026-01-20 06:50:49] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:50:49] Connected to MySQL
+[2026-01-20 06:51:04] Worker started
+[2026-01-20 06:51:04] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:51:04] Connected to MySQL
+[2026-01-20 06:51:19] Worker started
+[2026-01-20 06:51:19] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:51:19] Connected to MySQL
+[2026-01-20 06:51:34] Worker started
+[2026-01-20 06:51:34] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:51:34] Connected to MySQL
+[2026-01-20 06:51:50] Worker started
+[2026-01-20 06:51:50] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:51:50] Connected to MySQL
+[2026-01-20 06:52:05] Worker started
+[2026-01-20 06:52:05] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:52:05] Connected to MySQL
+[2026-01-20 06:52:20] Worker started
+[2026-01-20 06:52:20] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:52:20] Connected to MySQL
+[2026-01-20 06:52:35] Worker started
+[2026-01-20 06:52:35] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:52:35] Connected to MySQL
+[2026-01-20 06:52:50] Worker started
+[2026-01-20 06:52:50] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:52:50] Connected to MySQL
+[2026-01-20 06:53:05] Worker started
+[2026-01-20 06:53:05] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:53:05] Connected to MySQL
+[2026-01-20 06:53:20] Worker started
+[2026-01-20 06:53:20] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:53:20] Connected to MySQL
+[2026-01-20 06:53:35] Worker started
+[2026-01-20 06:53:35] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:53:35] Connected to MySQL
+[2026-01-20 06:53:50] Worker started
+[2026-01-20 06:53:50] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:53:50] Connected to MySQL
+[2026-01-20 06:54:05] Worker started
+[2026-01-20 06:54:05] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:54:05] Connected to MySQL
+[2026-01-20 06:54:21] Worker started
+[2026-01-20 06:54:21] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:54:21] Connected to MySQL
+[2026-01-20 06:54:36] Worker started
+[2026-01-20 06:54:36] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:54:36] Connected to MySQL
+[2026-01-20 06:54:51] Worker started
+[2026-01-20 06:54:51] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:54:51] Connected to MySQL
+[2026-01-20 06:55:06] Worker started
+[2026-01-20 06:55:06] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:55:06] Connected to MySQL
+[2026-01-20 06:55:21] Worker started
+[2026-01-20 06:55:21] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:55:21] Connected to MySQL
+[2026-01-20 06:55:36] Worker started
+[2026-01-20 06:55:36] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:55:36] Connected to MySQL
+[2026-01-20 06:55:51] Worker started
+[2026-01-20 06:55:51] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:55:51] Connected to MySQL
+[2026-01-20 06:56:06] Worker started
+[2026-01-20 06:56:06] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:56:06] Connected to MySQL
+[2026-01-20 06:56:21] Worker started
+[2026-01-20 06:56:21] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:56:21] Connected to MySQL
+[2026-01-20 06:56:36] Worker started
+[2026-01-20 06:56:36] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:56:36] Connected to MySQL
+[2026-01-20 06:56:52] Worker started
+[2026-01-20 06:56:52] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:56:52] Connected to MySQL
+[2026-01-20 06:57:07] Worker started
+[2026-01-20 06:57:07] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:57:07] Connected to MySQL
+[2026-01-20 06:57:22] Worker started
+[2026-01-20 06:57:22] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:57:22] Connected to MySQL
+[2026-01-20 06:57:37] Worker started
+[2026-01-20 06:57:37] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:57:37] Connected to MySQL
+[2026-01-20 06:57:52] Worker started
+[2026-01-20 06:57:52] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:57:52] Connected to MySQL
+[2026-01-20 06:58:07] Worker started
+[2026-01-20 06:58:07] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:58:07] Connected to MySQL
+[2026-01-20 06:58:22] Worker started
+[2026-01-20 06:58:22] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:58:22] Connected to MySQL
+[2026-01-20 06:58:37] Worker started
+[2026-01-20 06:58:37] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:58:37] Connected to MySQL
+[2026-01-20 06:58:52] Worker started
+[2026-01-20 06:58:52] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:58:52] Connected to MySQL
+[2026-01-20 06:59:07] Worker started
+[2026-01-20 06:59:07] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:59:07] Connected to MySQL
+[2026-01-20 06:59:22] Worker started
+[2026-01-20 06:59:22] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:59:22] Connected to MySQL
+[2026-01-20 06:59:38] Worker started
+[2026-01-20 06:59:38] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:59:38] Connected to MySQL
+[2026-01-20 06:59:53] Worker started
+[2026-01-20 06:59:53] Connected to Redis 127.0.0.1:6379
+[2026-01-20 06:59:53] Connected to MySQL
+[2026-01-20 07:00:08] Worker started
+[2026-01-20 07:00:08] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:00:08] Connected to MySQL
+[2026-01-20 07:00:23] Worker started
+[2026-01-20 07:00:23] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:00:23] Connected to MySQL
+[2026-01-20 07:00:38] Worker started
+[2026-01-20 07:00:38] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:00:38] Connected to MySQL
+[2026-01-20 07:00:53] Worker started
+[2026-01-20 07:00:53] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:00:53] Connected to MySQL
+[2026-01-20 07:01:08] Worker started
+[2026-01-20 07:01:08] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:01:08] Connected to MySQL
+[2026-01-20 07:01:23] Worker started
+[2026-01-20 07:01:23] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:01:23] Connected to MySQL
+[2026-01-20 07:01:39] Worker started
+[2026-01-20 07:01:39] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:01:39] Connected to MySQL
+[2026-01-20 07:01:54] Worker started
+[2026-01-20 07:01:54] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:01:54] Connected to MySQL
+[2026-01-20 07:02:09] Worker started
+[2026-01-20 07:02:09] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:02:09] Connected to MySQL
+[2026-01-20 07:02:24] Worker started
+[2026-01-20 07:02:24] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:02:24] Connected to MySQL
+[2026-01-20 07:02:39] Worker started
+[2026-01-20 07:02:39] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:02:39] Connected to MySQL
+[2026-01-20 07:02:54] Worker started
+[2026-01-20 07:02:54] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:02:54] Connected to MySQL
+[2026-01-20 07:03:09] Worker started
+[2026-01-20 07:03:09] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:03:09] Connected to MySQL
+[2026-01-20 07:03:24] Worker started
+[2026-01-20 07:03:24] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:03:24] Connected to MySQL
+[2026-01-20 07:03:39] Worker started
+[2026-01-20 07:03:39] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:03:39] Connected to MySQL
+[2026-01-20 07:03:54] Worker started
+[2026-01-20 07:03:54] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:03:54] Connected to MySQL
+[2026-01-20 07:04:10] Worker started
+[2026-01-20 07:04:10] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:04:10] Connected to MySQL
+[2026-01-20 07:04:25] Worker started
+[2026-01-20 07:04:25] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:04:25] Connected to MySQL
+[2026-01-20 07:04:40] Worker started
+[2026-01-20 07:04:40] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:04:40] Connected to MySQL
+[2026-01-20 07:04:55] Worker started
+[2026-01-20 07:04:55] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:04:55] Connected to MySQL
+[2026-01-20 07:05:10] Worker started
+[2026-01-20 07:05:10] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:05:10] Connected to MySQL
+[2026-01-20 07:05:25] Worker started
+[2026-01-20 07:05:25] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:05:25] Connected to MySQL
+[2026-01-20 07:05:40] Worker started
+[2026-01-20 07:05:40] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:05:40] Connected to MySQL
+[2026-01-20 07:05:55] Worker started
+[2026-01-20 07:05:55] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:05:55] Connected to MySQL
+[2026-01-20 07:06:10] Worker started
+[2026-01-20 07:06:10] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:06:10] Connected to MySQL
+[2026-01-20 07:06:25] Worker started
+[2026-01-20 07:06:25] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:06:25] Connected to MySQL
+[2026-01-20 07:06:41] Worker started
+[2026-01-20 07:06:41] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:06:41] Connected to MySQL
+[2026-01-20 07:06:56] Worker started
+[2026-01-20 07:06:56] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:06:56] Connected to MySQL
+[2026-01-20 07:07:11] Worker started
+[2026-01-20 07:07:11] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:07:11] Connected to MySQL
+[2026-01-20 07:07:26] Worker started
+[2026-01-20 07:07:26] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:07:26] Connected to MySQL
+[2026-01-20 07:07:41] Worker started
+[2026-01-20 07:07:41] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:07:41] Connected to MySQL
+[2026-01-20 07:07:56] Worker started
+[2026-01-20 07:07:56] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:07:56] Connected to MySQL
+[2026-01-20 07:08:11] Worker started
+[2026-01-20 07:08:11] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:08:11] Connected to MySQL
+[2026-01-20 07:08:26] Worker started
+[2026-01-20 07:08:26] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:08:26] Connected to MySQL
+[2026-01-20 07:08:41] Worker started
+[2026-01-20 07:08:41] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:08:41] Connected to MySQL
+[2026-01-20 07:08:56] Worker started
+[2026-01-20 07:08:56] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:08:56] Connected to MySQL
+[2026-01-20 07:09:11] Worker started
+[2026-01-20 07:09:11] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:09:12] Connected to MySQL
+[2026-01-20 07:09:27] Worker started
+[2026-01-20 07:09:27] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:09:27] Connected to MySQL
+[2026-01-20 07:09:42] Worker started
+[2026-01-20 07:09:42] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:09:42] Connected to MySQL
+[2026-01-20 07:09:57] Worker started
+[2026-01-20 07:09:57] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:09:57] Connected to MySQL
+[2026-01-20 07:10:12] Worker started
+[2026-01-20 07:10:12] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:10:12] Connected to MySQL
+[2026-01-20 07:10:27] Worker started
+[2026-01-20 07:10:27] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:10:27] Connected to MySQL
+[2026-01-20 07:25:39] Worker started
+[2026-01-20 07:25:39] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:25:39] Connected to MySQL
+[2026-01-20 07:25:55] Worker started
+[2026-01-20 07:25:55] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:25:55] Connected to MySQL
+[2026-01-20 07:26:10] Worker started
+[2026-01-20 07:26:10] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:26:10] Connected to MySQL
+[2026-01-20 07:26:25] Worker started
+[2026-01-20 07:26:25] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:26:25] Connected to MySQL
+[2026-01-20 07:26:40] Worker started
+[2026-01-20 07:26:40] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:26:40] Connected to MySQL
+[2026-01-20 07:26:55] Worker started
+[2026-01-20 07:26:55] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:26:55] Connected to MySQL
+[2026-01-20 07:27:10] Worker started
+[2026-01-20 07:27:10] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:27:10] Connected to MySQL
+[2026-01-20 07:27:25] Worker started
+[2026-01-20 07:27:25] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:27:25] Connected to MySQL
+[2026-01-20 07:27:40] Worker started
+[2026-01-20 07:27:40] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:27:40] Connected to MySQL
+[2026-01-20 07:27:55] Worker started
+[2026-01-20 07:27:55] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:27:55] Connected to MySQL
+[2026-01-20 07:28:10] Worker started
+[2026-01-20 07:28:10] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:28:10] Connected to MySQL
+[2026-01-20 07:28:25] Worker started
+[2026-01-20 07:28:25] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:28:25] Connected to MySQL
+[2026-01-20 07:28:41] Worker started
+[2026-01-20 07:28:41] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:28:41] Connected to MySQL
+[2026-01-20 07:28:56] Worker started
+[2026-01-20 07:28:56] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:28:56] Connected to MySQL
+[2026-01-20 07:29:11] Worker started
+[2026-01-20 07:29:11] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:29:11] Connected to MySQL
+[2026-01-20 07:29:26] Worker started
+[2026-01-20 07:29:26] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:29:26] Connected to MySQL
+[2026-01-20 07:29:41] Worker started
+[2026-01-20 07:29:41] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:29:41] Connected to MySQL
+[2026-01-20 07:29:56] Worker started
+[2026-01-20 07:29:56] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:29:56] Connected to MySQL
+[2026-01-20 07:30:11] Worker started
+[2026-01-20 07:30:11] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:30:11] Connected to MySQL
+[2026-01-20 07:30:26] Worker started
+[2026-01-20 07:30:26] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:30:26] Connected to MySQL
+[2026-01-20 07:30:41] Worker started
+[2026-01-20 07:30:41] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:30:41] Connected to MySQL
+[2026-01-20 07:30:56] Worker started
+[2026-01-20 07:30:56] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:30:56] Connected to MySQL
+[2026-01-20 07:31:12] Worker started
+[2026-01-20 07:31:12] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:31:12] Connected to MySQL
+[2026-01-20 07:31:27] Worker started
+[2026-01-20 07:31:27] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:31:27] Connected to MySQL
+[2026-01-20 07:31:42] Worker started
+[2026-01-20 07:31:42] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:31:42] Connected to MySQL
+[2026-01-20 07:31:57] Worker started
+[2026-01-20 07:31:57] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:31:57] Connected to MySQL
+[2026-01-20 07:32:12] Worker started
+[2026-01-20 07:32:12] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:32:12] Connected to MySQL
+[2026-01-20 07:32:27] Worker started
+[2026-01-20 07:32:27] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:32:27] Connected to MySQL
+[2026-01-20 07:32:42] Worker started
+[2026-01-20 07:32:42] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:32:42] Connected to MySQL
+[2026-01-20 07:32:57] Worker started
+[2026-01-20 07:32:57] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:32:57] Connected to MySQL
+[2026-01-20 07:33:12] Worker started
+[2026-01-20 07:33:12] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:33:12] Connected to MySQL
+[2026-01-20 07:33:28] Worker started
+[2026-01-20 07:33:28] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:33:28] Connected to MySQL
+[2026-01-20 07:33:43] Worker started
+[2026-01-20 07:33:43] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:33:43] Connected to MySQL
+[2026-01-20 07:33:58] Worker started
+[2026-01-20 07:33:58] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:33:58] Connected to MySQL
+[2026-01-20 07:34:13] Worker started
+[2026-01-20 07:34:13] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:34:13] Connected to MySQL
+[2026-01-20 07:34:28] Worker started
+[2026-01-20 07:34:28] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:34:28] Connected to MySQL
+[2026-01-20 07:34:43] Worker started
+[2026-01-20 07:34:43] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:34:43] Connected to MySQL
+[2026-01-20 07:34:58] Worker started
+[2026-01-20 07:34:58] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:34:58] Connected to MySQL
+[2026-01-20 07:35:13] Worker started
+[2026-01-20 07:35:13] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:35:13] Connected to MySQL
+[2026-01-20 07:35:28] Worker started
+[2026-01-20 07:35:28] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:35:28] Connected to MySQL
+[2026-01-20 07:35:43] Worker started
+[2026-01-20 07:35:43] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:35:43] Connected to MySQL
+[2026-01-20 07:35:59] Worker started
+[2026-01-20 07:35:59] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:35:59] Connected to MySQL
+[2026-01-20 07:36:14] Worker started
+[2026-01-20 07:36:14] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:36:14] Connected to MySQL
+[2026-01-20 07:36:29] Worker started
+[2026-01-20 07:36:29] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:36:29] Connected to MySQL
+[2026-01-20 07:36:44] Worker started
+[2026-01-20 07:36:44] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:36:44] Connected to MySQL
+[2026-01-20 07:36:59] Worker started
+[2026-01-20 07:36:59] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:36:59] Connected to MySQL
+[2026-01-20 07:37:14] Worker started
+[2026-01-20 07:37:14] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:37:14] Connected to MySQL
+[2026-01-20 07:37:29] Worker started
+[2026-01-20 07:37:29] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:37:29] Connected to MySQL
+[2026-01-20 07:37:44] Worker started
+[2026-01-20 07:37:44] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:37:44] Connected to MySQL
+[2026-01-20 07:37:59] Worker started
+[2026-01-20 07:37:59] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:37:59] Connected to MySQL
+[2026-01-20 07:38:15] Worker started
+[2026-01-20 07:38:15] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:38:15] Connected to MySQL
+[2026-01-20 07:38:30] Worker started
+[2026-01-20 07:38:30] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:38:30] Connected to MySQL
+[2026-01-20 07:38:45] Worker started
+[2026-01-20 07:38:45] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:38:45] Connected to MySQL
+[2026-01-20 07:39:00] Worker started
+[2026-01-20 07:39:00] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:39:00] Connected to MySQL
+[2026-01-20 07:39:15] Worker started
+[2026-01-20 07:39:15] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:39:15] Connected to MySQL
+[2026-01-20 07:39:24] Job success | file_id=5 | date=2026-01-20 | scm=1.5205
+[2026-01-20 07:39:24] Job success | file_id=5 | date=2026-01-20 | scm=1.5898
+[2026-01-20 07:39:24] Job success | file_id=5 | date=2026-01-20 | scm=1.6185
+[2026-01-20 07:39:24] Job success | file_id=5 | date=2026-01-20 | scm=0.7359
+[2026-01-20 07:39:24] Job success | file_id=5 | date=2026-01-20 | scm=1.3773
+[2026-01-20 07:39:24] Job success | file_id=5 | date=2026-01-20 | scm=1.2657
+[2026-01-20 07:39:24] Job success | file_id=5 | date=2026-01-20 | scm=1.4912
+[2026-01-20 07:39:24] Job success | file_id=5 | date=2026-01-20 | scm=2.047
+[2026-01-20 07:39:24] Job success | file_id=5 | date=2026-01-20 | scm=1.0984
+[2026-01-20 07:39:25] Job success | file_id=5 | date=2026-01-20 | scm=1.0714
+[2026-01-20 07:39:25] Job success | file_id=5 | date=2026-01-20 | scm=2.0404
+[2026-01-20 07:39:25] Job success | file_id=5 | date=2026-01-20 | scm=1.58
+[2026-01-20 07:39:25] Job success | file_id=5 | date=2026-01-20 | scm=1.3361
+[2026-01-20 07:39:25] Job success | file_id=5 | date=2026-01-20 | scm=1.5212
+[2026-01-20 07:39:25] Job success | file_id=5 | date=2026-01-20 | scm=1.5221
+[2026-01-20 07:39:25] Job success | file_id=5 | date=2026-01-20 | scm=1.3246
+[2026-01-20 07:39:26] Job success | file_id=5 | date=2026-01-20 | scm=2.1688
+[2026-01-20 07:39:26] Job success | file_id=5 | date=2026-01-20 | scm=1.641
+[2026-01-20 07:39:26] Job success | file_id=5 | date=2026-01-20 | scm=1.4158
+[2026-01-20 07:39:27] Job success | file_id=5 | date=2026-01-20 | scm=1.357
+[2026-01-20 07:39:27] Job success | file_id=5 | date=2026-01-20 | scm=1.8267
+[2026-01-20 07:39:27] Job success | file_id=5 | date=2026-01-20 | scm=1.7223
+[2026-01-20 07:39:27] Job success | file_id=5 | date=2026-01-20 | scm=1.9122
+[2026-01-20 07:39:28] Job success | file_id=5 | date=2026-01-20 | scm=2.0569
+[2026-01-20 07:39:28] Job success | file_id=5 | date=2026-01-20 | scm=1.9386
+[2026-01-20 07:39:28] Job success | file_id=5 | date=2026-01-20 | scm=1.6848
+[2026-01-20 07:39:28] Job success | file_id=5 | date=2026-01-20 | scm=1.9193
+[2026-01-20 07:39:28] Job success | file_id=5 | date=2026-01-20 | scm=1.094
+[2026-01-20 07:39:28] Job success | file_id=5 | date=2026-01-20 | scm=1.2872
+[2026-01-20 07:39:28] Job success | file_id=5 | date=2026-01-20 | scm=2.0959
+[2026-01-20 07:39:29] Job success | file_id=5 | date=2026-01-20 | scm=1.494
+[2026-01-20 07:39:29] Job success | file_id=5 | date=2026-01-20 | scm=1.3384
+[2026-01-20 07:39:29] Job success | file_id=5 | date=2026-01-20 | scm=1.3892
+[2026-01-20 07:39:29] Job success | file_id=5 | date=2026-01-20 | scm=1.4848
+[2026-01-20 07:39:29] Job success | file_id=5 | date=2026-01-20 | scm=1.8195
+[2026-01-20 07:39:29] Job success | file_id=5 | date=2026-01-20 | scm=1.6288
+[2026-01-20 07:39:29] Job success | file_id=5 | date=2026-01-20 | scm=1.45
+[2026-01-20 07:39:29] Job success | file_id=5 | date=2026-01-20 | scm=1.886
+[2026-01-20 07:39:30] Job success | file_id=5 | date=2026-01-20 | scm=1.6006
+[2026-01-20 07:39:30] Job success | file_id=5 | date=2026-01-20 | scm=1.6603
+[2026-01-20 07:39:30] Job success | file_id=5 | date=2026-01-20 | scm=1.3286
+[2026-01-20 07:39:30] Job success | file_id=5 | date=2026-01-20 | scm=1.8196
+[2026-01-20 07:39:30] Job success | file_id=5 | date=2026-01-20 | scm=1.7642
+[2026-01-20 07:39:30] Job success | file_id=5 | date=2026-01-20 | scm=1.5319
+[2026-01-20 07:39:31] Job success | file_id=5 | date=2026-01-20 | scm=1.6737
+[2026-01-20 07:39:31] Job success | file_id=5 | date=2026-01-20 | scm=1.8673
+[2026-01-20 07:39:31] Job success | file_id=5 | date=2026-01-20 | scm=1.4996
+[2026-01-20 07:39:32] Job success | file_id=5 | date=2026-01-20 | scm=1.2048
+[2026-01-20 07:39:32] Job success | file_id=5 | date=2026-01-20 | scm=1.6362
+[2026-01-20 07:39:32] Job success | file_id=5 | date=2026-01-20 | scm=1.8011
+[2026-01-20 07:39:32] Job success | file_id=5 | date=2026-01-20 | scm=0.8399
+[2026-01-20 07:39:32] Job success | file_id=5 | date=2026-01-20 | scm=1.6264
+[2026-01-20 07:39:32] Job success | file_id=5 | date=2026-01-20 | scm=1.7074
+[2026-01-20 07:39:32] Job success | file_id=5 | date=2026-01-20 | scm=1.4573
+[2026-01-20 07:39:32] Job success | file_id=5 | date=2026-01-20 | scm=1.6754
+[2026-01-20 07:39:32] Job success | file_id=5 | date=2026-01-20 | scm=1.4626
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.7523
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.5634
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.5181
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.5995
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=2.0257
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.5238
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.1731
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.4889
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.5468
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=2.0042
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.516
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.5338
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.8144
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=0.9629
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=0.8503
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.6378
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.3017
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.5477
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.4245
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.9494
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.3644
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.8074
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.4639
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.5878
+[2026-01-20 07:39:33] Job success | file_id=5 | date=2026-01-20 | scm=1.7976
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=0.9109
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=1.5717
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=1.856
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=1.2481
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=1.5762
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=0.9273
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=1.4403
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=1.5913
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=1.0315
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=1.2045
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=1.45
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=1.4312
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=1.5741
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=1.3915
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=1.4023
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=1.1542
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=1.8618
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=1.275
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=2.0259
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=1.4582
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=1.4527
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=2.2407
+[2026-01-20 07:39:34] Job success | file_id=5 | date=2026-01-20 | scm=1.8495
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.7407
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.6378
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.5545
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.8483
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.6892
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.9619
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.4594
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.8774
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=0.7576
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.5135
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.9409
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.3751
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.7934
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.2354
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.4764
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.6537
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.6708
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.5205
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.2742
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.7684
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.5964
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.3299
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.7524
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.5052
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.6026
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.5367
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.1779
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.5921
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.6761
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.7898
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.1308
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.5187
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.5051
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.0161
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.7872
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.2815
+[2026-01-20 07:39:35] Job success | file_id=5 | date=2026-01-20 | scm=1.598
+[2026-01-20 07:39:36] Job success | file_id=5 | date=2026-01-20 | scm=1.3433
+[2026-01-20 07:39:36] Job success | file_id=5 | date=2026-01-20 | scm=2.003
+[2026-01-20 07:39:36] Job success | file_id=5 | date=2026-01-20 | scm=1.8679
+[2026-01-20 07:39:36] Job success | file_id=5 | date=2026-01-20 | scm=1.4871
+[2026-01-20 07:39:36] Job success | file_id=5 | date=2026-01-20 | scm=1.4012
+[2026-01-20 07:39:36] Job success | file_id=5 | date=2026-01-20 | scm=1.5215
+[2026-01-20 07:39:36] Job success | file_id=5 | date=2026-01-20 | scm=1.8282
+[2026-01-20 07:39:36] Job success | file_id=5 | date=2026-01-20 | scm=1.6345
+[2026-01-20 07:39:36] Job success | file_id=5 | date=2026-01-20 | scm=1.2756
+[2026-01-20 07:39:36] Job success | file_id=5 | date=2026-01-20 | scm=2.0868
+[2026-01-20 07:39:36] Job success | file_id=5 | date=2026-01-20 | scm=1.6294
+[2026-01-20 07:39:36] Job success | file_id=5 | date=2026-01-20 | scm=1.4566
+[2026-01-20 07:39:36] Job success | file_id=5 | date=2026-01-20 | scm=1.4934
+[2026-01-20 07:39:36] Job success | file_id=5 | date=2026-01-20 | scm=1.4622
+[2026-01-20 07:39:36] Job success | file_id=5 | date=2026-01-20 | scm=1.4003
+[2026-01-20 07:39:36] Job success | file_id=5 | date=2026-01-20 | scm=1.2733
+[2026-01-20 07:39:36] Job success | file_id=5 | date=2026-01-20 | scm=1.2982
+[2026-01-20 07:39:36] Job success | file_id=5 | date=2026-01-20 | scm=1.8304
+[2026-01-20 07:39:36] Job success | file_id=5 | date=2026-01-20 | scm=1.3956
+[2026-01-20 07:39:36] Job success | file_id=5 | date=2026-01-20 | scm=1.5595
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.411
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.627
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.4997
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.1044
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.82
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.4817
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.531
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.5542
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.8332
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.9647
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.7434
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.3566
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.1241
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.4186
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.3057
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.4313
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.2993
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.6217
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=0.874
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.1261
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.816
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.4931
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.417
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.4777
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.1283
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.5656
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.244
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.4111
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.4146
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.8949
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.3147
+[2026-01-20 07:39:37] Job success | file_id=5 | date=2026-01-20 | scm=1.0085
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.3093
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.2921
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.4861
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.316
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.8416
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=2.0371
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.2223
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.8284
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.602
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.5526
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.2581
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.1446
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=2.3164
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.693
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.3468
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.1036
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.5003
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.5282
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.6046
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.1558
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.5894
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.479
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.2782
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.4124
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.45
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.564
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=2.0943
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.3776
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.9032
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.3496
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.2523
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.9072
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.44
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.5552
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.2501
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.4947
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.1705
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.8809
+[2026-01-20 07:39:38] Job success | file_id=5 | date=2026-01-20 | scm=1.8178
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.2849
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.5544
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.411
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.857
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.1339
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.522
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.7382
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.3873
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.5053
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.4924
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.7521
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.4708
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.1396
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.6893
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.6234
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.3254
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.8727
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.9785
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.6691
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.8596
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.1719
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.6541
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.4677
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.1548
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.9251
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.1449
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.9154
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.6178
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.279
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.1312
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.8426
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.665
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.5733
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.0192
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.2978
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.571
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.8817
+[2026-01-20 07:39:39] Job success | file_id=5 | date=2026-01-20 | scm=1.3863
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.4775
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=0.9167
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.3873
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.8146
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.5248
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.1104
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.6634
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.2386
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.7239
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.6618
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.4051
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.674
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.8737
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.8866
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.3558
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.509
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.6223
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.429
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.8788
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=0.9618
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=2.0422
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=0.9117
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.7321
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.4767
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.4395
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.363
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.7506
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.3203
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=0.7529
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.9307
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.1748
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.3568
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.3516
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.9522
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.5454
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.6334
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.4288
+[2026-01-20 07:39:40] Job success | file_id=5 | date=2026-01-20 | scm=1.2236
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.8115
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.5855
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=0.8197
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.474
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.54
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.2418
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.3509
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.3714
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.518
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.613
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.4442
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.139
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.8808
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.4525
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.3207
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.2142
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.4826
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.2045
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.5026
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.0291
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.7629
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.4055
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.6296
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.2671
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.4594
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.7404
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.0225
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.0552
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.5222
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.1846
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.5798
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.827
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.1445
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.7125
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.4391
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.6135
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.7298
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.0418
+[2026-01-20 07:39:41] Job success | file_id=5 | date=2026-01-20 | scm=1.6214
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.4589
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.5808
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.8021
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.6767
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.257
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.5168
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.1046
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.8783
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.3839
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.4116
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.2023
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.7268
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.5261
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.9367
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.5273
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.709
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=2.0522
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.7728
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.756
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.8376
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.1885
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.8427
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.6826
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=2.0338
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.5619
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.9404
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.4905
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.3047
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.5539
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.5453
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.2193
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.121
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.3161
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=2.1773
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.5031
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.1954
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.2799
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.2836
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.5054
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.3215
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.6329
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.9487
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.2624
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=2.0815
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.5304
+[2026-01-20 07:39:42] Job success | file_id=5 | date=2026-01-20 | scm=1.09
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.5888
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.3777
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.329
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.3675
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.0612
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.8237
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.8504
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.5544
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.4167
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.1759
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.253
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.2109
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.8585
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.5029
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.7082
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=2.1183
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.8113
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.7546
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.561
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.2131
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.9524
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.764
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.63
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.1685
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.2791
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.1063
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.5968
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.6277
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.2623
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.4249
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.7311
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.081
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.6119
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.4338
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.5603
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.7129
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.4923
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.5274
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.8211
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.2416
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.9101
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.8655
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.3027
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.7666
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.9137
+[2026-01-20 07:39:43] Job success | file_id=5 | date=2026-01-20 | scm=1.6346
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=2.0718
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.8643
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.2374
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.6746
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=2.0805
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.757
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.1999
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.1684
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.6231
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.9896
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.5462
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.5866
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.6359
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.4617
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.3945
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.5744
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.3633
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=2.051
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.7922
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.2966
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.6159
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.2045
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.9075
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.2475
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.7456
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.5369
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.4486
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.3504
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.614
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.3731
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.3033
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.9178
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.4453
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.7155
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.957
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.4132
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.4092
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.5793
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.8698
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.4536
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=2.3288
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.2539
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.8968
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.5133
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=2.1522
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.8317
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.5987
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.626
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.5551
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.6085
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=2.1077
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.6215
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.3475
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=1.6696
+[2026-01-20 07:39:44] Job success | file_id=5 | date=2026-01-20 | scm=2.0173
+[2026-01-20 07:39:45] Job success | file_id=5 | date=2026-01-20 | scm=1.3652
+[2026-01-20 07:39:45] Job success | file_id=5 | date=2026-01-20 | scm=1.4329
+[2026-01-20 07:39:45] Job success | file_id=5 | date=2026-01-20 | scm=2.1684
+[2026-01-20 07:39:45] Job success | file_id=5 | date=2026-01-20 | scm=1.27
+[2026-01-20 07:39:45] Job success | file_id=5 | date=2026-01-20 | scm=2.0842
+[2026-01-20 07:39:45] Job success | file_id=5 | date=2026-01-20 | scm=1.4983
+[2026-01-20 07:40:51] Worker started
+[2026-01-20 07:40:51] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:40:51] Connected to MySQL
+[2026-01-20 07:41:06] Worker started
+[2026-01-20 07:41:06] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:41:06] Connected to MySQL
+[2026-01-20 07:41:21] Worker started
+[2026-01-20 07:41:21] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:41:21] Connected to MySQL
+[2026-01-20 07:41:36] Worker started
+[2026-01-20 07:41:36] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:41:36] Connected to MySQL
+[2026-01-20 07:41:51] Worker started
+[2026-01-20 07:41:51] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:41:51] Connected to MySQL
+[2026-01-20 07:42:06] Worker started
+[2026-01-20 07:42:06] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:42:06] Connected to MySQL
+[2026-01-20 07:42:21] Worker started
+[2026-01-20 07:42:21] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:42:21] Connected to MySQL
+[2026-01-20 07:42:37] Worker started
+[2026-01-20 07:42:37] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:42:37] Connected to MySQL
+[2026-01-20 07:42:52] Worker started
+[2026-01-20 07:42:52] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:42:52] Connected to MySQL
+[2026-01-20 07:43:07] Worker started
+[2026-01-20 07:43:07] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:43:07] Connected to MySQL
+[2026-01-20 07:43:22] Worker started
+[2026-01-20 07:43:22] Connected to Redis 127.0.0.1:6379
+[2026-01-20 07:43:22] Connected to MySQL

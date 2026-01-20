@@ -1,9 +1,9 @@
 	<!--begin::Wrapper-->
 	<div class="d-flex flex-column flex-row-fluid wrapper pt-24" id="kt_wrapper">
 		<!--begin::Header-->
-		<div id="kt_header" class="header  header-fixed ">
+		<div id="kt_header" class="header header-fixed ">
 			<!--begin::Container-->
-			<div class=" container-fluid  d-flex align-items-center justify-content-between">
+			<div class=" container-fluid d-flex align-items-center justify-content-between">
 				<div>
 					<h3 class="text-capitalize"><?= $_SESSION['halaman'] ?></h3>
 				</div>

@@ -1,167 +1,201 @@
 <?php
-// api/chart_data_3sigma_excel_clone.php
+// api/chart_data_3sigma_minmax.php
 require_once __DIR__ . '/../includes/config.php';
 header('Content-Type: application/json');
 set_time_limit(0);
 
-// Jaga presisi float agar setara Excel (IEEE-754 double)
+// ======================================================
+// Precision & Timezone
+// ======================================================
 ini_set('precision', 17);
 ini_set('serialize_precision', -1);
 date_default_timezone_set('Asia/Jakarta');
 
+// ======================================================
+// Production Date
+// ======================================================
 function get_production_date($cutoff_hour = 6, $cutoff_minute = 0)
 {
-    $now = new DateTime('now');
+    $now = new DateTime();
+    $h = (int)$now->format('H');
+    $m = (int)$now->format('i');
 
-    $hour = (int)$now->format('H');
-    $minute = (int)$now->format('i');
-
-    if (
-        $hour < $cutoff_hour ||
-        ($hour === $cutoff_hour && $minute <= $cutoff_minute)
-    ) {
-        // sebelum cutoff → pakai tanggal kemarin
+    if ($h < $cutoff_hour || ($h === $cutoff_hour && $m <= $cutoff_minute)) {
         $now->modify('-1 day');
     }
-
     return $now->format('Y-m-d');
 }
 $production_date = get_production_date(6, 0);
 
+// ======================================================
+// Input
+// ======================================================
+$file_id        = (int)($_POST['file_id'] ?? 0);
+$line_id        = (int)($_POST['line_id'] ?? 0);
+$application_id = (int)($_POST['application_id'] ?? 0);
+$site_name      = $_POST['site_name'] ?? null;
+$user_id        = $_SESSION['user_id'] ?? null;
 
-$file_id = $_POST['file_id'] ?? 0;
-$header_name = $_POST['header_name'] ?? '';
-$table_type = $_POST['table_type'] ?? 'type1';
-$line_id = $_POST['line_id'] ?? 0;
-$site_name = $_POST['site_name'] ?? null;
-$application_id = $_POST['application_id'] ?? null;
-$user_id = $_SESSION['user_id'] ?? null;
+// New (range mode)
+$start_col = isset($_POST['start_col']) ? (int)$_POST['start_col'] : null;
+$end_col   = isset($_POST['end_col']) ? (int)$_POST['end_col'] : null;
+$agg_mode  = strtolower($_POST['agg_mode'] ?? 'min'); // min | max
 
-// --- Parameter wajib sesuai Excel sheet
+// Excel params
 if (!isset($_POST['standard_upper'], $_POST['standard_lower'], $_POST['lower_boundary'], $_POST['interval_width'])) {
-    echo json_encode(['success' => false, 'message' => "User harus mengisi standard_upper, standard_lower, lower_boundary, interval_width (sama seperti Excel)."]);
+    echo json_encode(['success' => false, 'message' => 'Parameter Excel tidak lengkap']);
     exit;
 }
 
-$user_standard_upper = (float)$_POST['standard_upper'];
-$user_standard_lower = (float)$_POST['standard_lower'];
-$user_interval_width = (float)$_POST['interval_width'];
+$usl = (float)$_POST['standard_upper'];
+$lsl = (float)$_POST['standard_lower'];
 $user_lower_boundary = (float)$_POST['lower_boundary'];
+$user_interval_width = (float)$_POST['interval_width'];
 
 if ($user_interval_width <= 0) {
-    echo json_encode(['success' => false, 'message' => "interval_width harus > 0."]);
+    echo json_encode(['success' => false, 'message' => 'interval_width harus > 0']);
     exit;
 }
 
-if (empty($file_id) || empty($header_name)) {
-    echo json_encode(['success' => false, 'message' => 'Parameter file_id / header_name tidak lengkap.']);
-    exit;
+// ======================================================
+// Constants
+// ======================================================
+$TABLE1_MAX = 190;
+$TABLE2_MAX = 380;
+
+// ======================================================
+// Build WHERE
+// ======================================================
+$where = " WHERE d.file_id = :file_id AND d.date = :production_date ";
+$params = [
+    ':file_id' => $file_id,
+    ':production_date' => $production_date
+];
+
+if ($line_id) {
+    $where .= " AND d.line_id = :line_id ";
+    $params[':line_id'] = $line_id;
+}
+if ($application_id) {
+    $where .= " AND d.application_id = :application_id ";
+    $params[':application_id'] = $application_id;
 }
 
-$TABLE1_MAX_COL = 190;
-$TABLE2_START_COL = 191;
-$TABLE2_MAX_COL = 380;
 
-$data_column_name = '';
-$header_column = '';
-$data_table = '';
-$header_table = '';
-$found = false;
+// ======================================================
+// (A) FETCH RAW DATA (SQL ONLY FOR FETCH)
+// ======================================================
+$tmp_values = [];
 
-try {
-    // --- Cari kolom header & tabel data yang relevan
-    $tables_to_check = [];
-    if ($table_type === 'type1' || $table_type === 'split') {
-        $tables_to_check[] = ['tbl_header', 'tbl_data', 1, $TABLE1_MAX_COL];
-    }
-    if ($table_type === 'type2' || $table_type === 'split') {
-        $tables_to_check[] = ['tbl_header2', 'tbl_data2', $TABLE2_START_COL, $TABLE2_MAX_COL];
+if ($start_col !== null && $end_col !== null) {
+
+    if ($start_col < 1 || $end_col > $TABLE2_MAX || $start_col > $end_col) {
+        echo json_encode(['success' => false, 'message' => 'Range column tidak valid']);
+        exit;
     }
 
-    foreach ($tables_to_check as [$header_tbl, $data_tbl]) {
-        $stmtHeader = $pdo->prepare("SELECT * FROM {$header_tbl} WHERE file_id = :file_id LIMIT 1");
-        $stmtHeader->execute([':file_id' => $file_id]);
-        $row = $stmtHeader->fetch(PDO::FETCH_ASSOC);
-        if ($row) {
-            foreach ($row as $col_name => $col_value) {
-                if ($col_value === $header_name && preg_match('/^column_(\d+)$/', $col_name, $matches)) {
-                    $col_index = (int)$matches[1];
-                    $data_column_name = "data_{$col_index}";
-                    $header_column = "column_{$col_index}";
-                    $data_table = $data_tbl;
-                    $header_table = $header_tbl;
-                    $found = true;
-                    break 2;
+    // ---------- tbl_data ----------
+    $cols1 = [];
+    for ($i = max(1, $start_col); $i <= min($end_col, $TABLE1_MAX); $i++) {
+        $cols1[] = "d.data_$i";
+    }
+
+    if ($cols1) {
+        $sql = "SELECT " . implode(',', $cols1) . "
+        FROM tbl_data d $where";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($params);
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $row_values = [];
+
+            foreach ($cols1 as $c) {
+                $col = str_replace('d.', '', $c); // ✅ FIX
+                $raw = $row[$col] ?? null;
+
+                if ($raw === null) continue;
+
+                $v = str_replace(',', '.', trim((string)$raw));
+                if (is_numeric($v)) {
+                    $row_values[] = (float)$v;
                 }
+            }
+
+            if ($row_values) {
+                $val = ($agg_mode === 'max') ? max($row_values) : min($row_values);
+                $tmp_values[] = $val;
             }
         }
     }
-} catch (Exception $e) {
-    echo json_encode(['success' => false, 'message' => 'Kesalahan saat mencari indeks kolom: ' . $e->getMessage()]);
+
+    // ---------- tbl_data2 ----------
+    if ($end_col > $TABLE1_MAX) {
+        $cols2 = [];
+        for ($i = max(191, $start_col); $i <= $end_col; $i++) {
+            $cols2[] = "d2.data_$i";
+        }
+
+        $sql = "SELECT " . implode(',', $cols2) . "
+        FROM tbl_data2 d2
+        WHERE d2.file_id = :file_id
+          AND d2.date = :production_date
+          AND d2.line_id = :line_id
+          AND d2.application_id = :application_id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':file_id' => $file_id,
+            ':production_date' => $production_date,
+            ':line_id' => $line_id,
+            ':application_id' => $application_id
+        ]);
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $row_values = [];
+
+            foreach ($cols2 as $c) {
+                $col = str_replace('d2.', '', $c); // ✅ FIX
+                $raw = $row[$col] ?? null;
+
+                if ($raw === null) continue;
+
+                $v = str_replace(',', '.', trim((string)$raw));
+                if (is_numeric($v)) {
+                    $row_values[] = (float)$v;
+                }
+            }
+
+
+            if ($row_values) {
+                $val = ($agg_mode === 'max') ? max($row_values) : min($row_values);
+                $tmp_values[] = $val;
+            }
+        }
+    }
+} else {
+    echo json_encode(['success' => false, 'message' => 'Mode lama (1 header) belum diaktifkan di versi ini']);
     exit;
 }
 
-if (!$found) {
-    echo json_encode(['success' => false, 'message' => "Kolom header '{$header_name}' tidak ditemukan."]);
-    exit;
-}
 
-// --- Helper untuk nilai numerik
-$clean_data_col = "REPLACE(TRIM(d.`{$data_column_name}`), ',', '.')";
-$numeric_where = "{$clean_data_col} REGEXP '^-?([0-9]+\\.?[0-9]*|\\.[0-9]+)$'";
-
-$stratification_sql = '';
-$bind_params = [':file_id' => $file_id, ':header_name' => $header_name];
-$bind_params[':production_date'] = $production_date;
-
-if (!empty($line_id)) {
-    $stratification_sql = " AND d.line_id = :line_id ";
-    $bind_params[':line_id'] = $line_id;
-}
-if (!empty($application_id)) {
-    $stratification_sql .= " AND d.application_id = :application_id ";
-    $bind_params[':application_id'] = $application_id;
-}
-
-// --- (1) Statistik dasar
-try {
-    $agg_sql = "
-        SELECT 
-          COUNT(*) AS cnt,
-          AVG(CAST({$clean_data_col} AS DECIMAL(38,12))) AS mean,
-          STDDEV_SAMP(CAST({$clean_data_col} AS DECIMAL(38,12))) AS stddev,
-          MIN(CAST({$clean_data_col} AS DECIMAL(38,12))) AS min_val,
-          MAX(CAST({$clean_data_col} AS DECIMAL(38,12))) AS max_val
-        FROM {$data_table} d
-        JOIN {$header_table} h ON d.header_id = h.record_no
-        WHERE h.`{$header_column}` = :header_name
-          AND d.file_id = :file_id
-          AND {$numeric_where}
-          {$stratification_sql}
-           AND d.date = :production_date
-    ";
-    $stmtAgg = $pdo->prepare($agg_sql);
-    $stmtAgg->execute($bind_params);
-    $stats = $stmtAgg->fetch(PDO::FETCH_ASSOC);
-} catch (Exception $e) {
-    echo json_encode(['success' => false, 'message' => 'Kesalahan saat mengambil statistik: ' . $e->getMessage()]);
-    exit;
-}
-
-$n = (int)($stats['cnt'] ?? 0);
+$values = $tmp_values;
+// ======================================================
+// (B) STATISTIK DASAR (TIDAK DIUBAH)
+// ======================================================
+$n = count($values);
 if ($n < 1) {
-    echo json_encode(['success' => false, 'message' => "Data tidak cukup ($n nilai)."]);
+    echo json_encode(['success' => false, 'message' => 'Data tidak cukup']);
     exit;
 }
 
-$rata_rata = (float)$stats['mean'];
-$standar_deviasi = (float)$stats['stddev'];
-$min_val = (float)$stats['min_val'];
-$max_val = (float)$stats['max_val'];
+$rata_rata = array_sum($values) / $n;
+$variance = 0.0;
+foreach ($values as $v) {
+    $variance += pow($v - $rata_rata, 2);
+}
+$standar_deviasi = sqrt($variance / ($n - 1));
 
-// --- (2) Gunakan USL/LSL sesuai input user
-$usl = $user_standard_upper;
-$lsl = $user_standard_lower;
+$min_val = min($values);
+$max_val = max($values);
 
 // --- (3) Buat batas interval (upper boundaries) PERSIS seperti Excel
 $midpoints = [];
@@ -175,38 +209,25 @@ for ($i = 0; $i <= 22; $i++) {
 }
 $num_bins = count($midpoints);
 
-// --- (4) Ambil semua nilai data dan hitung Observed Values (COUNTIF Excel)
-$value_sql = "
-    SELECT CAST({$clean_data_col} AS DECIMAL(38,12)) AS nilai
-    FROM {$data_table} d
-    JOIN {$header_table} h ON d.header_id = h.record_no
-    WHERE h.`{$header_column}` = :header_name
-      AND d.file_id = :file_id
-      AND {$numeric_where}
-      {$stratification_sql}
-       AND d.date = :production_date
-";
-$stmt = $pdo->prepare($value_sql);
-$stmt->execute($bind_params);
-
-$out_of_control_vals = [];
 $count_out = 0;
-$max_out = null;
+$out_of_control_vals = [];
 $min_out = null;
+$max_out = null;
 $limited_out_storage = 100;
 
-$values = [];
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $val = (float)$row['nilai'];
-    $values[] = $val;
-
-    if ($val > $usl || $val < $lsl) {
+foreach ($values as $v) {
+    if ($v > $usl || $v < $lsl) {
         $count_out++;
-        if ($max_out === null || $val > $max_out) $max_out = $val;
-        if ($min_out === null || $val < $min_out) $min_out = $val;
-        if (count($out_of_control_vals) < $limited_out_storage) $out_of_control_vals[] = $val;
+        if ($min_out === null || $v < $min_out) $min_out = $v;
+        if ($max_out === null || $v > $max_out) $max_out = $v;
+        if (count($out_of_control_vals) < $limited_out_storage) {
+            $out_of_control_vals[] = $v;
+        }
     }
 }
+
+$percent_out = ($n > 0) ? ($count_out / $n) * 100.0 : 0.0;
+
 
 // --- (5) Implementasi literal COUNTIF Excel
 $bins = array_fill(0, $num_bins, 0);
@@ -293,14 +314,14 @@ $output = [
     'eu' => $eu,
     'el' => $el,
     'estimated_defect_rate' => $estimated_defect_rate,
-    'debug_data_column' => $data_column_name,
+    'debug_range' => "{$start_col}-{$end_col}",
+    'debug_agg_mode' => $agg_mode,
     'debug_total_data' => $n,
     'debug_bin_count' => $num_bins,
     'debug_predicted_total' => $predicted_total,
     'line_name' => $line_name ?? null,
     'application_name' => $application_name ?? null,
     'file_name' => $file_name ?? null,
-    'header_name' => $header_name ?? null,
     'out_of_control' => $count_out > 0,
     'out_of_control_count' => $count_out,
     'out_of_control_percent' => $percent_out,
@@ -314,12 +335,13 @@ $output = [
     'max_val' => $max_val
 ];
 
+$output['debug_tmp_rows'] = count($tmp_values);
 // --- (10) Limit Cp/Cpk per site (optional)
 $std_limit_cp = 0.85;
 $std_limit_cpk = 0.85;
 
 if ($user_id && $site_name) {
-    $stmtLimit = $pdo->prepare("SELECT cp_limit, cpk_limit FROM tbl_user_settings WHERE user_id = :user_id AND site_name = :site_name LIMIT 1");
+    $stmtLimit = $pdo->prepare("SELECT cp_limit, cpk_limit FROM tbl_spc_model_settings WHERE user_id = :user_id AND site_name = :site_name LIMIT 1");
     $stmtLimit->execute([':user_id' => $user_id, ':site_name' => $site_name]);
     $rowLimit = $stmtLimit->fetch(PDO::FETCH_ASSOC);
     if ($rowLimit) {

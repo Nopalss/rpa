@@ -36,6 +36,18 @@ require __DIR__ . '/auth.php';
         body.aside-minimize-hoverable.aside-minimize:not(:hover) .aside-footer {
             display: none !important;
         }
+
+        /* Chrome, Safari, Edge, Opera */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
     </style>
     <!-- <link rel="shortcut icon" href="<?= BASE_URL ?>assets/media/favicon.ico" /> -->
 </head>

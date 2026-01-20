@@ -127,6 +127,10 @@ $rule = $_SESSION['rule'] ?? null;
     <script src="<?= BASE_URL ?>assets/js/pages/features/charts/apexcharts.js"></script>
     <script src="<?= BASE_URL ?>assets/js/dashboard/script.js"></script>
 <?php endif; ?>
+<?php if ($menu == "minmax"): ?>
+    <script src="<?= BASE_URL ?>assets/js/pages/features/charts/apexcharts.js"></script>
+    <script src="<?= BASE_URL ?>assets/js/minmax/script.js"></script>
+<?php endif; ?>
 <?php if ($menu == "add_data"): ?>
     <script src="<?= BASE_URL ?>assets/js/data-page/script.js"></script>
 <?php endif; ?>

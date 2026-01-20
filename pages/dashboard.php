@@ -7,7 +7,7 @@ $_SESSION['halaman'] = 'dashboard';
 $_SESSION['menu'] = 'dashboard';
 
 require __DIR__ . '/../includes/aside.php';
-require __DIR__ . '/../includes/navbar.php';
+// require __DIR__ . '/../includes/navbar.php';
 
 // 1. Ambil Data Line untuk Dropdown
 $stmt = $pdo->query("SELECT line_id AS id, line_name FROM tbl_line ORDER BY line_name ASC");
@@ -154,149 +154,73 @@ function renderSiteSettingItem($i, $site_name, $lines, $site_settings)
     <div class="separator separator-dashed my-5"></div>
 <?php } ?>
 
+<div class="d-flex flex-column flex-row-fluid wrapper pt-6" id="kt_wrapper">
+    <div class="content d-flex flex-column flex-column-fluid pt-0" id="kt_content">
+        <div class="d-flex flex-column-fluid">
+            <div class="container">
+                <div class="row">
+                    <?php for ($i = 0; $i < 4; $i++): ?>
+                        <div class="col-xl-6 mb-2">
+                            <div class="card shadow">
+                                <div class="card-header py-2 d-flex justify-content-between align-items-center">
+                                    <h5 class="card-title font-weight-bolder mb-0">
+                                        <span id="mainHeaderTitle_<?php echo $i ?>">Main <?php echo $i + 1 ?></span>
+                                    </h5>
+                                    <div>
+                                        <button
+                                            class="btn btn-sm btn-info"
+                                            data-slot="<?php echo $i ?>"
+                                            id="btnMainAlert_<?php echo $i ?>">
+                                            Alert
+                                        </button>
+                                        <button
+                                            class="btn btn-sm btn-light pause-slot-btn"
+                                            data-slot="<?= $i ?>"
+                                            title="Pause Slot">
+                                            ⏸
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body pt-2 pb-3">
+                                    <table class="table table-bordered table-sm text-center" style="font-size:10px">
+                                        <tr>
+                                            <th></th>
+                                            <th>Standard</th>
+                                            <th>Actual</th>
+                                        </tr>
+                                        <tr>
+                                            <th>CP</th>
+                                            <td id="mainCpStandard_<?php echo $i ?>">-</td>
+                                            <td id="mainCpActual_<?php echo $i ?>">-</td>
+                                        </tr>
+                                        <tr>
+                                            <th>CPK</th>
+                                            <td id="mainCpkStandard_<?php echo $i ?>">-</td>
+                                            <td id="mainCpkActual_<?php echo $i ?>">-</td>
+                                        </tr>
+                                    </table>
 
-<div class="content d-flex flex-column flex-column-fluid pt-0" id="kt_content">
-    <div class="d-flex flex-column-fluid">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6 col-lg-4 mb-2">
-                    <div class="bg-white m-2 p-2 rounded shadow-sm">
-                        <div class="d-flex flex-column">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="mb-3 pl-5 d-flex align-items-center">
-                                    <p class="font-weight-bold mb-0" id="site1Label">Site 1</p>
-                                    <div id="site1StatusIcon" class="ml-2" style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
-                                    <i id="site1AlertIcon" class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6 cursor-pointer" style="display:none;"></i>
+                                    <div id="mainChartViewer_<?php echo $i ?>" style="height:120px"></div>
+                                    <div id="mainChartTitle_<?php echo $i ?>" class="text-center small mt-2"></div>
                                 </div>
-                                <i id="site1InfoIcon" class="flaticon-information text-primary ml-2 cursor-pointer" title="Info"></i>
                             </div>
-                            <div class="card-body p-1">
-                                <div id="chart_19" style="height: 50px"></div>
-                            </div>
-                            <div id="chart_title_19" class="fw-semibold text-center mb-2 text-primary small"></div>
                         </div>
-                    </div>
+                    <?php endfor; ?>
                 </div>
-                <div class="col-sm-6 col-lg-4 mb-2">
-                    <div class="bg-white m-2 p-2 rounded shadow-sm">
-                        <div class="d-flex flex-column">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="mb-3 pl-5 d-flex align-items-center">
-                                    <p class="font-weight-bold mb-0" id="site2Label">Site 2</p>
-                                    <div id="site2StatusIcon" class="ml-2" style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
-                                    <i id="site2AlertIcon" class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6 cursor-pointer" style="display:none;"></i>
-                                </div>
-                                <i id="site2InfoIcon" class="flaticon-information text-primary ml-2 cursor-pointer" title="Info"></i>
-                            </div>
-                            <div class="card-body p-1">
-                                <div id="chart_20" style="height: 50px"></div>
-                            </div>
-                            <div id="chart_title_20" class="fw-semibold text-center mb-2 text-primary small"></div>
-                        </div>
-                    </div>
+                <div class="mt-2 text-center">
+
+                    <button id="pauseAllCarouselBtn"
+                        class="btn btn-warning btn-sm text-center">
+                        ⏸ Pause All
+                    </button>
                 </div>
-                <div class="col-sm-12 col-lg-4 mb-2">
-                    <div class="bg-white m-2 p-2 rounded shadow-sm">
-                        <div class="d-flex flex-column">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="mb-3 pl-5 d-flex align-items-center">
-                                    <p class="font-weight-bold mb-0" id="site3Label">Site 3</p>
-                                    <div id="site3StatusIcon" class="ml-2" style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
-                                    <i id="site3AlertIcon" class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6 cursor-pointer" style="display:none;"></i>
-                                </div>
-                                <i id="site3InfoIcon" class="flaticon-information text-primary ml-2 cursor-pointer" title="Info"></i>
-                            </div>
-                            <div class="card-body p-1">
-                                <div id="chart_21" style="height: 50px"></div>
-                            </div>
-                            <div id="chart_title_21" class="fw-semibold text-center mb-2 text-primary small"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-8 mb-2">
-                    <div class="card shadow">
-                        <div class="card-header pb-2 d-flex justify-content-between align-items-center">
-                            <h3 class="card-title d-flex align-items-center mb-2">
-                                <a class="card-label text-dark" id="mainHeaderTitle">Main</a>
-                                <!-- <div id="mainStatusIcon" class="ml-2" style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
-                                <i id="mainAlertIcon" class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h3 cursor-pointer" style="display:none;"></i> -->
-                            </h3>
-                            <div>
-                                <button id="btnMainAlert" class="btn btn-sm btn-info mr-2">Alert</button>
-                                <i id="mainInfoIcon" class="flaticon-information text-primary ml-2 cursor-pointer" title="Info"></i>
-                            </div>
-                        </div>
-                        <div class="card-body pt-2">
-                            <table class="table table-bordered table-striped table-sm text-center" style="width: 35%;">
-                                <tr>
-                                    <th></th>
-                                    <th>Standard</th>
-                                    <th>Actual</th>
-                                </tr>
-                                <tr>
-                                    <th>CP</th>
-                                    <td id="mainCpStandard">-</td>
-                                    <td id="mainCpActual">-</td>
-                                </tr>
-                                <tr>
-                                    <th>CPK</th>
-                                    <td id="mainCpkStandard">-</td>
-                                    <td id="mainCpkActual">-</td>
-                                </tr>
-                            </table>
-                            <div id="mainChartViewer" style="height: 400px;"></div>
-                            <div id="mainChartTitle" class="fw-semibold text-center mb-2"></div>
-                            <div class="text-center mt-3">
-                                <button id="toggleCarousel" class="btn btn-sm btn-light-primary">⏸️ Pause</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 row pl-8 mb-4 mt-0">
-                    <div class="col-12 p-0" style="height: 60px">
-                        <div class="bg-white m-2 p-2 rounded shadow-sm">
-                            <div class="d-flex flex-column">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="mb-3 pl-5 d-flex align-items-center">
-                                        <p class="font-weight-bold mb-0" id="site4Label">Site 4</p>
-                                        <div id="site4StatusIcon" class="ml-2" style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
-                                        <i id="site4AlertIcon" class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6 cursor-pointer" style="display:none;"></i>
-                                    </div>
-                                    <i id="site4InfoIcon" class="flaticon-information text-primary ml-2 cursor-pointer" title="Info"></i>
-                                </div>
-                                <div class="card-body p-1">
-                                    <div id="chart_15" style="height: 50px"></div>
-                                </div>
-                                <div id="chart_title_15" class="fw-semibold text-center mb-2 text-primary small"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 p-0" style="height: 50px">
-                        <div class="bg-white m-2 p-2 rounded shadow-sm">
-                            <div class="d-flex flex-column">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="mb-3 pl-5 d-flex align-items-center">
-                                        <p class="font-weight-bold mb-0" id="site5Label">Site 5</p>
-                                        <div id="site5StatusIcon" class="ml-2" style="width: 10px; height: 10px; border-radius: 50%; background-color: green;"></div>
-                                        <i id="site5AlertIcon" class="flaticon-warning text-danger mb-0 font-weight-bold ml-2 h6 cursor-pointer" style="display:none;"></i>
-                                    </div>
-                                    <i id="site5InfoIcon" class="flaticon-information text-primary ml-2 cursor-pointer" title="Info"></i>
-                                </div>
-                                <div class="card-body p-1">
-                                    <div id="chart_16" style="height: 50px"></div>
-                                </div>
-                                <div id="chart_title_16" class="fw-semibold text-center mb-2 text-primary small"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
 
                 <div class="col-xl-12 mt-5">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <h2 class="font-weight-bolder mb-0">Settings</h2>
-
                                 <div class="d-flex align-items-center">
                                     <label class="mr-2 mb-0 text-muted font-weight-bold small">Refresh:</label>
                                     <select id="globalIntervalSelect" class="form-control form-control-sm mr-3" style="width: 110px;">
@@ -304,8 +228,13 @@ function renderSiteSettingItem($i, $site_name, $lines, $site_settings)
                                         <option value="15000">15 Detik</option>
                                         <option value="30000" selected>30 Detik</option>
                                         <option value="60000">1 Menit</option>
+                                        <option value="600000">10 Menit</option>
+                                        <option value="900000">15 Menit</option>
+                                        <option value="1800000">30 Menit</option>
+                                        <option value="3600000">1 Jam</option>
+                                        <option value="7200000">2 Jam</option>
+                                        <option value="10800000">3 Jam</option>
                                     </select>
-
                                     <button type="button" id="btnAddSite" class="btn btn-sm btn-primary">
                                         <i class="flaticon2-plus"></i> Tambah Site
                                     </button>
@@ -339,10 +268,10 @@ function renderSiteSettingItem($i, $site_name, $lines, $site_settings)
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <script>

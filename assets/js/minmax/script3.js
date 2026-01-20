@@ -1,94 +1,4 @@
 $(document).ready(function () {
-    // ===============================
-    // MAIN CAROUSEL CONFIG
-    // ===============================
-    const isViewer = false;
-    const MAIN_SLOTS = 4;
-    const CACHE_TTL = 3 * 60 * 1000; // 3 menit
-
-    window.mainSlots = Array.from({ length: MAIN_SLOTS }, (_, i) => ({
-        slot: i,
-        site: null
-    }));
-
-    window.roundRobinIndex = 0;
-    window.chartCache = {}; // memory cache
-
-    function getCachedChart(site) {
-        const mem = window.chartCache[site];
-        if (mem && Date.now() - mem.fetchedAt < CACHE_TTL) {
-            return mem.data;
-        }
-
-        const raw = localStorage.getItem(`chart_${site}`);
-        if (!raw) return null;
-
-        try {
-            const parsed = JSON.parse(raw);
-            if (Date.now() - parsed.fetchedAt < CACHE_TTL) {
-                window.chartCache[site] = parsed;
-                return parsed.data;
-            }
-        } catch { }
-        return null;
-    }
-
-    function saveChartCache(site, data) {
-        const payload = {
-            data,
-            fetchedAt: Date.now()
-        };
-        window.chartCache[site] = payload;
-        localStorage.setItem(`chart_${site}`, JSON.stringify(payload));
-    }
-
-    async function runMainCarousel() {
-        const batch = getNextSitesBatch();
-
-        for (let i = 0; i < MAIN_SLOTS; i++) {
-            // ⏸️ PAUSE ALL
-            if (window.carouselPausedAll) {
-                console.log('[CAROUSEL] Paused ALL');
-                return;
-            }
-
-            // ⏸️ PAUSE SLOT TERTENTU
-            if (window.pausedSlots[i]) {
-                console.log(`[CAROUSEL] Slot ${i} paused`);
-                continue;
-            }
-            const site = batch[i];
-            if (!site) continue;
-            window.mainSlots[i].site = site;
-            updateMainHeaderTitle(i, site);
-            // tampilkan spinner dulu
-            const selector = `#mainChartViewer_${i}`;
-            $(selector).html(`
-            <div class="d-flex justify-content-center align-items-center h-100">
-                <div class="spinner-border text-primary"></div>
-            </div>
-        `);
-
-
-            const cached = getCachedChart(site);
-            if (cached) {
-                renderApexHistogram(
-                    `#mainChartViewer_${i}`,
-                    cached,
-                    site,
-                    `main_slot_${i}`
-                );
-                updateMainCpCpkTable(i, site);
-            } else {
-                loadHistogramForCarousel(i, site);
-            }
-            await new Promise(r => setTimeout(r, 1000));
-        }
-    }
-
-
-
-
     // -------------------------
     // 1. Config & Globals
     // -------------------------
@@ -104,36 +14,20 @@ $(document).ready(function () {
             ? Array.from(set)
             : ["site1", "site2", "site3", "site4", "site5"];
     }
-    function getNextSitesBatch() {
-        const sites = getAllSites();
-        if (!sites.length) return [];
-
-        const batch = [];
-
-        for (let i = 0; i < MAIN_SLOTS; i++) {
-            const idx = (window.roundRobinIndex + i) % sites.length;
-            batch.push(sites[idx]);
-        }
-
-        window.roundRobinIndex =
-            (window.roundRobinIndex + MAIN_SLOTS) % sites.length;
-
-        return batch;
-    }
-
 
 
     let SITES = getAllSites();
 
-
+    const chartMapping = {
+        'viewer': '#mainChartViewer',
+        'site1': '#chart_19',
+        'site2': '#chart_20',
+        'site3': '#chart_21',
+        'site4': '#chart_15',
+        'site5': '#chart_16'
+    };
 
     if (typeof HOST_URL === 'undefined') { console.warn('HOST_URL is not defined.'); }
-
-    // ===============================
-    // PAUSE STATE
-    // ===============================
-    window.carouselPausedAll = false;
-    window.pausedSlots = {}; // { 0: true, 2: true }
 
     window.apexChartsInstances = {};
     window.cachedChartData = {};
@@ -145,15 +39,60 @@ $(document).ready(function () {
     window.currentMainSite = window.currentMainSite || SITES[0];
     window.dbConfig = window.dbConfig || {};
     window.renderingChart = window.renderingChart || {}; // PATCH: guard render per chart key
-
+    window.isPageInitializing = true;
+    let globalPollingId = null;
     let carouselIntervalId = null;
-    const perSiteIntervalIds = {}; // Legacy cleanup
 
     // -------------------------
     // 2. Utilities
     // -------------------------
+
+    let recalcTimers = {};
+
+    function scheduleRecalc(site) {
+        if (window.isPageInitializing) return; // 🔥 PENTING
+        window.shownAlerts[site] = false;
+
+        clearTimeout(recalcTimers[site]);
+        recalcTimers[site] = setTimeout(() => {
+            loadHistogramChart(site, false, true);
+        }, 500);
+    }
+
     function resolveSite(site) {
         return (site === 'main' || site === 'viewer') ? window.currentMainSite : site;
+    }
+
+    function requestRecalc(site) {
+        return $.ajax({
+            url: `${HOST_URL}api/minmax/request_recalc.php`,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                site_name: site
+            }
+        });
+    }
+    function fetchChartFromCache(site) {
+        return $.ajax({
+            url: `${HOST_URL}api/minmax/chart.php`,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                site_name: site
+            }
+        });
+    }
+
+    function showProcessingSpinnerByChartId(chartId) {
+        if (!chartId) return;
+
+        $(chartId).html(`
+        <div class="d-flex justify-content-center align-items-center h-100">
+            <div class="spinner-border text-primary"></div>
+            <div class="ms-2 small text-muted">Processing...</div>
+        </div>
+    `);
     }
 
     function updateSiteLabel(site) {
@@ -190,51 +129,55 @@ $(document).ready(function () {
         return { actualSite: actual, $row: $row };
     }
 
+    // [BARU] Fungsi Menjalankan Timer Global
+    // function startFocusedPolling(baseIntervalMs) {
+    //     if (globalPollingId) clearTimeout(globalPollingId);
 
-    let globalSchedulerTimer = null;
-    let isSchedulerRunning = false;
-
-    // function startGlobalScheduler(intervalMs = 120000) {
-    //     stopGlobalScheduler();
-
-    //     async function runCycle() {
-    //         if (isSchedulerRunning) return;
-    //         isSchedulerRunning = true;
-
-    //         SITES = getAllSites();
-
-    //         for (let i = 0; i < SITES.length; i++) {
-    //             const site = SITES[i];
-
-    //             const cfg = window.dbConfig?.[site];
-    //             if (!cfg || !cfg.file_id || !cfg.header_name) continue;
-
-    //             if (window.loadingCharts[site]) continue;
-
-    //             loadHistogramChart(site, false, true);
-
-    //             // 🔥 INI YANG KURANG (TAMBAHKAN)
-    //             if (site === window.currentMainSite) {
-    //                 renderViewerFromCache(site);
-    //             }
-
-    //             await new Promise(r => setTimeout(r, 3000));
+    //     function pollOnce() {
+    //         const site = window.currentMainSite;
+    //         if (site) {
+    //             loadHistogramChart(site, false, false);
     //         }
 
-    //         isSchedulerRunning = false;
+    //         const jitter =
+    //             baseIntervalMs +
+    //             Math.floor(Math.random() * 6000) - 3000;
 
-    //         globalSchedulerTimer = setTimeout(runCycle, intervalMs);
+    //         globalPollingId = setTimeout(pollOnce, Math.max(8000, jitter));
     //     }
 
-    //     runCycle();
+    //     pollOnce();
     // }
+    function startFocusedPolling(baseIntervalMs) {
+        if (globalPollingId) clearTimeout(globalPollingId);
 
-    function stopGlobalScheduler() {
-        if (globalSchedulerTimer) {
-            clearTimeout(globalSchedulerTimer);
-            globalSchedulerTimer = null;
+        function pollOnce() {
+            SITES = getAllSites();
+
+            const main = window.currentMainSite;
+            if (main) {
+                loadHistogramChart(main, false, false);
+            }
+
+            SITES
+                .filter(site =>
+                    site !== main &&
+                    (
+                        window.loadingCharts[site] ||
+                        !window.cachedChartData[site]
+                    )
+                )
+                .forEach(site => {
+                    loadHistogramChart(site, false, false);
+                });
+
+            globalPollingId = setTimeout(pollOnce, baseIntervalMs);
         }
+
+        pollOnce();
     }
+
+
 
     function initSite(siteName) {
         const $row = $(`.site-setting-row[data-site="${siteName}"]`);
@@ -244,7 +187,7 @@ $(document).ready(function () {
         $row.find('.line').prop('disabled', false);
 
         // Dropdown lain reset & disable (menunggu cascade)
-        $row.find('.application, .file, .headers')
+        $row.find('.application, .file')
             .prop('disabled', true)
             .html('<option value="">Select</option>');
 
@@ -280,14 +223,17 @@ $(document).ready(function () {
         // const hasOOC = Number(data.out_of_control_count || 0) > 0;
 
         const { $row } = safeRowForSite(actual);
-
+        const cfg = window.dbConfig?.[actual] || {};
+        const modeText = cfg.agg_mode
+            ? `${cfg.agg_mode.toUpperCase()} (${cfg.start_col}–${cfg.end_col})`
+            : '-';
         const info = {
             type: "cp_result",
+            site_name: actual,
             site: window.dbConfig?.[actual]?.site_label || actual.toUpperCase(),
             line: $row.find('.line option:selected').text() || '-',
             app: $row.find('.application option:selected').text() || '-',
             file: $row.find('.file option:selected').text() || '-',
-            header: $row.find('.headers option:selected').text() || '-',
             cp: data.cp?.toFixed(3) ?? '-',
             cpk: data.cpk?.toFixed(3) ?? '-',
             cp_status: data.cp_status ?? '-',
@@ -325,7 +271,7 @@ $(document).ready(function () {
                 <p><b>🏭 Line:</b> ${info.line}</p>
                 <p><b>🧩 App:</b> ${info.app}</p>
                 <p><b>📂 File:</b> ${info.file}</p>
-                <p><b>🧾 Header:</b> ${info.header}</p>
+                <span class="text-warning">${modeText}</span>
                 <hr>
                 <p><b>CP:</b> ${info.cp} (${info.cp_status})</p>
                 <p><b>CP Limit:</b> ${info.cp_limit}</p>
@@ -360,6 +306,10 @@ $(document).ready(function () {
     }
 
     function fireSwal(info) {
+        const cfg = window.dbConfig?.[info.site_name] || {};
+        const modeText = cfg.agg_mode
+            ? `${cfg.agg_mode.toUpperCase()} (${cfg.start_col}–${cfg.end_col})`
+            : '-';
         if (info.type === "cp_result") {
             Swal.fire({
                 icon: info.final_status === "OK" ? "success" : "error",
@@ -371,7 +321,7 @@ $(document).ready(function () {
                     <p><b>🏭 Line:</b> ${info.line}</p>
                     <p><b>🧩 App:</b> ${info.app}</p>
                     <p><b>📂 File:</b> ${info.file}</p>
-                    <p><b>🧾 Header:</b> ${info.header}</p>
+                    <span class="text-warning">${modeText}</span>
                     <hr>
                     <p><b>CP:</b> ${info.cp ?? '-'} (${info.cp_status ?? '-'})</p>
                     <p><b>CPK:</b> ${info.cpk ?? '-'} (${info.cpk_status ?? '-'})</p>
@@ -396,7 +346,9 @@ $(document).ready(function () {
                 <p><b>🏭 Line:</b> ${info.line}</p>
                 <p><b>🧩 App:</b> ${info.app}</p>
                 <p><b>📂 File:</b> ${info.file}</p>
-                <p><b>🧾 Header:</b> ${info.header}</p>
+             <span class="text-warning">
+                Model ${modeText}
+            </span>
                 <hr>
                 <p>Ada <b>${info.count}</b> titik out of control.</p>
                 <p><b>LCL:</b> ${info.lcl} | <b>UCL:</b> ${info.ucl}</p>
@@ -421,7 +373,12 @@ $(document).ready(function () {
             return;
         }
 
-        const chartHeight = 225;
+        const cfg = window.dbConfig?.[siteName] || {};
+        const modeText = cfg.agg_mode
+            ? `${cfg.agg_mode.toUpperCase()} (${cfg.start_col}–${cfg.end_col})`
+            : '-';
+        const isViewer = (chartSelector === chartMapping['viewer']);
+        const chartHeight = isViewer ? 350 : 150;
 
         //--------------------------------------------------------------
         // 1. Build Excel-like boundary axis
@@ -487,8 +444,6 @@ $(document).ready(function () {
                 zoom: { enabled: false },
 
             },
-
-
 
             series: [
                 { name: 'Observed values', type: 'column', data: bars },
@@ -661,7 +616,7 @@ $(document).ready(function () {
             <span class="text-primary">Line: ${$row.find('.line option:selected').text() || '-'}</span> |
             <span class="text-success">App: ${$row.find('.application option:selected').text() || '-'}</span> |
             <span class="text-info">File: ${$row.find('.file option:selected').text() || '-'}</span> |
-            <span class="text-warning">Header: ${$row.find('.headers option:selected').text() || '-'}</span>
+           <span class="text-warning">${modeText}</span>
         </div>
     `;
                     const parent = el.closest('.card-body') || el.parentElement;
@@ -684,6 +639,25 @@ $(document).ready(function () {
         }, 50);
     }
 
+    function updateSiteStatusIcon(site, data) {
+        const statusIcon = document.getElementById(`${site}StatusIcon`);
+        const alertIcon = document.getElementById(`${site}AlertIcon`);
+
+        if (!statusIcon || !alertIcon || !data) return;
+
+        const isNg =
+            data.cp_status !== 'OK' ||
+            data.cpk_status !== 'OK';
+
+        if (isNg) {
+            statusIcon.style.backgroundColor = 'red';
+            alertIcon.style.display = 'inline';
+        } else {
+            statusIcon.style.backgroundColor = 'green';
+            alertIcon.style.display = 'none';
+        }
+    }
+
     // -------------------------
     // PATCH: Viewer Only Render From Cache (copy)
     // -------------------------
@@ -692,421 +666,195 @@ $(document).ready(function () {
         try { return JSON.parse(JSON.stringify(obj)); } catch { return null; }
     }
 
-    // function renderViewerFromCache(site) {
-    //     const raw = window.cachedChartData[site];
-    //     const cached = raw ? deepCopy(raw) : null; // PATCH: hindari race dengan polling
-    //     if (cached) {
-    //         renderApexHistogram('#mainChartViewer', cached, site, 'viewer');
-    //     } else {
-    //         $('#mainChartViewer').html(`
-    //             <div class="d-flex justify-content-center align-items-center h-100">
-    //                 <div class="spinner-border text-primary"></div>
-    //             </div>
-    //         `);
-    //     }
-    // }
+    function renderViewerFromCache(site) {
+        const raw = window.cachedChartData[site];
+        const cached = raw ? deepCopy(raw) : null; // PATCH: hindari race dengan polling
+        if (cached) {
+            renderApexHistogram('#mainChartViewer', cached, site, 'viewer');
+        } else {
+            $('#mainChartViewer').html(`
+                <div class="d-flex justify-content-center align-items-center h-100">
+                    <div class="spinner-border text-primary"></div>
+                </div>
+            `);
+        }
+    }
 
     // ==========================
     // PATCH: SAFE CHART SELECTOR
     // ==========================
+    function getChartSelectorForSite(site, isMainCarousel) {
+        if (isMainCarousel) return chartMapping['viewer'];
+        // site6+ tidak punya mini chart → lewati saja
+        return chartMapping[site] || null;
+    }
+    // function getChartSelectorForSite(site, isMainCarousel) {
+    //     if (isMainCarousel) return chartMapping['viewer'];
+    //     if (chartMapping[site]) return chartMapping[site];
+    //     return null; // site6+ tidak ada mini chart
+    // }
 
     // -------------------------
     // 5. Load Logic
     // -------------------------
     function loadHistogramChart(site, isMainCarousel = false, forceRefresh = false) {
-        // const actual = resolveSite(site);
-        const actual = site;
-        const chartId = null;
-
-        // Kalau site6+ (tidak punya mini chart) → tetap boleh load data dan tampil di viewer
-        if (!chartId && !isMainCarousel) {
-            console.log(`[INFO] ${actual} tidak punya mini chart, hanya tampil di viewer`);
+        if (!forceRefresh && window.isPageInitializing) {
+            return;
+        }
+        // ===============================
+        // 0️⃣ Viewer utama hanya render cache
+        // ===============================
+        if (isMainCarousel) {
+            renderViewerFromCache(site);
+            return;
         }
 
-        const instanceKey = isMainCarousel ? `viewer` : actual;
+        const actual = resolveSite(site);
+        const chartId = getChartSelectorForSite(actual, false);
+        const instanceKey = actual;
         const { $row } = safeRowForSite(actual);
 
-        // Row tidak ditemukan
-        if (!$row || $row.length === 0) {
-            if (window.cachedChartData[actual] && !forceRefresh) {
+        // ===============================
+        // 1️⃣ Validasi row site
+        // ===============================
+        if (!$row || !$row.length) {
+            if (window.cachedChartData[actual]) {
                 renderApexHistogram(chartId, window.cachedChartData[actual], actual, instanceKey);
-            } else {
+            } else if (chartId) {
                 $(chartId).html('<div class="text-muted small">Site configuration tidak ditemukan.</div>');
             }
             return;
         }
 
-        // Sedang loading dan tidak force
-        if (window.loadingCharts[actual] && !forceRefresh) return;
+        // ===============================
+        // 2️⃣ FORCE RECALC (user ubah setting)
+        // ===============================
+        if (forceRefresh) {
+            window.loadingCharts[actual] = true;
+            showProcessingSpinnerByChartId(chartId);
 
-        // Pakai cache bila ada & tidak force
-        if (window.cachedChartData[actual] && !forceRefresh) {
-            renderApexHistogram(chartId, window.cachedChartData[actual], actual, instanceKey);
+            requestRecalc(actual).always(() => {
+                // 🔥 BUKA KUNCI polling
+                window.loadingCharts[actual] = false;
+
+                setTimeout(() => {
+                    loadHistogramChart(actual, false, false);
+                }, 700);
+            });
+
             return;
         }
 
-        // Ambil dropdown
-        let valLine = $row.find('.line').val();
-        let valApp = $row.find('.application').val();
-        let valFile = $row.find('.file').val();
-        let valHead = $row.find('.headers').val();
 
-        // Ambil input user
-        let stdLower = parseFloat($row.find('input[data-type="lcl"]').val());
-        let stdUpper = parseFloat($row.find('input[data-type="ucl"]').val());
-        let lowBoundary = parseFloat($row.find('input[data-type="lower"]').val());
-        let intWidth = parseFloat($row.find('input[data-type="interval"]').val());
-
-        // Normalize NaN → undefined
-        stdLower = Number.isFinite(stdLower) ? stdLower : undefined;
-        stdUpper = Number.isFinite(stdUpper) ? stdUpper : undefined;
-        lowBoundary = Number.isFinite(lowBoundary) ? lowBoundary : undefined;
-        intWidth = Number.isFinite(intWidth) ? intWidth : undefined;
-
-        // DB fallback
-        if (window.dbConfig && window.dbConfig[actual]) {
-            const db = window.dbConfig[actual];
-
-            if (!valLine && db.line_id) valLine = db.line_id;
-            if (!valApp && db.application_id) valApp = db.application_id;
-            if (!valFile && db.file_id) valFile = db.file_id;
-            if (!valHead && db.header_name) valHead = db.header_name;
-
-            if (stdLower === undefined && db.custom_lcl !== undefined) {
-                const v = parseFloat(db.custom_lcl);
-                if (Number.isFinite(v)) stdLower = v;
-            }
-            if (stdUpper === undefined && db.custom_ucl !== undefined) {
-                const v = parseFloat(db.custom_ucl);
-                if (Number.isFinite(v)) stdUpper = v;
-            }
-            if (lowBoundary === undefined && db.lower_boundary !== undefined) {
-                const v = parseFloat(db.lower_boundary);
-                if (Number.isFinite(v)) lowBoundary = v;
-            }
-            if (intWidth === undefined && db.interval_width !== undefined) {
-                const v = parseFloat(db.interval_width);
-                if (Number.isFinite(v)) intWidth = v;
-            }
-        }
-
-        // File/Header belum ada
-        if (!valFile || !valHead) {
-            if (window.cachedChartData[actual]) {
-                renderApexHistogram(chartId, window.cachedChartData[actual], actual, instanceKey);
-                return;
-            }
-            $(chartId).html(`
-            <div class="d-flex justify-content-center align-items-center h-100">
-                <div class="spinner-border text-primary"></div>
-                <div class="text-muted small ms-2">Pilih File & Header.</div>
-            </div>
-        `);
-            return;
-        }
-
-        // Validasi parameter histogram
-        const missingParams =
-            stdLower === undefined ||
-            stdUpper === undefined ||
-            lowBoundary === undefined ||
-            intWidth === undefined;
-
-        if (missingParams) {
-            if (window.cachedChartData[actual] && !forceRefresh) {
-                renderApexHistogram(chartId, window.cachedChartData[actual], actual, instanceKey);
-                return;
-            }
-            $(chartId).html(`
-            <div class="d-flex flex-column justify-content-center align-items-center h-100">
-                <div class="spinner-border text-primary"></div>
-                <div class="text-danger mt-2 small">
-                    Pengaturan histogram belum lengkap: isi LCL, UCL, Lower Boundary, Interval Width.
-                </div>
-            </div>
-        `);
-            return;
-        }
-
-        // Panggil API
+        // ===============================
+        // 3️⃣ Jangan spam request
+        // ===============================
+        if (window.loadingCharts[actual]) return;
         window.loadingCharts[actual] = true;
 
-        const postData = {
-            site_name: actual,
-            line_id: valLine,
-            application_id: valApp,
-            file_id: valFile,
-            header_name: valHead,
-            table_type: $row.find('.headers').data('table-type') || 'type1',
-            standard_upper: stdUpper,
-            standard_lower: stdLower,
-            lower_boundary: lowBoundary,
-            interval_width: intWidth
-        };
+        // ===============================
+        // 4️⃣ Ambil data dari CACHE API
+        // ===============================
+        fetchChartFromCache(actual)
+            .done(res => {
+                if (res.success && res.from_cache && res.data) {
+                    window.cachedChartData[actual] = res.data;
 
-        $.ajax({
-            url: `${HOST_URL}api/chart_data_3sigma.php`,
-            type: 'POST',
-            data: postData,
-            dataType: 'json',
-            timeout: 60000,
-            success: function (response) {
-                if (typeof response !== 'object' || response === null) {
-                    if (window.cachedChartData[actual]) {
-                        renderApexHistogram(chartId, window.cachedChartData[actual], actual, instanceKey);
-                    } else {
-                        $(chartId).html('<div class="text-danger small">Invalid API response.</div>');
+                    renderApexHistogram(chartId, res.data, actual, instanceKey);
+                    updateSiteStatusIcon(actual, res.data);
+
+                    // 🔥 TAMBAHKAN INI
+                    if (actual === window.currentMainSite) {
+                        updateMainCpCpkTable(actual);
                     }
-                    return;
-                }
 
-                if (!response.success) {
-                    if (window.cachedChartData[actual]) {
-                        renderApexHistogram(chartId, window.cachedChartData[actual], actual, instanceKey);
-                    } else {
-                        $(chartId).html('<div class="text-danger small">' +
-                            (response.message || 'Error API') +
-                            '</div>');
-                    }
-                    return;
-                }
+                    const isNg =
+                        res.data.cp_status !== 'OK' ||
+                        res.data.cpk_status !== 'OK';
 
-                // Save cache
-                window.cachedChartData[actual] = response;
-                saveChartCache(actual, response);
-                // Save minimal config
-                if (!window.dbConfig[actual]) window.dbConfig[actual] = {};
-                window.dbConfig[actual].line_id = valLine;
-                window.dbConfig[actual].application_id = valApp;
-                window.dbConfig[actual].file_id = valFile;
-                window.dbConfig[actual].header_name = valHead;
-                window.dbConfig[actual].custom_lcl = stdLower;
-                window.dbConfig[actual].custom_ucl = stdUpper;
-                window.dbConfig[actual].lower_boundary = lowBoundary;
-                window.dbConfig[actual].interval_width = intWidth;
-                window.dbConfig[actual].cp_limit =
-                    $row.find('input[data-type="cp_limit"]').val();
-                window.dbConfig[actual].cpk_limit =
-                    $row.find('input[data-type="cpk_limit"]').val();
-
-                // Render
-                renderApexHistogram(chartId, response, actual, instanceKey);
-
-                const finalStatus =
-                    response.cp_status === "OK" &&
-                        response.cpk_status === "OK"
-                        ? "OK"
-                        : "NG";
-
-                if (finalStatus === "NG") {
-                    const info = {
-                        type: "cp_result",
-                        site: window.dbConfig?.[actual]?.site_label || actual.toUpperCase(),
-                        line: $row.find('.line option:selected').text() || '-',
-                        app: $row.find('.application option:selected').text() || '-',
-                        file: $row.find('.file option:selected').text() || '-',
-                        header: $row.find('.headers option:selected').text() || '-',
-                        cp: response.cp?.toFixed(3),
-                        cpk: response.cpk?.toFixed(3),
-                        cp_status: response.cp_status,
-                        cpk_status: response.cpk_status,
-                        final_status: finalStatus
-                    };
-
-                    const lastAlert = window.lastCpCpkAlert?.[actual];
-                    const currentKey =
-                        `${info.cp_status}_${info.cpk_status}_${info.cp}_${info.cpk}`;
-
-                    if (!lastAlert || lastAlert !== currentKey) {
-                        window.lastCpCpkAlert = window.lastCpCpkAlert || {};
-                        window.lastCpCpkAlert[actual] = currentKey;
-                        window.alertQueue.push(info);
-                        showNextAlert();
+                    if (isNg && !window.shownAlerts[actual]) {
+                        window.shownAlerts[actual] = true;
+                        showManualAlert(actual);
                     }
                 }
 
-                const statusIcon = document.getElementById(`${actual}StatusIcon`);
-                const alertIcon = document.getElementById(`${actual}AlertIcon`);
-
-                if (finalStatus === "OK") {
-                    if (statusIcon) {
-                        statusIcon.style.display = "inline-block";
-                        statusIcon.style.backgroundColor = "green";
-                    }
-                    if (alertIcon) alertIcon.style.display = "none";
-                } else {
-                    if (statusIcon) statusIcon.style.display = "none";
-                    if (alertIcon) alertIcon.style.display = "inline-block";
+                if (res.status === 'processing' && !window.cachedChartData[actual]) {
+                    showProcessingSpinnerByChartId(chartId);
                 }
-            },
-            error: function (xhr, status) {
+            })
+            .fail(() => {
                 if (window.cachedChartData[actual]) {
                     renderApexHistogram(chartId, window.cachedChartData[actual], actual, instanceKey);
-                } else if (status === 'timeout') {
-                    $(chartId).html('<div class="text-danger small">Request timeout.</div>');
-                } else {
-                    $(chartId).html('<div class="text-danger small">Error API.</div>');
                 }
-            },
-            complete: function () {
+            })
+            .always(() => {
+                // 🔥 INI YANG SEBELUMNYA HILANG
                 window.loadingCharts[actual] = false;
-            }
-        });
+            });
+
     }
 
-
-    function loadHistogramForCarousel(slotIndex, site, forceRefresh = false) {
-        // Simpan chartId lama (kalau ada)
-        const oldRender = window.renderApexHistogram;
-
-        // 🔥 Override sementara renderApexHistogram
-        window.renderApexHistogram = function (
-            chartSelector,
-            data,
-            siteName,
-            instanceKey
-        ) {
-            const selector = `#mainChartViewer_${slotIndex}`;
-            oldRender(selector, data, siteName, `main_slot_${slotIndex}`);
-            updateMainCpCpkTable(slotIndex, siteName);
-            updateMainHeaderTitle(slotIndex, siteName);
-        };
-
-        try {
-            // Panggil function LAMA TANPA DIUBAH
-            loadHistogramChart(site, true, forceRefresh);
-        } finally {
-            // 🔥 Kembalikan renderApexHistogram ke semula
-            window.renderApexHistogram = oldRender;
-        }
-    }
-
-
-    async function fetchChartSafely(site) {
-        if (getCachedChart(site)) return;
-
-        await new Promise(r => setTimeout(r, 1000)); // throttle 1 detik
-
-        loadHistogramChart(site, false, true);
-
-        if (window.cachedChartData[site]) {
-            saveChartCache(site, window.cachedChartData[site]);
-        }
-    }
-    function renderMainSlot(slot, site) {
-        const selector = `#mainChartViewer_${slot}`;
-        const cached = getCachedChart(site);
-
-        if (!cached) {
-            $(selector).html('<div class="spinner-border"></div>');
-            return;
-        }
-
-        renderApexHistogram(
-            selector,
-            cached,
-            site,
-            `main_slot_${slot}`
-        );
-    }
-
-    function updateMainHeaderTitle(slotIndex, site) {
-        const cfg = window.dbConfig?.[site];
-        const label = cfg?.site_label || site.toUpperCase();
-
-        const statusIcon = getCpCpkStatusIcon(site);
-
-        $(`#mainHeaderTitle_${slotIndex}`).html(`
-        <div class="fw-bold d-flex align-items-center gap-1">
-            <span class"pr-2">${label}</span>
-            ${statusIcon}
-        </div>
-    `);
-    }
-
-    function getCpCpkStatusIcon(site) {
-        const data = window.cachedChartData?.[site];
-        if (!data) return '';
-
-        const isOk =
-            data.cp_status === 'OK' &&
-            data.cpk_status === 'OK';
-
-        if (isOk) {
-            return `
-            <span class="ms-1 pl-2"
-                  style="display:inline-block;
-                         width:10px;
-                         height:10px;
-                         border-radius:50%;
-                         background:#28a745;"
-                  title="OK"></span>
-        `;
-        }
-
-        return `
-        <span class="ms-1 text-danger"
-              title="NG"
-              style="font-size:14px;">&#9888;</span>
-    `;
-    }
 
     // -------------------------
     // 6. Title Update
     // -------------------------
-    // function updateMainTitle(site) {
-    //     const actual = resolveSite(site);
-    //     const siteLabel =
-    //         window.dbConfig?.[actual]?.site_label || actual.toUpperCase();
-    //     $('#mainHeaderTitle').text(siteLabel);
-    //     const { $row } = safeRowForSite(actual);
-    //     if (!$row || $row.length === 0) {
-    //         const label = window.dbConfig?.[actual]?.site_label || actual.toUpperCase();
+    function updateMainTitle(site) {
+        const actual = resolveSite(site);
+        const siteLabel =
+            window.dbConfig?.[actual]?.site_label || actual.toUpperCase();
+        $('#mainHeaderTitle').text(siteLabel);
+        const { $row } = safeRowForSite(actual);
+        if (!$row || $row.length === 0) {
+            const label = window.dbConfig?.[actual]?.site_label || actual.toUpperCase();
 
-    //         $("#mainChartTitle").html(`<div class="fs-6 text-dark"><span class="fw-bold">📊 ${label}</span><br><small>Site config belum tersedia</small></div>`);
-    //         return;
-    //     }
-    //     const lineText = $row.find('.line option:selected').text() || '-';
-    //     const appText = $row.find('.application option:selected').text() || '-';
-    //     const fileText = $row.find('.file option:selected').text() || '-';
-    //     const headerText = $row.find('.headers option:selected').text() || '-';
+            $("#mainChartTitle").html(`<div class="fs-6 text-dark"><span class="fw-bold">📊 ${label}</span><br><small>Site config belum tersedia</small></div>`);
+            return;
+        }
+        const lineText = $row.find('.line option:selected').text() || '-';
+        const appText = $row.find('.application option:selected').text() || '-';
+        const fileText = $row.find('.file option:selected').text() || '-';
+        const cfg = window.dbConfig?.[actual] || {};
+        const modeText = cfg.agg_mode
+            ? `${cfg.agg_mode.toUpperCase()} (${cfg.start_col}–${cfg.end_col})`
+            : '-';
+        const titleHTML = `
+            <div class="fs-6 text-dark">
+                <span class="fw-bold">📊 ${window.dbConfig?.[actual]?.site_label || actual.toUpperCase()}</span>
+                <small>Line: <span class="text-primary">${lineText}</span> |
+                App: <span class="text-success">${appText}</span> |
+                File: <span class="text-info">${fileText}</span> |
+               Mode: <span class="text-warning">${modeText}</span>
+            </div>
+        `;
+        $("#mainChartTitle").html(titleHTML);
+    }
 
-    //     const titleHTML = `
-    //         <div class="fs-6 text-dark">
-    //             <span class="fw-bold">📊 ${window.dbConfig?.[actual]?.site_label || actual.toUpperCase()}</span>
-    //             <small>Line: <span class="text-primary">${lineText}</span> |
-    //             App: <span class="text-success">${appText}</span> |
-    //             File: <span class="text-info">${fileText}</span> |
-    //             Header: <span class="text-warning">${headerText}</span></small>
-    //         </div>
-    //     `;
-    //     $("#mainChartTitle").html(titleHTML);
-    // }
+    function updateMainCpCpkTable(site) {
+        const actual = resolveSite(site);
 
-    function updateMainCpCpkTable(slotIndex, site) {
-        const data = window.cachedChartData?.[site];
-        const cfg = window.dbConfig?.[site];
+        const data = window.cachedChartData[actual];
+        const cfg = window.dbConfig?.[actual];
 
+        // Jika belum ada data
         if (!data) {
-            $(`#mainCpStandard_${slotIndex},
-           #mainCpActual_${slotIndex},
-           #mainCpkStandard_${slotIndex},
-           #mainCpkActual_${slotIndex}`).text('-');
+            $('#mainCpStandard, #mainCpActual, #mainCpkStandard, #mainCpkActual').text('-');
             return;
         }
 
-        const cpLimit = cfg?.cp_limit ? parseFloat(cfg.cp_limit).toFixed(3) : '-';
-        const cpkLimit = cfg?.cpk_limit ? parseFloat(cfg.cpk_limit).toFixed(3) : '-';
+        // Standard (limit)
+        const cpLimit = cfg?.cp_limit ? parseFloat(cfg.cp_limit) : '-';
+        const cpkLimit = cfg?.cpk_limit ? parseFloat(cfg.cpk_limit) : '-';
 
+        // Actual (hasil perhitungan)
         const cpActual = Number.isFinite(data.cp) ? data.cp.toFixed(3) : '-';
         const cpkActual = Number.isFinite(data.cpk) ? data.cpk.toFixed(3) : '-';
 
-        $(`#mainCpStandard_${slotIndex}`).text(cpLimit);
-        $(`#mainCpActual_${slotIndex}`).text(cpActual);
-        $(`#mainCpkStandard_${slotIndex}`).text(cpkLimit);
-        $(`#mainCpkActual_${slotIndex}`).text(cpkActual);
-    }
+        $('#mainCpStandard').text(cpLimit !== '-' ? cpLimit.toFixed(3) : '-');
+        $('#mainCpkStandard').text(cpkLimit !== '-' ? cpkLimit.toFixed(3) : '-');
 
+        $('#mainCpActual').text(cpActual);
+        $('#mainCpkActual').text(cpkActual);
+    }
 
     // -------------------------
     // 7. Settings & Events
@@ -1116,28 +864,30 @@ $(document).ready(function () {
         const { $row } = safeRowForSite(actual);
         if (!$row || $row.length === 0) return;
 
-        const $header = $row.find('.headers');
-
         const settingsData = {
             site_name: actual,
             line_id: $row.find('.line').val(),
             application_id: $row.find('.application').val(),
             file_id: $row.find('.file').val(),
-            header_name: $header.val(),
             is_active: $row.find('.dashboard-toggle input').is(':checked'),
-            table_type: $header.data('table-type') || 'type1'
+
+            // MODE MIN / MAX
+            agg_mode: $row.find('.agg-mode').val(),
+            start_col: $row.find('.range-start').val(),
+            end_col: $row.find('.range-end').val(),
+
+            standard_lower: $row.find('input[data-type="lcl"]').val(),
+            standard_upper: $row.find('input[data-type="ucl"]').val(),
+            lower_boundary: $row.find('input[data-type="lower"]').val(),
+            interval_width: $row.find('input[data-type="interval"]').val(),
+
+            cp_limit: $row.find('input[data-type="cp_limit"]').val(),
+            cpk_limit: $row.find('input[data-type="cpk_limit"]').val(),
+            site_label: $row.find('.site-label-input').val() || null
         };
 
-        // Tambahkan semua limit yang disimpan ke DB
-        settingsData.custom_lcl = $row.find('input[data-type="lcl"]').val();
-        settingsData.custom_ucl = $row.find('input[data-type="ucl"]').val();
-        settingsData.lower_boundary = $row.find('input[data-type="lower"]').val();
-        settingsData.interval_width = $row.find('input[data-type="interval"]').val();
-        settingsData.cp_limit = $row.find('input[data-type="cp_limit"]').val();
-        settingsData.cpk_limit = $row.find('input[data-type="cpk_limit"]').val();
-        settingsData.site_label = $row.find('.site-label-input').val() || null;
         $.ajax({
-            url: `${HOST_URL}api/save_dashboard_setting.php`,
+            url: `${HOST_URL}api/save_spc_model_setting.php`,
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(settingsData),
@@ -1146,61 +896,92 @@ $(document).ready(function () {
         });
     }
 
+
     // Event: Tambah Site
+    // ===============================
+    // ADD SITE — FIXED VERSION
+    // ===============================
     $('#btnAddSite').click(function () {
+
         let lastNum = 0;
         $('.site-setting-row').each(function () {
-            const num = parseInt($(this).data('site').replace('site', ''));
-            if (num > lastNum) lastNum = num;
+            const s = $(this).attr('data-site');
+            const n = parseInt(s?.replace('site', '')) || 0;
+            if (n > lastNum) lastNum = n;
         });
 
         const newNum = lastNum + 1;
-        const newSiteName = 'site' + newNum;
+        const newSite = 'site' + newNum;
 
-        // ✅ CLONE TANPA EVENT & DATA
-        const $clone = $('.site-setting-row[data-site="site1"]').clone(false, false);
+        // 1️⃣ Ambil HTML template
+        let html = $('#siteTemplate').html();
 
-        // ✅ BERSIHKAN SEMUA CACHE JQUERY
-        $clone.removeData();
-        $clone.find('*').removeData();
+        // 2️⃣ 🔥 REPLACE SEMUA __SITE__
+        html = html.replace(/__SITE__/g, newSite);
 
-        // ✅ UPDATE ATTRIBUTE + DATA CACHE
-        $clone.attr('data-site', newSiteName).attr('id', 'row_' + newSiteName);
-        $clone.find('[data-site]').each(function () {
-            $(this)
-                .attr('data-site', newSiteName)
-                .data('site', newSiteName);
-        });
+        // 3️⃣ Buat DOM baru
+        const $clone = $(html);
 
-        // Reset label
+        // 4️⃣ Set atribut wrapper
+        $clone
+            .removeClass('d-none')
+            .attr('data-site', newSite)
+            .attr('id', 'row_' + newSite);
+
+        // Update semua child data-site
+        $clone.find('[data-site]').attr('data-site', newSite);
+
+        // Reset semua input
+        $clone.find('select').val('');
+        $clone.find('input').val('');
+
+        // Disable cascade awal
+        $clone.find('.application, .file')
+            .prop('disabled', true)
+            .html('<option value="">Select</option>');
+
+        // Label
         $clone.find('.site-label-text').text('Site ' + newNum).removeClass('d-none');
-        $clone.find('.site-label-input').val('').addClass('d-none');
+        $clone.find('.site-label-input').addClass('d-none');
         $clone.find('.site-label-save').addClass('d-none');
         $clone.find('.site-label-edit').removeClass('d-none');
 
-        // Reset dropdown
-        $clone.find('select').each(function () {
-            this.selectedIndex = 0;
-            $(this).prop('disabled', true);
-        });
-        $clone.find('.line').prop('disabled', false);
-
-        // Reset inputs
-        $clone.find('.limit-input').val('');
-
-        // Append
+        // Append ke DOM
         $('#settingsContainer').append($clone);
         $('#settingsContainer').append('<div class="separator separator-dashed my-5"></div>');
-        ensureRemoveButton($clone, newSiteName);
 
-        // Init state
-        window.dbConfig[newSiteName] = { site_label: 'Site ' + newNum };
-        initSite(newSiteName);
+        ensureRemoveButton($clone, newSite);
 
-        // window.currentMainSite = newSiteName;
-        updateSiteLabel(newSiteName);
-        // updateMainTitle(newSiteName);
-        // updateMainCpCpkTable(newSiteName);
+        // ===============================
+        // INIT STATE (INI KUNCI)
+        // ===============================
+        window.dbConfig[newSite] = {
+            site_label: 'Site ' + newNum,
+            line_id: null,
+            application_id: null,
+            file_id: null,
+            agg_mode: null,
+            start_col: null,
+            end_col: null,
+            standard_lower: null,
+            standard_upper: null,
+            lower_boundary: null,
+            interval_width: null
+        };
+
+        initSite(newSite);
+
+        // Jadikan active site
+        window.currentMainSite = newSite;
+        updateSiteLabel(newSite);
+        updateMainTitle(newSite);
+        updateMainCpCpkTable(newSite);
+
+        $('#mainChartViewer').html(`
+        <div class="d-flex justify-content-center align-items-center h-100">
+            <div class="text-muted small">Pilih Line untuk mulai</div>
+        </div>
+    `);
 
         SITES = getAllSites();
     });
@@ -1230,7 +1011,7 @@ $(document).ready(function () {
                 });
 
                 $.ajax({
-                    url: `${HOST_URL}api/delete_dashboard_setting.php`,
+                    url: `${HOST_URL}api/delete_spc_model_setting.php`,
                     type: 'POST',
                     data: { site_name: siteName },
                     success: function (res) {
@@ -1247,38 +1028,41 @@ $(document).ready(function () {
 
     // Event: Ganti Global Interval
     $(document).on('change', '#globalIntervalSelect', function () {
-        const newInterval = parseInt($(this).val()) || 120000;
-        // startGlobalScheduler(newInterval);
+        const newInterval = parseInt($(this).val());
+        startFocusedPolling(newInterval);
     });
 
     // Event: Input LCL/UCL/Boundary/Interval Change (PATCH: selalu refresh mini chart)
     let debounceTimers = {};
+    let saveTimers = {};
 
     $(document).on('input change', '.limit-input', function () {
         const site = $(this).attr('data-site');
-        const chartId = null;
+        const chartId = getChartSelectorForSite(site, false);
 
-        // Hentikan timer sebelumnya kalau user masih mengetik
+        // === RENDER CEPAT (400ms) ===
         clearTimeout(debounceTimers[site]);
-
-        // Tunda 400 ms sebelum kirim request baru
         debounceTimers[site] = setTimeout(() => {
-            // Tampilkan indikator loading kecil
+
+            // Loading kecil di chart
             if (chartId && $(chartId).length) {
-                $(chartId).empty().append(`
-        <div class="d-flex flex-column justify-content-center align-items-center h-100 text-muted small">
-            <div class="spinner-border text-primary mb-2" role="status" style="width: 1.5rem; height: 1.5rem;"></div>
-            <div>Updating chart...</div>
-        </div>
-    `);
-            } else {
-                console.warn("Chart element not found for", site, chartId);
+                $(chartId).html(`
+                <div class="d-flex flex-column justify-content-center align-items-center h-100 text-muted small">
+                    <div class="spinner-border text-primary mb-2" style="width:1.5rem;height:1.5rem"></div>
+                    <div>Updating chart...</div>
+                </div>
+            `);
             }
 
-            // Simpan ke database dan muat ulang chart
+            scheduleRecalc(site);
+
+        }, 400);
+
+        // === SAVE KE DB (LEBIH LAMBAT, AMAN) ===
+        clearTimeout(saveTimers[site]);
+        saveTimers[site] = setTimeout(() => {
             saveSiteSettings(site);
-            loadHistogramChart(site, false, true);
-        }, 400); // debounce 400 ms
+        }, 800);
     });
 
     // Event Listener Dropdown (Cascade)
@@ -1296,7 +1080,7 @@ $(document).ready(function () {
             success: function (response) {
                 $application.prop('disabled', false).html('<option value="">Select</option>');
                 $.each(response, function (i, item) { $application.append(`<option value="${item.id}">${item.name}</option>`); });
-                const savedAppId = $(`.line[data-site="${site}"]`).data('app-id');
+                const savedAppId = window.dbConfig?.[site]?.application_id;
                 if (savedAppId) {
                     $application.val(savedAppId);
                     $application.trigger('change');
@@ -1324,56 +1108,77 @@ $(document).ready(function () {
                 $.each(response, function (i, item) { $file.append(`<option value="${item.id}">${item.name}</option>`); });
                 const savedFileId = $(`.line[data-site="${site}"]`).data('file-id');
                 if (savedFileId) { $file.val(savedFileId); $file.trigger('change'); }
-                $(`.line[data-site="${site}"]`).data('file-id', null);
+                // ✅ BOLEH
+                if (window.dbConfig?.[site]) {
+                    window.dbConfig[site].file_id = null;
+                }
             }
         });
     });
 
+    // $(document).on('change', '.file', function () {
+    //     const site = $(this).attr('data-site');
+    //     const fileId = $(this).val();
+    //     const $header = $(`.headers[data-site="${site}"]`);
+    //     $header.prop('disabled', true).html('<option value="">Select</option>');
+    //     if (!fileId) return;
+    //     $.ajax({
+    //         url: `${HOST_URL}api/get_headers.php`,
+    //         type: 'POST',
+    //         data: { file_id: fileId },
+    //         dataType: 'json',
+    //         success: function (response) {
+    //             $header.prop('disabled', false).html('<option value="">Select</option>');
+    //             const tableType = response.type || 'type1';
+    //             $header.data('table-type', tableType);
+    //             if (response.headers && Array.isArray(response.headers)) {
+    //                 $.each(response.headers, function (i, item) {
+    //                     const type = item.table_type || 'type1';
+    //                     $header.append(`<option value="${item.header_name}" data-table-type="${type}">${item.header_name}</option>`);
+    //                 });
+
+    //                 // simpan default type dari header pertama
+    //                 const firstType = response.headers[0]?.table_type || 'type1';
+    //                 $header.data('table-type', firstType);
+    //             }
+
+    //             const savedHeaderName = $(`.line[data-site="${site}"]`).data('header-name');
+    //             if (savedHeaderName) {
+    //                 $header.val(savedHeaderName);
+    //                 $header.trigger('change');
+    //             }
+    //             $(`.line[data-site="${site}"]`).data('header-name', null);
+    //         }
+    //     });
+    // });
     $(document).on('change', '.file', function () {
         const site = $(this).attr('data-site');
-        const fileId = $(this).val();
         const $header = $(`.headers[data-site="${site}"]`);
-        $header.prop('disabled', true).html('<option value="">Select</option>');
-        if (!fileId) return;
-        $.ajax({
-            url: `${HOST_URL}api/get_headers.php`,
-            type: 'POST',
-            data: { file_id: fileId },
-            dataType: 'json',
-            success: function (response) {
-                $header.prop('disabled', false).html('<option value="">Select</option>');
-                const tableType = response.type || 'type1';
-                $header.data('table-type', tableType);
-                if (response.headers && Array.isArray(response.headers)) {
-                    $.each(response.headers, function (i, item) {
-                        const type = item.table_type || 'type1';
-                        $header.append(`<option value="${item.header_name}" data-table-type="${type}">${item.header_name}</option>`);
-                    });
 
-                    // simpan default type dari header pertama
-                    const firstType = response.headers[0]?.table_type || 'type1';
-                    $header.data('table-type', firstType);
-                }
-
-                const savedHeaderName = $(`.line[data-site="${site}"]`).data('header-name');
-                if (savedHeaderName) {
-                    $header.val(savedHeaderName);
-                    $header.trigger('change');
-                }
-                $(`.line[data-site="${site}"]`).data('header-name', null);
-            }
-        });
-    });
-
-    $(document).on('change', '.headers', function () {
-        const site = $(this).attr('data-site');
-        const selectedType = $(this).find('option:selected').data('table-type') || 'type1';
-        $(this).data('table-type', selectedType); // ✅ baris tambahan penting
-
-        if (site) window.shownAlerts[site] = false;
+        // MODE BARU: header tidak dipakai
+        $header
+            .prop('disabled', true)
+            .html('<option value="">(Range Mode)</option>')
+            .data('table-type', 'type1');
         saveSiteSettings(site);
-        if ($(this).val()) loadHistogramChart(site, false, true);
+        scheduleRecalc(site);
     });
+
+    $(document).on('change input', '.agg-mode, .range-start, .range-end', function () {
+        const site = $(this).attr('data-site');
+        const { $row } = safeRowForSite(site);
+
+        const mode = $row.find('.agg-mode').val();
+        const start = parseInt($row.find('.range-start').val());
+        const end = parseInt($row.find('.range-end').val());
+
+        // Validasi ringan
+        if (!mode || !start || !end || start > end) return;
+
+        saveSiteSettings(site);
+        scheduleRecalc(site);
+    });
+
 
     $(document).on('change', '.dashboard-toggle input', function () {
         const site = $(this).closest('.dashboard-toggle').attr('data-site');
@@ -1385,7 +1190,7 @@ $(document).ready(function () {
     $(document).on('click', '[id$="InfoIcon"]', function () {
         let site = $(this).attr('id').replace("InfoIcon", "");
         if (!site) return;
-        // if (site === 'main') site = window.currentMainSite;
+        if (site === 'main') site = window.currentMainSite;
 
         const data = window.cachedChartData[site];
         if (!data) {
@@ -1427,25 +1232,19 @@ $(document).ready(function () {
         });
     });
 
-    // // Event: Manual alert dari viewer utama (carousel)
-    // $(document).on('click', '#btnMainAlert', function () {
-    //     // const site = window.currentMainSite;
-    //     if (!site) {
-    //         Swal.fire('ℹ️', 'Belum ada site aktif di carousel.', 'info');
-    //         return;
-    //     }
-    //     showManualAlert(site);
-    // });
-    $(document).on('click', '[id^="btnMainAlert_"]', function () {
-        const slot = $(this).data('slot');
-        const site = window.mainSlots[slot]?.site;
-        if (site) showManualAlert(site);
+    // Event: Manual alert dari viewer utama (carousel)
+    $(document).on('click', '#btnMainAlert', function () {
+        const site = window.currentMainSite;
+        if (!site) {
+            Swal.fire('ℹ️', 'Belum ada site aktif di carousel.', 'info');
+            return;
+        }
+        showManualAlert(site);
     });
-
 
     // Event: Info icon di viewer utama (sama seperti mini chart)
     $(document).on('click', '#mainInfoIcon', function () {
-        // const site = window.currentMainSite;
+        const site = window.currentMainSite;
         if (!site) {
             Swal.fire('ℹ️', 'Belum ada site aktif di carousel.', 'info');
             return;
@@ -1498,15 +1297,51 @@ $(document).ready(function () {
     // -------------------------
     // 8. Initialization
     // -------------------------
+    (function initCarousel() {
+        let currentIndex = 0;
+        let paused = false;
+        const btn = document.getElementById("toggleCarousel");
 
+        function nextChart() {
+            if (paused) return;
 
-    // Init Polling Global
-    (function initGlobalScheduler() {
-        const defaultInterval =
-            parseInt($('#globalIntervalSelect').val()) || 120000; // 2 menit
-        // startGlobalScheduler(defaultInterval);
+            SITES = getAllSites(); // Refresh List
+            if (SITES.length === 0) return;
+
+            if (currentIndex >= SITES.length) currentIndex = 0;
+            const site = SITES[currentIndex];
+
+            // Tampilkan SEMUA (tidak skip toggle off)
+            window.currentMainSite = site;
+            updateSiteLabel(site);
+            updateMainTitle(site);
+            // updateMainCpCpkTable(site);
+
+            // Indikator Loading Main
+            if (!window.cachedChartData[site]) {
+                $('#mainChartViewer').html('<div class="d-flex justify-content-center align-items-center h-100"><div class="spinner-border text-primary"></div></div>');
+            }
+            renderViewerFromCache(site);
+            currentIndex = (currentIndex + 1) % SITES.length;
+        }
+
+        if (btn) {
+            btn.addEventListener('click', function () {
+                paused = !paused;
+                btn.innerHTML = paused ? "▶️ Play" : "⏸️ Pause";
+                if (!paused) nextChart();
+            });
+        }
+        nextChart();
+        carouselIntervalId = setInterval(nextChart, 5000);
     })();
 
+    // Init Polling Global
+    (function initGlobalPolling() {
+        const defaultInterval =
+            parseInt($('#globalIntervalSelect').val()) || 20000;
+        startFocusedPolling(defaultInterval);
+    })();
 
 
     (function initPageLoad() {
@@ -1528,19 +1363,30 @@ $(document).ready(function () {
             const cfg = window.dbConfig[site];
             if (!cfg) return;
 
-            $(this).find('input[data-type="lcl"]').val(cfg.custom_lcl);
-            $(this).find('input[data-type="ucl"]').val(cfg.custom_ucl);
-            $(this).find('input[data-type="lower"]').val(cfg.lower_boundary);
-            $(this).find('input[data-type="interval"]').val(cfg.interval_width);
-            $(this).find('input[data-type="cp_limit"]').val(cfg.cp_limit);
-            $(this).find('input[data-type="cpk_limit"]').val(cfg.cpk_limit);
+            const $row = $(this); // 🔥 WAJIB
+
+            $row.find('.agg-mode').val(cfg.agg_mode);
+            $row.find('.range-start').val(cfg.start_col);
+            $row.find('.range-end').val(cfg.end_col);
+
+            $row.find('input[data-type="lcl"]').val(cfg.standard_lower);
+            $row.find('input[data-type="ucl"]').val(cfg.standard_upper);
+            $row.find('input[data-type="lower"]').val(cfg.lower_boundary);
+            $row.find('input[data-type="interval"]').val(cfg.interval_width);
+            $row.find('input[data-type="cp_limit"]').val(cfg.cp_limit);
+            $row.find('input[data-type="cpk_limit"]').val(cfg.cpk_limit);
         });
+
+        setTimeout(() => {
+            window.isPageInitializing = false;
+        }, 1000);
+
     })();
 
     $(document).on('click', '[id$="AlertIcon"]', function () {
         let site = $(this).attr('id').replace("AlertIcon", "");
         if (!site) return;
-        // if (site === 'main') site = window.currentMainSite;
+        if (site === 'main') site = window.currentMainSite;
         showManualAlert(site);
     });
 
@@ -1584,56 +1430,15 @@ $(document).ready(function () {
 
         // 🔥 UPDATE MAIN TITLE JIKA AKTIF
         if (site === window.currentMainSite) {
-            // updateMainTitle(site);
+            updateMainTitle(site);
         }
 
         // 🔥 SAVE KE DB
         saveSiteSettings(site);
     });
-    $(document).on('click', '.pause-slot-btn', function () {
-        const slot = $(this).data('slot');
-
-        window.pausedSlots[slot] = !window.pausedSlots[slot];
-
-        // Update icon
-        $(this).toggleClass('btn-danger btn-light');
-
-        if (window.pausedSlots[slot]) {
-            $(this).text('▶'); // resume icon
-            console.log(`Slot ${slot} paused`);
-        } else {
-            $(this).text('⏸');
-            console.log(`Slot ${slot} resumed`);
-        }
-    });
-
-    $('#pauseAllCarouselBtn').on('click', function () {
-        window.carouselPausedAll = !window.carouselPausedAll;
-
-        if (window.carouselPausedAll) {
-            $(this).text('▶ Resume All').removeClass('btn-warning').addClass('btn-success');
-            console.log('[CAROUSEL] Paused ALL');
-        } else {
-            $(this).text('⏸ Pause All').removeClass('btn-success').addClass('btn-warning');
-            console.log('[CAROUSEL] Resumed ALL');
-        }
-    });
 
     $(window).on('beforeunload unload', function () {
-        // stopGlobalScheduler();
+        if (globalPollingId) clearTimeout(globalPollingId);
         if (carouselIntervalId) clearInterval(carouselIntervalId);
     });
-
-    carouselIntervalId = setInterval(runMainCarousel, 5000);
-
-
-
-    setInterval(() => {
-        getAllSites().forEach(site => {
-            loadHistogramChart(site, false, true);
-        });
-    }, 180000);
-
-    runMainCarousel(); // initial
-
 });
