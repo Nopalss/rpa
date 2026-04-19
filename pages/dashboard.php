@@ -222,12 +222,15 @@ function renderSiteSettingItem($i, $site_name, $lines, $site_settings)
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <h2 class="font-weight-bolder mb-0">Settings</h2>
                                 <div class="d-flex align-items-center">
+                                    <select id="filterModeSelect" class="form-control form-control-sm mr-3" style="width: 110px;">
+                                        <option value="all">ALL</option>
+                                        <option value="ng">NG</option>
+                                        <option value="ok">OK</option>
+                                    </select>
                                     <label class="mr-2 mb-0 text-muted font-weight-bold small">Refresh:</label>
                                     <select id="globalIntervalSelect" class="form-control form-control-sm mr-3" style="width: 110px;">
-                                        <option value="10000">10 Detik</option>
-                                        <option value="15000">15 Detik</option>
-                                        <option value="30000" selected>30 Detik</option>
-                                        <option value="60000">1 Menit</option>
+                                        <option value="30000">30 Detik</option>
+                                        <option value="300000" selected>5 Menit</option>
                                         <option value="600000">10 Menit</option>
                                         <option value="900000">15 Menit</option>
                                         <option value="1800000">30 Menit</option>
@@ -235,6 +238,7 @@ function renderSiteSettingItem($i, $site_name, $lines, $site_settings)
                                         <option value="7200000">2 Jam</option>
                                         <option value="10800000">3 Jam</option>
                                     </select>
+
                                     <button type="button" id="btnAddSite" class="btn btn-sm btn-primary">
                                         <i class="flaticon2-plus"></i> Tambah Site
                                     </button>
@@ -250,7 +254,6 @@ function renderSiteSettingItem($i, $site_name, $lines, $site_settings)
                                     $num = (int)str_replace('site', '', $s_key);
                                     if ($num > $max_index) $max_index = $num;
                                 }
-
                                 // Loop render semua site
                                 for ($i = 1; $i <= $max_index; $i++):
                                     $site_name = 'site' . $i;

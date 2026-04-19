@@ -2,7 +2,8 @@
 // api/chart_data_3sigma_minmax.php
 require_once __DIR__ . '/../includes/config.php';
 header('Content-Type: application/json');
-set_time_limit(0);
+
+set_time_limit(90);
 
 // ======================================================
 // Precision & Timezone
@@ -23,7 +24,8 @@ function get_production_date($cutoff_hour = 6, $cutoff_minute = 0)
     if ($h < $cutoff_hour || ($h === $cutoff_hour && $m <= $cutoff_minute)) {
         $now->modify('-1 day');
     }
-    return $now->format('Y-m-d');
+    // return $now->format('Y-m-d');
+    return "2026-01-08";
 }
 $production_date = get_production_date(6, 0);
 

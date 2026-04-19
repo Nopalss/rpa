@@ -1,20 +1,158 @@
+// script.js minmax
 $(document).ready(function () {
-    // -------------------------
-    // 1. Config & Globals
-    // -------------------------
+    // ===============================
+    // MAIN CAROUSEL CONFIG
+    // ===============================
+    const DASHBOARD_NAMESPACE = 'minmax';
+
+    const isViewer = false;
+    const MAIN_SLOTS = 4;
+
+    window.mainSlots = Array.from({ length: MAIN_SLOTS }, (_, i) => ({
+        slot: i,
+        site: null
+    }));
+
+
+
+
+
+
+    function getCurrentProductionDate() {
+        const now = new Date();
+        const prod = new Date(now);
+
+        // sebelum jam 06:00 = hari sebelumnya
+        if (now.getHours() < 6) {
+            prod.setDate(prod.getDate() - 1);
+        }
+
+        return prod.toISOString().slice(0, 10); // YYYY-MM-DD
+    }
+
+
+    async function runMainCarousel() {
+        if (window.carouselPausedAll) {
+            console.log('[CAROUSEL] Paused ALL');
+            return;
+        }
+
+        // pastikan grup selalu up-to-date
+        window.mainSiteGroups = buildMainSiteGroups();
+
+        for (let mainIdx = 0; mainIdx < MAIN_SLOTS; mainIdx++) {
+            if (window.pausedSlots[mainIdx]) {
+                console.log(`[CAROUSEL] Slot ${mainIdx} paused`);
+                continue;
+            }
+
+            let sites = window.mainSiteGroups[mainIdx] || [];
+
+            if (!sites || sites.length === 0) continue;
+            // 🔥 APPLY FILTER DI SINI
+            sites = sites.filter(site => {
+                const data = window.cachedChartData[site];
+
+                if (!data) return true; // biar tetap bisa fetch
+
+                if (window.siteFilterMode === 'all') return true;
+
+                if (data.insufficient_data) return false;
+
+                const isOk =
+                    data.cp_status === 'OK' &&
+                    data.cpk_status === 'OK';
+
+                if (window.siteFilterMode === 'ok') return isOk;
+                if (window.siteFilterMode === 'ng') return !isOk;
+
+                return true;
+            });
+
+            const idx = window.mainCarouselIndex[mainIdx] % sites.length;
+            const site = sites[idx];
+
+            window.mainCarouselIndex[mainIdx] =
+                (window.mainCarouselIndex[mainIdx] + 1) % sites.length;
+
+            const currentSite = window.mainSlots[mainIdx].site;
+
+            if (
+                currentSite === site &&
+                window.loadingCharts[site]
+            ) {
+                continue;
+            }
+            window.mainSlots[mainIdx].site = site;
+
+            const selector = `#mainChartViewer_${mainIdx}`;
+
+            // 🔒 MAIN CHART HANYA BOLEH PAKAI CACHE
+            const data = window.cachedChartData[site];
+
+            if (data) {
+                renderApexHistogram(
+                    selector,
+                    data,
+                    site,
+                    `main_slot_${mainIdx}`
+                );
+
+                updateMainCpCpkTable(mainIdx, site);
+                updateMainHeaderTitle(mainIdx, site);
+
+            } else {
+                enqueueChartRequest(site, false);
+
+                const hasChart =
+                    window.apexChartsInstances[`main_slot_${mainIdx}`];
+
+                if (!hasChart) {
+                    $(selector).html(`
+            <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                <div class="spinner-border text-primary mb-2"></div>
+                <div class="text-muted small">Loading data...</div>
+            </div>
+        `);
+                }
+            }
+            // jeda kecil antar slot (aman)
+            await new Promise(r => setTimeout(r, 300));
+        }
+    }
+
+
+    function getSiteNumber(site) {
+        return parseInt(site.replace('site', ''), 10);
+    }
+
+    // mainIndex: 0 = Main1, 1 = Main2, 2 = Main3, 3 = Main4
+    function getMainIndexForSite(site) {
+        const num = getSiteNumber(site);
+        if (!Number.isFinite(num)) return null;
+        return (num - 1) % MAIN_SLOTS;
+    }
+
+    // Kelompok site per main
+    function buildMainSiteGroups() {
+        const groups = Array.from({ length: MAIN_SLOTS }, () => []);
+        const sites = getAllSites();
+
+        sites.forEach(site => {
+            const idx = getMainIndexForSite(site);
+            if (idx !== null) groups[idx].push(site);
+        });
+
+        return groups;
+    }
 
     // Fungsi untuk mendeteksi site apa saja yang ada di halaman saat ini (Site 1...Site N)
     function getAllSites() {
         const set = new Set();
         $('.site-setting-row').each(function () {
             const s = $(this).attr('data-site');
-
-            // ⛔ skip template / placeholder
-            if (!s || s === '__SITE__') return;
-
-            set.add(s);
+            if (s) set.add(s);
         });
-
         return set.size
             ? Array.from(set)
             : ["site1", "site2", "site3", "site4", "site5"];
@@ -22,93 +160,111 @@ $(document).ready(function () {
 
     let SITES = getAllSites();
 
-    const chartMapping = {
-        'viewer': '#mainChartViewer',
-        'site1': '#chart_19',
-        'site2': '#chart_20',
-        'site3': '#chart_21',
-        'site4': '#chart_15',
-        'site5': '#chart_16'
-    };
-
     if (typeof HOST_URL === 'undefined') { console.warn('HOST_URL is not defined.'); }
 
+    // ===============================
+    // CAROUSEL STATE PER MAIN
+    // ===============================
+    window.mainSiteGroups = buildMainSiteGroups();
+
+    // index carousel untuk tiap main
+    window.mainCarouselIndex = Array.from({ length: MAIN_SLOTS }, () => 0);
+
+    window.carouselPausedAll = false;
+    window.pausedSlots = {}; // { 0: true, 2: true }
 
     window.apexChartsInstances = {};
     window.cachedChartData = {};
-    // ===============================
-    // LOCAL STORAGE CACHE (ANTI 502)
-    // ===============================
-    const SPC_CACHE_TTL = 3 * 60 * 1000;
-
-    function spcCacheKey(site) {
-        return `spc_cache_${site}`;
-    }
-
-    function spcCacheTimeKey(site) {
-        return `spc_cache_time_${site}`;
-    }
-
-    function saveSpcCache(site, data) {
-        try {
-            localStorage.setItem(spcCacheKey(site), JSON.stringify(data));
-            localStorage.setItem(spcCacheTimeKey(site), Date.now().toString());
-        } catch (e) {
-            console.warn('SPC localStorage error', e);
-        }
-    }
-
-    function loadSpcCache(site) {
-        try {
-            const raw = localStorage.getItem(spcCacheKey(site));
-            const ts = parseInt(localStorage.getItem(spcCacheTimeKey(site)), 10);
-            if (!raw || !ts) return null;
-            if (Date.now() - ts > SPC_CACHE_TTL) return null;
-            return JSON.parse(raw);
-        } catch {
-            return null;
-        }
-    }
-
-    window.isCarouselPaused = false;
     window.alertQueue = [];
     window.isAlertShowing = false;
     window.alertSettings = {};
     window.shownAlerts = {};
     window.loadingCharts = {};
+    window.apiFailCount = {};
+    window.currentMainSite = window.currentMainSite || SITES[0];
+    window.dbConfig = window.dbConfig || {};
+    window.renderingChart = window.renderingChart || {}; // PATCH: guard render per chart key
+    // ===============================
+    // GLOBAL API QUEUE
+    // ===============================
+    window.chartApiQueue = [];
+    window.chartApiBusy = false;
+    window.siteFilterMode = 'all';
+
+    function enqueueChartRequest(site, forceRefresh = false) {
+        // 🔥 SKIP kalau sudah ada data & bukan force
+        if (!forceRefresh && window.cachedChartData[site]) {
+            return;
+        }
+        if (window.loadingCharts[site]) return;
+
+        // 🔥 FAILSAFE RESET (WAJIB)
+        setTimeout(() => {
+            window.loadingCharts[site] = false;
+        }, 30000);
+
+        const existing = window.chartApiQueue.find(q => q.site === site);
+        if (existing) {
+            existing.forceRefresh = existing.forceRefresh || forceRefresh;
+            return;
+        }
+
+        window.chartApiQueue.push({ site, forceRefresh });
+        processChartQueue();
+    }
+
+    window.chartApiWorkers = 0;
+    const MAX_WORKERS = 6;
+
+    async function processChartQueue() {
+        if (window.chartApiWorkers >= MAX_WORKERS) return;
+        if (window.chartApiQueue.length === 0) return;
+
+        const { site, forceRefresh } = window.chartApiQueue.shift();
+        window.chartApiWorkers++;
+
+        try {
+            await loadHistogramChartInternal(site, forceRefresh);
+            window.apiFailCount[site] = 0;
+
+        } catch (e) {
+            window.apiFailCount[site] =
+                (window.apiFailCount[site] || 0) + 1;
+
+            console.warn(`Retry ${site} attempt ${window.apiFailCount[site]}`);
+
+            // 🔥 retry max 3x
+            if (window.apiFailCount[site] < 3) {
+                window.chartApiQueue.push({
+                    site,
+                    forceRefresh: true
+                });
+            }
+
+        } finally {
+            window.chartApiWorkers--;
+
+            setTimeout(() => {
+                processChartQueue();
+            }, 300);
+        }
+
+    }
+
+
     window.currentMainSite = window.currentMainSite || SITES[0];
     window.dbConfig = window.dbConfig || {};
     window.renderingChart = window.renderingChart || {}; // PATCH: guard render per chart key
 
-    let globalPollingId = null;
     let carouselIntervalId = null;
-    const perSiteIntervalIds = {}; // Legacy cleanup
-    let pollingInProgress = false;
 
     // -------------------------
     // 2. Utilities
     // -------------------------
     function resolveSite(site) {
-        return (site === 'main' || site === 'viewer') ? window.currentMainSite : site;
-    }
-    // ===============================
-    // SEQUENTIAL API FETCHER
-    // ===============================
-    function fetchSitesSequentially(sites, delayMs = 1000) {
-        let index = 0;
-
-        function next() {
-            if (index >= sites.length) return;
-
-            const site = sites[index];
-            index++;
-
-            loadHistogramChart(site, false, true); // forceRefresh = true
-
-            setTimeout(next, delayMs);
-        }
-
-        next();
+        // Di arsitektur baru, site carousel sudah final
+        // Tidak ada lagi 'main' / 'viewer' mapping
+        return site;
     }
 
 
@@ -146,42 +302,8 @@ $(document).ready(function () {
         return { actualSite: actual, $row: $row };
     }
 
-    // [BARU] Fungsi Menjalankan Timer Global
-    function startFocusedPolling(baseIntervalMs) {
-        if (globalPollingId) clearTimeout(globalPollingId);
-
-        function pollOnce() {
-            if (pollingInProgress) {
-                console.warn('[POLL] skipped, still running');
-                return;
-            }
-
-            pollingInProgress = true;
-
-            const sites = getAllSites();
-            const delayPerSite = 5000; // 5 detik FIX (AMAN)
-            const estimatedTime = sites.length * delayPerSite;
-
-            console.log('[POLL START]', sites, 'estimated:', estimatedTime / 1000, 'sec');
-
-            fetchSitesSequentially(sites, delayPerSite);
-
-            // Unlock polling setelah semua site diproses
-            setTimeout(() => {
-                pollingInProgress = false;
-                console.log('[POLL END]');
-            }, estimatedTime + 500); // buffer kecil
-
-            // Jadwalkan polling berikutnya SETELAH cycle selesai
-            const nextDelay = Math.max(baseIntervalMs, estimatedTime + 8000);
-
-            globalPollingId = setTimeout(pollOnce, nextDelay);
-        }
-
-        pollOnce();
-    }
-
     function initSite(siteName) {
+        if (window.dbConfig?.[siteName]) return; //
         const $row = $(`.site-setting-row[data-site="${siteName}"]`);
         if (!$row.length) return;
 
@@ -218,6 +340,10 @@ $(document).ready(function () {
         }
 
         const data = window.cachedChartData[actual];
+        if (data.insufficient_data) {
+            Swal.fire('ℹ️', 'Data belum cukup (minimal 20).', 'info');
+            return;
+        }
         if (!data) {
             Swal.fire('ℹ️', 'Belum ada data CP/CPK untuk site ini.', 'info');
             return;
@@ -231,11 +357,16 @@ $(document).ready(function () {
             : '-';
         const info = {
             type: "cp_result",
-            site_name: actual,
             site: window.dbConfig?.[actual]?.site_label || actual.toUpperCase(),
             line: $row.find('.line option:selected').text() || '-',
             app: $row.find('.application option:selected').text() || '-',
             file: $row.find('.file option:selected').text() || '-',
+            mode: modeText,
+            quantity: data.debug_total_data ?? '-',
+            min: data.min_val ?? '-',
+            max: data.max_val ?? '-',
+            average: data.rata_rata ?? '-',
+            std: data.standar_deviasi ?? '-',
             cp: data.cp?.toFixed(3) ?? '-',
             cpk: data.cpk?.toFixed(3) ?? '-',
             cp_status: data.cp_status ?? '-',
@@ -248,13 +379,6 @@ $(document).ready(function () {
             ng_actual: data?.out_of_control_percent !== undefined && data?.out_of_control_percent !== null
                 ? Number(data.out_of_control_percent / 100).toPrecision(8) // kalau kamu simpan dalam persen, ubah ke proporsi
                 : '-',
-
-            // has_ooc: hasOOC,
-            // ooc_count: data.out_of_control_count ?? 0,
-            // ooc_min: data.out_of_control_min ?? '-',
-            // ooc_max: data.out_of_control_max ?? '-',
-            // lsl: data.lsl ?? '-',
-            // usl: data.usl ?? '-',
 
         };
         const isOk =
@@ -273,8 +397,14 @@ $(document).ready(function () {
                 <p><b>🏭 Line:</b> ${info.line}</p>
                 <p><b>🧩 App:</b> ${info.app}</p>
                 <p><b>📂 File:</b> ${info.file}</p>
-                <span class="text-warning">${modeText}</span>
+                   <span class="text-warning">${modeText}</span>
                 <hr>
+                <p><b>Quantity:</b> ${info.quantity ?? '-'}</p>
+                <p><b>Min:</b> ${info.min ?? '-'}</p>
+                <p><b>Max:</b> ${info.max ?? '-'}</p>
+                <p><b>Average:</b> ${info.average ?? '-'}</p>
+                <p><b>Stdev:</b> ${info.std ?? '-'}</p>
+                <hr></hr>
                 <p><b>CP:</b> ${info.cp} (${info.cp_status})</p>
                 <p><b>CP Limit:</b> ${info.cp_limit}</p>
                 <p><b>CPK:</b> ${info.cpk} (${info.cpk_status})</p>
@@ -308,10 +438,6 @@ $(document).ready(function () {
     }
 
     function fireSwal(info) {
-        const cfg = window.dbConfig?.[info.site_name] || {};
-        const modeText = cfg.agg_mode
-            ? `${cfg.agg_mode.toUpperCase()} (${cfg.start_col}–${cfg.end_col})`
-            : '-';
         if (info.type === "cp_result") {
             Swal.fire({
                 icon: info.final_status === "OK" ? "success" : "error",
@@ -323,7 +449,6 @@ $(document).ready(function () {
                     <p><b>🏭 Line:</b> ${info.line}</p>
                     <p><b>🧩 App:</b> ${info.app}</p>
                     <p><b>📂 File:</b> ${info.file}</p>
-                    <span class="text-warning">${modeText}</span>
                     <hr>
                     <p><b>CP:</b> ${info.cp ?? '-'} (${info.cp_status ?? '-'})</p>
                     <p><b>CPK:</b> ${info.cpk ?? '-'} (${info.cpk_status ?? '-'})</p>
@@ -348,9 +473,7 @@ $(document).ready(function () {
                 <p><b>🏭 Line:</b> ${info.line}</p>
                 <p><b>🧩 App:</b> ${info.app}</p>
                 <p><b>📂 File:</b> ${info.file}</p>
-             <span class="text-warning">
-                Model ${modeText}
-            </span>
+                <span class="text-warning">${info.mode}</span>
                 <hr>
                 <p>Ada <b>${info.count}</b> titik out of control.</p>
                 <p><b>LCL:</b> ${info.lcl} | <b>UCL:</b> ${info.ucl}</p>
@@ -370,17 +493,27 @@ $(document).ready(function () {
     // 4. Render Chart (Style: Bar Histogram + Line Curve)
     // -------------------------
     function renderApexHistogram(chartSelector, data, siteName, instanceKey) {
+
+        if (data.insufficient_data) {
+            $(chartSelector).html(`
+        <div class="d-flex flex-column justify-content-center align-items-center h-100 text-warning">
+            <div class="fw-bold">⚠ Data Belum Cukup</div>
+            <div class="small">Minimal 20 data</div>
+            <div class="small">Sekarang: ${data.debug_total_data}</div>
+        </div>
+    `);
+            return;
+        }
         if (!chartSelector || !data || !Array.isArray(data.series_data)) {
             if (chartSelector) $(chartSelector).html('<div class="text-danger small">Data tidak valid.</div>');
             return;
         }
-
         const cfg = window.dbConfig?.[siteName] || {};
         const modeText = cfg.agg_mode
             ? `${cfg.agg_mode.toUpperCase()} (${cfg.start_col}–${cfg.end_col})`
             : '-';
-        const isViewer = (chartSelector === chartMapping['viewer']);
-        const chartHeight = isViewer ? 350 : 150;
+
+        const chartHeight = 225;
 
         //--------------------------------------------------------------
         // 1. Build Excel-like boundary axis
@@ -447,6 +580,8 @@ $(document).ready(function () {
 
             },
 
+
+
             series: [
                 { name: 'Observed values', type: 'column', data: bars },
                 { name: 'Predicted Value', type: 'line', data: curve }
@@ -468,9 +603,6 @@ $(document).ready(function () {
                 curve: 'smooth'
             },
 
-            //----------------------------------------------------------
-            // 4. X-axis is CATEGORY OF BOUNDARIES (Excel style)
-            //----------------------------------------------------------
             //----------------------------------------------------------
             // 4. X-axis pakai label midpoint (bukan auto numeric)
             //----------------------------------------------------------
@@ -594,7 +726,6 @@ $(document).ready(function () {
                     console.warn(`Skip destroy: element for ${key} not found in DOM`);
                 }
             } catch (err) {
-                console.warn("Destroy chart failed:", key, err);
             }
         }
 
@@ -618,7 +749,7 @@ $(document).ready(function () {
             <span class="text-primary">Line: ${$row.find('.line option:selected').text() || '-'}</span> |
             <span class="text-success">App: ${$row.find('.application option:selected').text() || '-'}</span> |
             <span class="text-info">File: ${$row.find('.file option:selected').text() || '-'}</span> |
-           <span class="text-warning">${modeText}</span>
+            <span class="text-warning">${modeText}</span>
         </div>
     `;
                     const parent = el.closest('.card-body') || el.parentElement;
@@ -641,461 +772,295 @@ $(document).ready(function () {
         }, 50);
     }
 
-    // -------------------------
-    // PATCH: Viewer Only Render From Cache (copy)
-    // -------------------------
-    function deepCopy(obj) {
-        if (typeof structuredClone === 'function') return structuredClone(obj);
-        try { return JSON.parse(JSON.stringify(obj)); } catch { return null; }
-    }
-
-    function renderViewerFromCache(site, source = 'unknown') {
-        // ⛔ BLOCK render viewer saat carousel PAUSE
-        if (window.isCarouselPaused && source === 'polling') {
-            return;
-        }
-
-        // ⛔ BLOCK render jika bukan current site
-        if (site !== window.currentMainSite) {
-            return;
-        }
-
-        const raw = window.cachedChartData[site];
-        const cached = raw ? deepCopy(raw) : null;
-
-        if (cached) {
-            renderApexHistogram('#mainChartViewer', cached, site, 'viewer');
-        } else {
-            $('#mainChartViewer').html(`
-            <div class="d-flex justify-content-center align-items-center h-100">
-                <div class="spinner-border text-primary"></div>
-            </div>
-        `);
-        }
-    }
-
-
-    // ==========================
-    // PATCH: SAFE CHART SELECTOR
-    // ==========================
-    function getChartSelectorForSite(site, isMainCarousel) {
-        if (isMainCarousel) return chartMapping['viewer'];
-        // site6+ tidak punya mini chart → lewati saja
-        return chartMapping[site] || null;
-    }
-    // function getChartSelectorForSite(site, isMainCarousel) {
-    //     if (isMainCarousel) return chartMapping['viewer'];
-    //     if (chartMapping[site]) return chartMapping[site];
-    //     return null; // site6+ tidak ada mini chart
-    // }
 
     // -------------------------
     // 5. Load Logic
     // -------------------------
-    function loadHistogramChart(site, isMainCarousel = false, forceRefresh = false) {
-        // Viewer hanya dari cache
-        if (isMainCarousel) {
-            renderViewerFromCache(site);
-            return;
-        }
-
-        const actual = resolveSite(site);
-        const chartId = getChartSelectorForSite(actual, isMainCarousel);
-        // ===============================
-        // LOCAL STORAGE CACHE FIRST
-        // ===============================
-        if (!forceRefresh) {
-            const localCached = loadSpcCache(actual);
-            if (localCached) {
-                window.cachedChartData[actual] = localCached;
-
-                if (chartId) {
-                    renderApexHistogram(chartId, localCached, actual, actual);
-                }
-
-                if (actual === window.currentMainSite) {
-
-                    renderViewerFromCache(actual, 'polling');
-                    updateMainCpCpkTable(actual);
-                }
-
-                return; // ⛔ STOP — JANGAN HIT API
-            }
-        }
+    function loadHistogramChartInternal(site, forceRefresh = false) {
+        return new Promise((resolve, reject) => {
+            // const actual = resolveSite(site);
+            const actual = site;
 
 
+            const { $row } = safeRowForSite(actual);
 
-        // Kalau site6+ (tidak punya mini chart) → tetap boleh load data dan tampil di viewer
-        if (!chartId && !isMainCarousel) {
-            // tetap ambil data ke API, tapi tidak render mini chart
-            console.log(`[INFO] ${actual} tidak punya mini chart, hanya tampil di viewer`);
-        }
-
-
-        const instanceKey = isMainCarousel ? `viewer` : actual;
-        const { $row } = safeRowForSite(actual);
-
-        // Row tidak ditemukan
-        if (!$row || $row.length === 0) {
-            if (window.cachedChartData[actual] && !forceRefresh) {
-                renderApexHistogram(chartId, window.cachedChartData[actual], actual, instanceKey);
-            } else {
-                $(chartId).html('<div class="text-muted small">Site configuration tidak ditemukan.</div>');
-            }
-            return;
-        }
-
-        // Sedang loading dan tidak force
-        if (window.loadingCharts[actual] && !forceRefresh) return;
-
-        // Pakai cache bila ada & tidak force
-        if (window.cachedChartData[actual] && !forceRefresh) {
-            renderApexHistogram(chartId, window.cachedChartData[actual], actual, instanceKey);
-            return;
-        }
-
-        // Ambil dropdown
-        let valLine = $row.find('.line').val();
-        let valApp = $row.find('.application').val();
-        let valFile = $row.find('.file').val();
-        let aggMode = $row.find('.agg-mode').val();
-        let startCol = parseInt($row.find('.range-start').val());
-        let endCol = parseInt($row.find('.range-end').val());
-
-        aggMode = (aggMode === 'min' || aggMode === 'max') ? aggMode : undefined;
-        startCol = Number.isFinite(startCol) ? startCol : undefined;
-        endCol = Number.isFinite(endCol) ? endCol : undefined;
-        // Ambil input user
-        let stdLower = parseFloat($row.find('input[data-type="lcl"]').val());
-        let stdUpper = parseFloat($row.find('input[data-type="ucl"]').val());
-        let lowBoundary = parseFloat($row.find('input[data-type="lower"]').val());
-        let intWidth = parseFloat($row.find('input[data-type="interval"]').val());
-
-
-        // Normalize NaN -> undefined
-        stdLower = Number.isFinite(stdLower) ? stdLower : undefined;
-        stdUpper = Number.isFinite(stdUpper) ? stdUpper : undefined;
-        lowBoundary = Number.isFinite(lowBoundary) ? lowBoundary : undefined;
-        intWidth = Number.isFinite(intWidth) ? intWidth : undefined;
-
-        // DB fallback
-        if (window.dbConfig && window.dbConfig[actual]) {
-            const db = window.dbConfig[actual];
-            if (aggMode === undefined && db.agg_mode) aggMode = db.agg_mode;
-            if (startCol === undefined && db.start_col !== undefined) startCol = db.start_col;
-            if (endCol === undefined && db.end_col !== undefined) endCol = db.end_col;
-
-            if (!valLine && db.line_id) valLine = db.line_id;
-            if (!valApp && db.application_id) valApp = db.application_id;
-            if (!valFile && db.file_id) valFile = db.file_id;
-
-            if (stdLower === undefined && db.standard_lower !== undefined) {
-                const v = parseFloat(db.standard_lower); if (Number.isFinite(v)) stdLower = v;
-            }
-            if (stdUpper === undefined && db.standard_upper !== undefined) {
-                const v = parseFloat(db.standard_upper); if (Number.isFinite(v)) stdUpper = v;
-            }
-            if (lowBoundary === undefined && db.lower_boundary !== undefined) {
-                const v = parseFloat(db.lower_boundary); if (Number.isFinite(v)) lowBoundary = v;
-            }
-            if (intWidth === undefined && db.interval_width !== undefined) {
-                const v = parseFloat(db.interval_width); if (Number.isFinite(v)) intWidth = v;
-            }
-        }
-
-        // File/Header belum ada
-        if (
-            (!valFile && !window.dbConfig?.[actual]?.file_id) ||
-            (!aggMode && !window.dbConfig?.[actual]?.agg_mode) ||
-            (startCol === undefined && window.dbConfig?.[actual]?.start_col === undefined) ||
-            (endCol === undefined && window.dbConfig?.[actual]?.end_col === undefined)
-        ) {
-            $(chartId).html(`
-        <div class="text-danger small text-center">
-            Pilih File, Min/Max, dan Range Kolom.
-        </div>
-    `);
-            return;
-        }
-
-        // Validasi parameter histogram
-        const missingParams = (stdLower === undefined) || (stdUpper === undefined) || (lowBoundary === undefined) || (intWidth === undefined);
-        if (missingParams) {
-            if (window.cachedChartData[actual] && !forceRefresh) {
-                renderApexHistogram(chartId, window.cachedChartData[actual], actual, instanceKey);
+            if (!$row || $row.length === 0) {
+                resolve();
                 return;
             }
-            $(chartId).html(`
-                <div class="d-flex flex-column justify-content-center align-items-center h-100">
-                    <div class="spinner-border text-primary"></div>
-                    <div class="text-danger mt-2 small">Pengaturan histogram belum lengkap: isi LCL, UCL, Lower Boundary, Interval Width.</div>
-                </div>
-            `);
-            return;
-        }
 
-        // Panggil API
-        window.loadingCharts[actual] = true;
+            // Sedang loading dan tidak force
+            if (window.loadingCharts[actual] && !forceRefresh) {
+                resolve();
+                return;
+            };
 
-        const postData = {
-            site_name: actual,
-            line_id: valLine,
-            application_id: valApp,
-            file_id: valFile,
-            // 🔥 BARU
-            agg_mode: aggMode,
-            start_col: startCol,
-            end_col: endCol,
-            standard_upper: stdUpper,
-            standard_lower: stdLower,
-            lower_boundary: lowBoundary,
-            interval_width: intWidth
-        };
 
-        $.ajax({
-            url: `${HOST_URL}api/chart_data_3sigma_minmax.php`,
-            type: 'POST',
-            data: postData,
-            dataType: 'json',
-            timeout: 60000,
-            success: function (response) {
-                // PATCH: robust validate
-                if (typeof response !== 'object' || response === null) {
-                    if (window.cachedChartData[actual]) {
-                        renderApexHistogram(chartId, window.cachedChartData[actual], actual, instanceKey);
-                    } else {
-                        $(chartId).html('<div class="text-danger small">Invalid API response.</div>');
-                    }
-                    return;
+            // Ambil dropdown
+            let valLine = $row.find('.line').val();
+            let valApp = $row.find('.application').val();
+            let valFile = $row.find('.file').val();
+
+            // Ambil input user
+            let stdLower = parseFloat($row.find('input[data-type="lcl"]').val());
+            let stdUpper = parseFloat($row.find('input[data-type="ucl"]').val());
+            let lowBoundary = parseFloat($row.find('input[data-type="lower"]').val());
+            let intWidth = parseFloat($row.find('input[data-type="interval"]').val());
+
+            // Normalize NaN → undefined
+            stdLower = Number.isFinite(stdLower) ? stdLower : undefined;
+            stdUpper = Number.isFinite(stdUpper) ? stdUpper : undefined;
+            lowBoundary = Number.isFinite(lowBoundary) ? lowBoundary : undefined;
+            intWidth = Number.isFinite(intWidth) ? intWidth : undefined;
+
+            let aggMode = $row.find('.agg-mode').val();
+            let startCol = parseInt($row.find('.range-start').val());
+            let endCol = parseInt($row.find('.range-end').val());
+
+            // DB fallback
+            if (window.dbConfig && window.dbConfig[actual]) {
+                const db = window.dbConfig[actual];
+
+                if (!valLine && db.line_id) valLine = db.line_id;
+                if (!valApp && db.application_id) valApp = db.application_id;
+                if (!valFile && db.file_id) valFile = db.file_id;
+                if (!aggMode && db.agg_mode) aggMode = db.agg_mode;
+                if (!startCol && db.start_col) startCol = parseInt(db.start_col);
+                if (!endCol && db.end_col) endCol = parseInt(db.end_col);
+                if (stdLower === undefined && db.custom_lcl !== undefined) {
+                    const v = parseFloat(db.custom_lcl);
+                    if (Number.isFinite(v)) stdLower = v;
                 }
-                if (!response.success) {
-                    if (window.cachedChartData[actual]) {
-                        renderApexHistogram(chartId, window.cachedChartData[actual], actual, instanceKey);
-                    } else {
-                        $(chartId).html('<div class="text-danger small">' + (response && response.message ? response.message : 'Error API') + '</div>');
-                    }
-                    return;
+                if (stdUpper === undefined && db.custom_ucl !== undefined) {
+                    const v = parseFloat(db.custom_ucl);
+                    if (Number.isFinite(v)) stdUpper = v;
                 }
+                if (lowBoundary === undefined && db.lower_boundary !== undefined) {
+                    const v = parseFloat(db.lower_boundary);
+                    if (Number.isFinite(v)) lowBoundary = v;
+                }
+                if (intWidth === undefined && db.interval_width !== undefined) {
+                    const v = parseFloat(db.interval_width);
+                    if (Number.isFinite(v)) intWidth = v;
+                }
+            }
 
-                // Save cache
-                window.cachedChartData[actual] = response;
-                saveSpcCache(actual, response);
 
-                // Save minimal config
-                if (!window.dbConfig[actual]) window.dbConfig[actual] = {};
-                window.dbConfig[actual].line_id = valLine;
-                window.dbConfig[actual].application_id = valApp;
-                window.dbConfig[actual].file_id = valFile;
-                window.dbConfig[actual].agg_mode = aggMode;
-                window.dbConfig[actual].start_col = startCol;
-                window.dbConfig[actual].end_col = endCol;
-                window.dbConfig[actual].standard_lower = stdLower;
-                window.dbConfig[actual].standard_upper = stdUpper;
-                window.dbConfig[actual].lower_boundary = lowBoundary;
-                window.dbConfig[actual].interval_width = intWidth;
+            // Validasi parameter histogram
+            const missingParams =
+                stdLower === undefined ||
+                stdUpper === undefined ||
+                lowBoundary === undefined ||
+                intWidth === undefined;
 
-                const cpLimitVal = parseFloat($row.find('input[data-type="cp_limit"]').val());
-                const cpkLimitVal = parseFloat($row.find('input[data-type="cpk_limit"]').val());
+            if (missingParams) {
+                resolve();
+                return;
+            }
+            if (!aggMode || !Number.isInteger(startCol) || !Number.isInteger(endCol) || startCol > endCol) {
+                console.warn(`[MINMAX] Invalid range for ${actual}`);
+                resolve();
+                return;
+            }
 
-                window.dbConfig[actual].cp_limit =
-                    Number.isFinite(cpLimitVal) ? cpLimitVal : undefined;
+            // Panggil API
+            window.loadingCharts[actual] = true;
 
-                window.dbConfig[actual].cpk_limit =
-                    Number.isFinite(cpkLimitVal) ? cpkLimitVal : undefined;
-                // render
-                renderApexHistogram(chartId, response, actual, instanceKey);
-                // 🧩 Jika site6+ (tidak punya mini chart), tetap render ke viewer
-                if (!chartMapping[actual]) {
-                    console.log(`[INFO] Render viewer dari site tanpa mini chart: ${actual}`);
+            const postData = {
+                site_name: actual,
+                line_id: valLine,
+                application_id: valApp,
+                file_id: valFile,
+
+                // KHUSUS MINMAX
+                agg_mode: aggMode,      // min / max
+                start_col: startCol,    // range start
+                end_col: endCol,        // range end
+
+                standard_lower: stdLower,
+                standard_upper: stdUpper,
+                lower_boundary: lowBoundary,
+                interval_width: intWidth
+            };
+
+
+            $.ajax({
+                url: `${HOST_URL}api/chart_data_3sigma_minmax.php`,
+                type: 'POST',
+                data: postData,
+                dataType: 'json',
+                timeout: 60000,
+                success: function (response) {
+                    if (typeof response !== 'object' || response === null) {
+                        resolve();
+                        return;
+                    }
+
+                    if (!response.success) {
+                        resolve();
+                        return;
+                    }
+                    // 🔥 FIX: BLOCK ALERT JIKA DATA < 20
+                    if (response.insufficient_data) {
+                        window.cachedChartData[actual] = response;
+                        resolve();
+                        return;
+                    }
+
+                    // Save cache
                     window.cachedChartData[actual] = response;
-                    if (actual === window.currentMainSite) {
-                        renderViewerFromCache(actual, 'polling');
-                    }
-                }
+                    // Save minimal config
+                    if (!window.dbConfig[actual]) window.dbConfig[actual] = {};
+                    window.dbConfig[actual].line_id = valLine;
+                    window.dbConfig[actual].application_id = valApp;
+                    window.dbConfig[actual].file_id = valFile;
+                    window.dbConfig[actual].custom_lcl = stdLower;
+                    window.dbConfig[actual].custom_ucl = stdUpper;
+                    window.dbConfig[actual].lower_boundary = lowBoundary;
+                    window.dbConfig[actual].interval_width = intWidth;
+                    window.dbConfig[actual].cp_limit =
+                        $row.find('input[data-type="cp_limit"]').val();
+                    window.dbConfig[actual].cpk_limit =
+                        $row.find('input[data-type="cpk_limit"]').val();
 
-                if (actual === window.currentMainSite) {
-                    updateMainCpCpkTable(actual);
-                }
-                // 🔔 Jika CP/CPK NG, tampilkan alert
-                // const hasOOC = Number(response.out_of_control_count || 0) > 0;
-                // const finalStatus =
-                //     response.cp_status === "OK" &&
-                //         response.cpk_status === "OK" &&
-                //         !hasOOC
-                //         ? "OK"
-                //         : "NG";
-                const finalStatus =
-                    response.cp_status === "OK" &&
-                        response.cpk_status === "OK"
-                        ? "OK"
-                        : "NG";
-                const cfg = window.dbConfig?.[actual] || {};
-                const modeText = cfg.agg_mode
-                    ? `${cfg.agg_mode.toUpperCase()} (${cfg.start_col}–${cfg.end_col})`
-                    : '-';
-                if (finalStatus === "NG") {
-                    const { $row } = safeRowForSite(actual);
-                    const info = {
-                        type: "cp_result",
-                        site_name: actual,
-                        site: window.dbConfig?.[actual]?.site_label || actual.toUpperCase(),
-                        line: $row.find('.line option:selected').text() || '-',
-                        app: $row.find('.application option:selected').text() || '-',
-                        file: $row.find('.file option:selected').text() || '-',
-                        cp: response.cp?.toFixed(3),
-                        cpk: response.cpk?.toFixed(3),
-                        cp_status: response.cp_status,
-                        cpk_status: response.cpk_status,
-                        final_status: finalStatus
-                    };
+                    // Render
 
-                    // ✅ Tambahkan pengecekan supaya tidak muncul berulang
-                    const lastAlert = window.lastCpCpkAlert?.[actual];
-                    const currentKey =
-                        `${info.cp_status}_${info.cpk_status}_${info.cp}_${info.cpk}`;
+                    const finalStatus =
+                        response.cp_status === "OK" &&
+                            response.cpk_status === "OK"
+                            ? "OK"
+                            : "NG";
 
+                    if (finalStatus === "NG") {
+                        const info = {
+                            type: "cp_result",
+                            site: window.dbConfig?.[actual]?.site_label || actual.toUpperCase(),
+                            line: $row.find('.line option:selected').text() || '-',
+                            app: $row.find('.application option:selected').text() || '-',
+                            file: $row.find('.file option:selected').text() || '-',
+                            cp: response.cp?.toFixed(3),
+                            cpk: response.cpk?.toFixed(3),
+                            cp_status: response.cp_status,
+                            cpk_status: response.cpk_status,
+                            final_status: finalStatus
+                        };
 
-                    if (!lastAlert || lastAlert !== currentKey) {
-                        window.lastCpCpkAlert = window.lastCpCpkAlert || {};
-                        window.lastCpCpkAlert[actual] = currentKey;
-                        if (info.final_status === "NG") {
+                        const lastAlert = window.lastCpCpkAlert?.[actual];
+                        const currentKey =
+                            `${info.cp_status}_${info.cpk_status}_${info.cp}_${info.cpk}`;
+
+                        if (!lastAlert || lastAlert !== currentKey) {
+                            window.lastCpCpkAlert = window.lastCpCpkAlert || {};
+                            window.lastCpCpkAlert[actual] = currentKey;
                             window.alertQueue.push(info);
                             showNextAlert();
                         }
                     }
-                }
 
-                // ✅ Update status icon berdasarkan hasil CP/CPK
-                const statusIcon = document.getElementById(`${actual}StatusIcon`);
-                const alertIcon = document.getElementById(`${actual}AlertIcon`);
+                    const statusIcon = document.getElementById(`${actual}StatusIcon`);
+                    const alertIcon = document.getElementById(`${actual}AlertIcon`);
 
-                if (finalStatus === "OK") {
-                    statusIcon.style.display = "inline-block";
-                    statusIcon.style.backgroundColor = "green";
-                    alertIcon.style.display = "none";
-                } else {
-                    statusIcon.style.display = "none";
-                    alertIcon.style.display = "inline-block";
+                    if (finalStatus === "OK") {
+                        if (statusIcon) {
+                            statusIcon.style.display = "inline-block";
+                            statusIcon.style.backgroundColor = "green";
+                        }
+                        if (alertIcon) alertIcon.style.display = "none";
+                    } else {
+                        if (statusIcon) statusIcon.style.display = "none";
+                        if (alertIcon) alertIcon.style.display = "inline-block";
+                    }
+                },
+                error: function (xhr, status) {
+                    reject(new Error('API failed'));
+                },
+                complete: function () {
+                    window.loadingCharts[actual] = false;
+                    resolve(); // 🔥 INI KUNCI
                 }
-
-                // update icons / alerts
-                // const alertIcon = document.getElementById(`${actual}AlertIcon`);
-                // const statusIcon = document.getElementById(`${actual}StatusIcon`);
-                // if (alertIcon && statusIcon) {
-                //     if (response.out_of_control) {
-                //         alertIcon.style.display = "inline-block";
-                //         statusIcon.style.display = "none";
-                //     } else {
-                //         alertIcon.style.display = "none";
-                //         statusIcon.style.display = "inline-block";
-                //     }
-                // }
-                // if (response.out_of_control && !window.shownAlerts[actual]) {
-                //     window.shownAlerts[actual] = true;
-                //     window.alertQueue.push({
-                //         site: actual.toUpperCase(),
-                //         line: $row.find('.line option:selected').text(),
-                //         app: $row.find('.application option:selected').text(),
-                //         file: $row.find('.file option:selected').text(),
-                //         header: $row.find('.headers option:selected').text(),
-                //         count: response.out_of_control_count,
-                //         lcl: response.lsl,
-                //         ucl: response.usl,
-                //         min: response.out_of_control_min,
-                //         max: response.out_of_control_max
-                //     });
-                //     showNextAlert();
-                // }
-            },
-            error: function (xhr, status) {
-                if (window.cachedChartData[actual]) {
-                    renderApexHistogram(chartId, window.cachedChartData[actual], actual, instanceKey);
-                } else if (status === 'timeout') {
-                    $(chartId).html('<div class="text-danger small">Request timeout.</div>');
-                } else {
-                    $(chartId).html('<div class="text-danger small">Error API.</div>');
-                }
-            },
-            complete: function () {
-                window.loadingCharts[actual] = false;
-            }
+            });
         });
     }
 
-    // -------------------------
-    // 6. Title Update
-    // -------------------------
-    function updateMainTitle(site) {
-        const actual = resolveSite(site);
-        const cfg = window.dbConfig?.[actual] || {};
+    function loadHistogramChart(site, isMainCarousel = false, forceRefresh = false) {
+        enqueueChartRequest(site, forceRefresh);
+    }
 
-        // ✅ fallback label yang AMAN
-        const label =
-            (cfg.site_label && cfg.site_label !== '__SITE__')
-                ? cfg.site_label
-                : actual.toUpperCase();
+    function updateMainHeaderTitle(slotIndex, site) {
+        const cfg = window.dbConfig?.[site];
+        const label = cfg?.site_label || site.toUpperCase();
 
-        $('#mainHeaderTitle').text(label);
+        const statusIcon = getCpCpkStatusIcon(site);
 
-        const { $row } = safeRowForSite(actual);
-        if (!$row || $row.length === 0) {
-            $("#mainChartTitle").html(`
-            <div class="fs-6 text-dark">
-                <span class="fw-bold">📊 ${label}</span><br>
-                <small>Site config belum tersedia</small>
-            </div>
-        `);
-            return;
-        }
-
-        const lineText = $row.find('.line option:selected').text() || '-';
-        const appText = $row.find('.application option:selected').text() || '-';
-        const fileText = $row.find('.file option:selected').text() || '-';
-
-        const modeText = cfg.agg_mode
-            ? `${cfg.agg_mode.toUpperCase()} (${cfg.start_col}–${cfg.end_col})`
-            : '-';
-
-        $("#mainChartTitle").html(`
-        <div class="fs-6 text-dark">
-            <span class="fw-bold">📊 ${label}</span><br>
-            <small>
-                Line: <span class="text-primary">${lineText}</span> |
-                App: <span class="text-success">${appText}</span> |
-                File: <span class="text-info">${fileText}</span> |
-                Mode: <span class="text-warning">${modeText}</span>
-            </small>
+        $(`#mainHeaderTitle_${slotIndex}`).html(`
+        <div class="fw-bold d-flex align-items-center gap-1">
+            <span class="pr-2">${label}</span>
+            ${statusIcon}
         </div>
     `);
+        const mode = window.siteFilterMode?.toUpperCase();
+        $(`#mainHeaderTitle_${slotIndex}`).append(`
+    <span class="ml-2 badge badge-light" style="font-size:10px; padding:2px 6px;">
+    ${mode}
+</span>
+`);
+    }
+
+    function getCpCpkStatusIcon(site) {
+        const data = window.cachedChartData?.[site];
+        if (!data) return '';
+
+        if (data.insufficient_data) {
+            return `<span class="text-warning">⚠</span>`;
+        }
+        const isOk =
+            data.cp_status === 'OK' &&
+            data.cpk_status === 'OK';
+
+        if (isOk) {
+            return `
+            <span class="ms-1 pl-2"
+                  style="display:inline-block;
+                         width:10px;
+                         height:10px;
+                         border-radius:50%;
+                         background:#28a745;"
+                  title="OK"></span>
+        `;
+        }
+
+        return `
+        <span class="ms-1 text-danger"
+              title="NG"
+              style="font-size:14px;">&#9888;</span>
+    `;
     }
 
 
-    function updateMainCpCpkTable(site) {
-        const actual = resolveSite(site);
+    function updateMainCpCpkTable(slot, site) {
+        const data = window.cachedChartData?.[site];
+        const cfg = window.dbConfig?.[site];
 
-        const data = window.cachedChartData[actual];
-        const cfg = window.dbConfig?.[actual];
-
-        // Jika belum ada data
         if (!data) {
-            $('#mainCpStandard, #mainCpActual, #mainCpkStandard, #mainCpkActual').text('-');
+            $(`#mainCpStandard_${slot},
+           #mainCpActual_${slot},
+           #mainCpkStandard_${slot},
+           #mainCpkActual_${slot}`).text('-');
             return;
         }
 
-        // Standard (limit)
-        const cpLimit = Number.isFinite(cfg?.cp_limit) ? cfg.cp_limit : '-';
-        const cpkLimit = Number.isFinite(cfg?.cpk_limit) ? cfg.cpk_limit : '-';
+        $(`#mainCpStandard_${slot}`).text(cfg?.cp_limit ?? '-');
+        $(`#mainCpkStandard_${slot}`).text(cfg?.cpk_limit ?? '-');
 
-        // Actual (hasil perhitungan)
-        const cpActual = Number.isFinite(data.cp) ? data.cp.toFixed(3) : '-';
-        const cpkActual = Number.isFinite(data.cpk) ? data.cpk.toFixed(3) : '-';
-
-        $('#mainCpStandard').text(cpLimit !== '-' ? cpLimit.toFixed(3) : '-');
-        $('#mainCpkStandard').text(cpkLimit !== '-' ? cpkLimit.toFixed(3) : '-');
-
-        $('#mainCpActual').text(cpActual);
-        $('#mainCpkActual').text(cpkActual);
+        $(`#mainCpActual_${slot}`).text(
+            Number.isFinite(data.cp) ? data.cp.toFixed(3) : '-'
+        );
+        $(`#mainCpkActual_${slot}`).text(
+            Number.isFinite(data.cpk) ? data.cpk.toFixed(3) : '-'
+        );
     }
+
+
 
     // -------------------------
     // 7. Settings & Events
@@ -1105,28 +1070,28 @@ $(document).ready(function () {
         const { $row } = safeRowForSite(actual);
         if (!$row || $row.length === 0) return;
 
+        const $header = $row.find('.headers');
+
         const settingsData = {
             site_name: actual,
             line_id: $row.find('.line').val(),
             application_id: $row.find('.application').val(),
             file_id: $row.find('.file').val(),
             is_active: $row.find('.dashboard-toggle input').is(':checked'),
-
-            // MODE MIN / MAX
-            agg_mode: $row.find('.agg-mode').val(),
-            start_col: $row.find('.range-start').val(),
-            end_col: $row.find('.range-end').val(),
-
-            standard_lower: $row.find('input[data-type="lcl"]').val(),
-            standard_upper: $row.find('input[data-type="ucl"]').val(),
-            lower_boundary: $row.find('input[data-type="lower"]').val(),
-            interval_width: $row.find('input[data-type="interval"]').val(),
-
-            cp_limit: $row.find('input[data-type="cp_limit"]').val(),
-            cpk_limit: $row.find('input[data-type="cpk_limit"]').val(),
-            site_label: $row.find('.site-label-input').val() || null
+            table_type: $header.data('table-type') || 'type1'
         };
 
+        // Tambahkan semua limit yang disimpan ke DB
+        settingsData.custom_lcl = $row.find('input[data-type="lcl"]').val();
+        settingsData.custom_ucl = $row.find('input[data-type="ucl"]').val();
+        settingsData.lower_boundary = $row.find('input[data-type="lower"]').val();
+        settingsData.interval_width = $row.find('input[data-type="interval"]').val();
+        settingsData.cp_limit = $row.find('input[data-type="cp_limit"]').val();
+        settingsData.cpk_limit = $row.find('input[data-type="cpk_limit"]').val();
+        settingsData.site_label = $row.find('.site-label-input').val() || null;
+        settingsData.agg_mode = $row.find('.agg-mode').val();
+        settingsData.start_col = $row.find('.range-start').val();
+        settingsData.end_col = $row.find('.range-end').val();
         $.ajax({
             url: `${HOST_URL}api/save_spc_model_setting.php`,
             type: 'POST',
@@ -1137,94 +1102,68 @@ $(document).ready(function () {
         });
     }
 
-
     // Event: Tambah Site
-    // ===============================
-    // ADD SITE — FIXED VERSION
-    // ===============================
     $('#btnAddSite').click(function () {
-
         let lastNum = 0;
         $('.site-setting-row').each(function () {
-            const s = $(this).attr('data-site');
-            const n = parseInt(s?.replace('site', '')) || 0;
-            if (n > lastNum) lastNum = n;
+            const num = parseInt($(this).data('site').replace('site', ''));
+            if (num > lastNum) lastNum = num;
         });
 
         const newNum = lastNum + 1;
-        const newSite = 'site' + newNum;
+        const newSiteName = 'site' + newNum;
 
-        // 🔥 CLONE DARI TEMPLATE (BUKAN site1)
-        const $clone = $('#siteTemplate').clone(false, false);
+        // ✅ CLONE TANPA EVENT & DATA
+        const $clone = $('.site-setting-row[data-site="site1"]').clone(false, false);
 
-        // Bersihkan cache jQuery (WAJIB)
-        $clone.find('*').each(function () {
-            $.removeData(this);
+        // ✅ BERSIHKAN SEMUA CACHE JQUERY
+        $clone.removeData();
+        $clone.find('*').removeData();
+
+        // ✅ UPDATE ATTRIBUTE + DATA CACHE
+        $clone.attr('data-site', newSiteName).attr('id', 'row_' + newSiteName);
+        $clone.find('[data-site]').each(function () {
+            $(this)
+                .attr('data-site', newSiteName)
+                .data('site', newSiteName);
         });
 
-        // Aktifkan & set identity
-        $clone
-            .removeAttr('id')
-            .removeClass('d-none')
-            .attr('data-site', newSite)
-            .attr('id', 'row_' + newSite);
-
-        // Update semua child data-site
-        $clone.find('[data-site]').attr('data-site', newSite);
-
-        // Reset semua input
-        $clone.find('select').val('');
-        $clone.find('input').val('');
-
-        // Disable cascade awal
-        $clone.find('.application, .file')
-            .prop('disabled', true)
-            .html('<option value="">Select</option>');
-
-        // Label
+        // Reset label
         $clone.find('.site-label-text').text('Site ' + newNum).removeClass('d-none');
-        $clone.find('.site-label-input').addClass('d-none');
+        $clone.find('.site-label-input').val('').addClass('d-none');
         $clone.find('.site-label-save').addClass('d-none');
         $clone.find('.site-label-edit').removeClass('d-none');
 
-        // Append ke DOM
+        // Reset dropdown
+        $clone.find('select').each(function () {
+            this.selectedIndex = 0;
+            $(this).prop('disabled', true);
+        });
+
+        // agg-mode HARUS DIKONTROL MANUAL
+        $clone.find('.agg-mode').prop('disabled', true);
+
+        $clone.find('.line').prop('disabled', false);
+
+        // Reset inputs
+        $clone.find('.limit-input').val('');
+
+        // Append
         $('#settingsContainer').append($clone);
         $('#settingsContainer').append('<div class="separator separator-dashed my-5"></div>');
+        ensureRemoveButton($clone, newSiteName);
 
-        ensureRemoveButton($clone, newSite);
+        // Init state
+        window.dbConfig[newSiteName] = { site_label: 'Site ' + newNum };
+        initSite(newSiteName);
 
-        // ===============================
-        // INIT STATE (INI KUNCI)
-        // ===============================
-        window.dbConfig[newSite] = {
-            site_label: 'Site ' + newNum,
-            line_id: null,
-            application_id: null,
-            file_id: null,
-            agg_mode: null,
-            start_col: null,
-            end_col: null,
-            standard_lower: null,
-            standard_upper: null,
-            lower_boundary: null,
-            interval_width: null
-        };
-
-        initSite(newSite);
-
-        // Jadikan active site
-        window.currentMainSite = newSite;
-        updateSiteLabel(newSite);
-        updateMainTitle(newSite);
-        updateMainCpCpkTable(newSite);
-
-        $('#mainChartViewer').html(`
-        <div class="d-flex justify-content-center align-items-center h-100">
-            <div class="text-muted small">Pilih Line untuk mulai</div>
-        </div>
-    `);
+        // window.currentMainSite = newSiteName;
+        updateSiteLabel(newSiteName);
+        // updateMainTitle(newSiteName);
+        // updateMainCpCpkTable(newSiteName);
 
         SITES = getAllSites();
+        window.mainSiteGroups = buildMainSiteGroups();
     });
 
 
@@ -1257,10 +1196,9 @@ $(document).ready(function () {
                     data: { site_name: siteName },
                     success: function (res) {
                         if (res.success) {
-                            localStorage.removeItem(spcCacheKey(siteName));
-                            localStorage.removeItem(spcCacheTimeKey(siteName));
                             delete window.cachedChartData[siteName];
                             delete window.dbConfig[siteName];
+                            window.mainSiteGroups = buildMainSiteGroups();
                             Swal.fire({ icon: 'success', title: 'Terhapus', toast: true, position: 'top-end', timer: 2000, showConfirmButton: false });
                         }
                     }
@@ -1271,155 +1209,105 @@ $(document).ready(function () {
 
     // Event: Ganti Global Interval
     $(document).on('change', '#globalIntervalSelect', function () {
-        const newInterval = parseInt($(this).val());
-        startFocusedPolling(newInterval);
+        const newInterval = parseInt($(this).val()) || 120000;
+        // startGlobalScheduler(newInterval);
     });
 
     // Event: Input LCL/UCL/Boundary/Interval Change (PATCH: selalu refresh mini chart)
     let debounceTimers = {};
-    let saveTimers = {};
 
-    $(document).on('input change', '.limit-input', function () {
-        const site = $(this).attr('data-site');
-        const chartId = getChartSelectorForSite(site, false);
+    $(document).on('change', '.limit-input', function () {
+        const site = $(this).data('site');
 
-        // === RENDER CEPAT (400ms) ===
-        clearTimeout(debounceTimers[site]);
-        debounceTimers[site] = setTimeout(() => {
-
-            // Loading kecil di chart
-            if (chartId && $(chartId).length) {
-                $(chartId).html(`
-                <div class="d-flex flex-column justify-content-center align-items-center h-100 text-muted small">
-                    <div class="spinner-border text-primary mb-2" style="width:1.5rem;height:1.5rem"></div>
-                    <div>Updating chart...</div>
-                </div>
-            `);
-            }
-
-            loadHistogramChart(site, false, true);
-
-        }, 400);
-
-        // === SAVE KE DB (LEBIH LAMBAT, AMAN) ===
-        clearTimeout(saveTimers[site]);
-        saveTimers[site] = setTimeout(() => {
-            saveSiteSettings(site);
-        }, 800);
+        saveSiteSettings(site);
+        loadHistogramChart(site, false, true);
     });
+
 
     // Event Listener Dropdown (Cascade)
     $(document).on('change', '.line', function () {
-        const site = $(this).attr('data-site');
+        const site = $(this).data('site');
+
         const lineId = $(this).val();
         const $application = $(`.application[data-site="${site}"]`);
-        $application.prop('disabled', true).html('<option value="">Select</option>');
+
+        // Reset dropdown
+        $application.prop('disabled', true)
+            .html('<option value="">Select</option>');
+
         if (!lineId) return;
+
         $.ajax({
             url: `${HOST_URL}api/get_applications.php`,
             type: 'POST',
             data: { line_id: lineId },
             dataType: 'json',
             success: function (response) {
-                $application.prop('disabled', false).html('<option value="">Select</option>');
-                $.each(response, function (i, item) { $application.append(`<option value="${item.id}">${item.name}</option>`); });
-                const savedAppId = window.dbConfig?.[site]?.application_id;
-                if (savedAppId) {
-                    $application.val(savedAppId);
-                    $application.trigger('change');
-                } else {
-                    // 🔥 SITE BARU: pastikan dropdown aktif & bisa dipilih
-                    $application.prop('disabled', false);
+                $application.prop('disabled', false)
+                    .html('<option value="">Select</option>');
+
+                response.forEach(item => {
+                    $application.append(
+                        `<option value="${item.id}">${item.name}</option>`
+                    );
+                });
+
+                // 🔥 RESTORE DARI dbConfig
+                const savedAppId =
+                    window.dbConfig?.[site]?.application_id;
+
+                const valid = response.some(
+                    item => String(item.id) === String(savedAppId)
+                );
+
+                if (valid) {
+                    $application.val(savedAppId).trigger('change');
                 }
             }
         });
     });
 
     $(document).on('change', '.application', function () {
-        const site = $(this).attr('data-site');
+        const site = $(this).data('site');
+        window.dbConfig[site] = window.dbConfig[site] || {};
+        window.dbConfig[site].application_id = $(this).val();
         const appId = $(this).val();
         const $file = $(`.file[data-site="${site}"]`);
-        $file.prop('disabled', true).html('<option value="">Select</option>');
+
+        $file.prop('disabled', true)
+            .html('<option value="">Select</option>');
+
         if (!appId) return;
+
         $.ajax({
             url: `${HOST_URL}api/get_files.php`,
             type: 'POST',
             data: { app_id: appId },
             dataType: 'json',
             success: function (response) {
-                $file.prop('disabled', false).html('<option value="">Select</option>');
-                $.each(response, function (i, item) { $file.append(`<option value="${item.id}">${item.name}</option>`); });
-                const savedFileId = $(`.line[data-site="${site}"]`).data('file-id');
-                if (savedFileId) { $file.val(savedFileId); $file.trigger('change'); }
-                // ✅ BOLEH
-                if (window.dbConfig?.[site]) {
-                    window.dbConfig[site].file_id = null;
+                $file.prop('disabled', false)
+                    .html('<option value="">Select</option>');
+
+                response.forEach(item => {
+                    $file.append(
+                        `<option value="${item.id}">${item.name}</option>`
+                    );
+                });
+
+                // 🔥 RESTORE FILE
+                const savedFileId =
+                    window.dbConfig?.[site]?.file_id;
+
+                const valid = response.some(
+                    item => String(item.id) === String(savedFileId)
+                );
+
+                if (valid) {
+                    $file.val(savedFileId).trigger('change');
                 }
             }
         });
     });
-
-    // $(document).on('change', '.file', function () {
-    //     const site = $(this).attr('data-site');
-    //     const fileId = $(this).val();
-    //     const $header = $(`.headers[data-site="${site}"]`);
-    //     $header.prop('disabled', true).html('<option value="">Select</option>');
-    //     if (!fileId) return;
-    //     $.ajax({
-    //         url: `${HOST_URL}api/get_headers.php`,
-    //         type: 'POST',
-    //         data: { file_id: fileId },
-    //         dataType: 'json',
-    //         success: function (response) {
-    //             $header.prop('disabled', false).html('<option value="">Select</option>');
-    //             const tableType = response.type || 'type1';
-    //             $header.data('table-type', tableType);
-    //             if (response.headers && Array.isArray(response.headers)) {
-    //                 $.each(response.headers, function (i, item) {
-    //                     const type = item.table_type || 'type1';
-    //                     $header.append(`<option value="${item.header_name}" data-table-type="${type}">${item.header_name}</option>`);
-    //                 });
-
-    //                 // simpan default type dari header pertama
-    //                 const firstType = response.headers[0]?.table_type || 'type1';
-    //                 $header.data('table-type', firstType);
-    //             }
-
-    //             const savedHeaderName = $(`.line[data-site="${site}"]`).data('header-name');
-    //             if (savedHeaderName) {
-    //                 $header.val(savedHeaderName);
-    //                 $header.trigger('change');
-    //             }
-    //             $(`.line[data-site="${site}"]`).data('header-name', null);
-    //         }
-    //     });
-    // });
-    $(document).on('change', '.file', function () {
-        const site = $(this).attr('data-site');
-        const $header = $(`.headers[data-site="${site}"]`);
-
-        // MODE BARU: header tidak dipakai
-        $header
-            .prop('disabled', true)
-            .html('<option value="">(Range Mode)</option>')
-            .data('table-type', 'type1');
-    });
-
-    $(document).on('change input', '.agg-mode, .range-start, .range-end', function () {
-        const site = $(this).attr('data-site');
-        const { $row } = safeRowForSite(site);
-
-        const mode = $row.find('.agg-mode').val();
-        const start = parseInt($row.find('.range-start').val());
-        const end = parseInt($row.find('.range-end').val());
-
-        // Validasi ringan
-        if (!mode || !start || !end || start > end) return;
-
-        saveSiteSettings(site);
-        loadHistogramChart(site, false, true);
-    });
-
 
     $(document).on('change', '.dashboard-toggle input', function () {
         const site = $(this).closest('.dashboard-toggle').attr('data-site');
@@ -1428,10 +1316,17 @@ $(document).ready(function () {
         if (!window.alertSettings[site]) window.shownAlerts[site] = false;
     });
 
+    $(document).on('change', '.agg-mode, .range-start, .range-end', function () {
+        const site = $(this).data('site');
+
+        saveSiteSettings(site);          // simpan ke DB
+        loadHistogramChart(site, false, true); // FORCE API
+    });
+
     $(document).on('click', '[id$="InfoIcon"]', function () {
         let site = $(this).attr('id').replace("InfoIcon", "");
         if (!site) return;
-        if (site === 'main') site = window.currentMainSite;
+        // if (site === 'main') site = window.currentMainSite;
 
         const data = window.cachedChartData[site];
         if (!data) {
@@ -1441,7 +1336,6 @@ $(document).ready(function () {
         const isOk =
             data.cp_status === "OK" &&
             data.cpk_status === "OK";
-
 
         Swal.fire({
             icon: 'info',
@@ -1473,19 +1367,31 @@ $(document).ready(function () {
         });
     });
 
-    // Event: Manual alert dari viewer utama (carousel)
-    $(document).on('click', '#btnMainAlert', function () {
-        const site = window.currentMainSite;
-        if (!site) {
-            Swal.fire('ℹ️', 'Belum ada site aktif di carousel.', 'info');
-            return;
-        }
-        showManualAlert(site);
+
+    $(document).on('click', '[id^="btnMainAlert_"]', function () {
+        const slot = $(this).data('slot');
+        const site = window.mainSlots[slot]?.site;
+        if (site) showManualAlert(site);
     });
+
+    $(document).on('change', '.file', function () {
+        const site = $(this).attr('data-site');
+        window.dbConfig[site] = window.dbConfig[site] || {};
+        window.dbConfig[site].file_id = $(this).val();
+        const $row = $(`.site-setting-row[data-site="${site}"]`);
+
+        if ($(this).val()) {
+            // 🔥 AKTIFKAN MIN/MAX
+            $row.find('.agg-mode').prop('disabled', false);
+        } else {
+            $row.find('.agg-mode').prop('disabled', true);
+        }
+    });
+
 
     // Event: Info icon di viewer utama (sama seperti mini chart)
     $(document).on('click', '#mainInfoIcon', function () {
-        const site = window.currentMainSite;
+        // const site = window.currentMainSite;
         if (!site) {
             Swal.fire('ℹ️', 'Belum ada site aktif di carousel.', 'info');
             return;
@@ -1496,11 +1402,7 @@ $(document).ready(function () {
             Swal.fire('ℹ️', 'Belum ada data untuk site ini.', 'info');
             return;
         }
-        // const hasOOC = Number(data.out_of_control_count || 0) > 0;
-        // const isOk =
-        //     data.cp_status === "OK" &&
-        //     data.cpk_status === "OK" &&
-        //     !hasOOC;
+
         const isOk =
             data.cp_status === "OK" &&
             data.cpk_status === "OK";
@@ -1538,52 +1440,16 @@ $(document).ready(function () {
     // -------------------------
     // 8. Initialization
     // -------------------------
-    (function initCarousel() {
-        let currentIndex = 0;
-        let paused = false;
-        const btn = document.getElementById("toggleCarousel");
 
-        function nextChart() {
-            if (paused) return;
-
-            SITES = getAllSites(); // Refresh List
-            if (SITES.length === 0) return;
-
-            if (currentIndex >= SITES.length) currentIndex = 0;
-            const site = SITES[currentIndex];
-
-            // Tampilkan SEMUA (tidak skip toggle off)
-            window.currentMainSite = site;
-            updateSiteLabel(site);
-            updateMainTitle(site);
-            updateMainCpCpkTable(site);
-
-            // Indikator Loading Main
-            if (!window.cachedChartData[site]) {
-                $('#mainChartViewer').html('<div class="d-flex justify-content-center align-items-center h-100"><div class="spinner-border text-primary"></div></div>');
-            }
-            renderViewerFromCache(site, 'carousel');
-            currentIndex = (currentIndex + 1) % SITES.length;
-        }
-
-        if (btn) {
-            btn.addEventListener('click', function () {
-                paused = !paused;
-                window.isCarouselPaused = paused;
-                btn.innerHTML = paused ? "▶️ Play" : "⏸️ Pause";
-                if (!paused) nextChart();
-            });
-        }
-        nextChart();
-        carouselIntervalId = setInterval(nextChart, 5000);
-    })();
 
     // Init Polling Global
-    (function initGlobalPolling() {
+    (function initGlobalScheduler() {
         const defaultInterval =
-            parseInt($('#globalIntervalSelect').val()) || 20000;
-        startFocusedPolling(defaultInterval);
+            parseInt($('#globalIntervalSelect').val()) || 120000; // 2 menit
+        // startGlobalScheduler(defaultInterval);
     })();
+
+
 
 
     (function initPageLoad() {
@@ -1599,35 +1465,51 @@ $(document).ready(function () {
             }
         });
 
-        $('.line').each(function () { if ($(this).val()) $(this).trigger('change'); });
+        Object.keys(window.dbConfig || {}).forEach(site => {
+            const cfg = window.dbConfig[site];
+            if (cfg?.line_id) {
+                $(`.line[data-site="${site}"]`)
+                    .val(cfg.line_id)
+                    .trigger('change');
+            }
+        });
+
         $('.site-setting-row').each(function () {
             const site = $(this).attr('data-site');
             const cfg = window.dbConfig[site];
             if (!cfg) return;
 
-            const $row = $(this); // 🔥 WAJIB
-
-            $row.find('.agg-mode').val(cfg.agg_mode);
-            $row.find('.range-start').val(cfg.start_col);
-            $row.find('.range-end').val(cfg.end_col);
-
-            $row.find('input[data-type="lcl"]').val(cfg.standard_lower);
-            $row.find('input[data-type="ucl"]').val(cfg.standard_upper);
-            $row.find('input[data-type="lower"]').val(cfg.lower_boundary);
-            $row.find('input[data-type="interval"]').val(cfg.interval_width);
-            $row.find('input[data-type="cp_limit"]').val(cfg.cp_limit);
-            $row.find('input[data-type="cpk_limit"]').val(cfg.cpk_limit);
+            $(this).find('input[data-type="lcl"]').val(cfg.standard_lower);
+            $(this).find('input[data-type="ucl"]').val(cfg.standard_upper);
+            $(this).find('input[data-type="lower"]').val(cfg.lower_boundary);
+            $(this).find('input[data-type="interval"]').val(cfg.interval_width);
+            $(this).find('input[data-type="cp_limit"]').val(cfg.cp_limit);
+            $(this).find('input[data-type="cpk_limit"]').val(cfg.cpk_limit);
+            $(this).find('.range-start').val(cfg.start_col);
+            $(this).find('.range-end').val(cfg.end_col);
+            $(this).find('.agg-mode').val(cfg.agg_mode);
         });
-        // setTimeout(() => {
-        //     SITES = getAllSites();
-        //     fetchSitesSequentially(SITES, 1000); // 1 detik per site
-        // }, 800);
+
+        setTimeout(() => {
+            window.isInitializingPage = false;
+            console.log('[INIT] selesai, save API aktif kembali');
+        }, 10000);
     })();
+
+
+    $('.site-setting-row').each(function () {
+        const site = $(this).attr('data-site');
+        const cfg = window.dbConfig?.[site];
+
+        if (cfg?.file_id) {
+            $(this).find('.agg-mode').prop('disabled', false);
+        }
+    });
 
     $(document).on('click', '[id$="AlertIcon"]', function () {
         let site = $(this).attr('id').replace("AlertIcon", "");
         if (!site) return;
-        if (site === 'main') site = window.currentMainSite;
+        // if (site === 'main') site = window.currentMainSite;
         showManualAlert(site);
     });
 
@@ -1669,17 +1551,96 @@ $(document).ready(function () {
         const labelEl = document.getElementById(`${site}Label`);
         if (labelEl) labelEl.textContent = newLabel;
 
-        // 🔥 UPDATE MAIN TITLE JIKA AKTIF
-        if (site === window.currentMainSite) {
-            updateMainTitle(site);
-        }
 
         // 🔥 SAVE KE DB
         saveSiteSettings(site);
     });
+    $(document).on('click', '.pause-slot-btn', function () {
+        const slot = $(this).data('slot');
+
+        window.pausedSlots[slot] = !window.pausedSlots[slot];
+
+        // Update icon
+        $(this).toggleClass('btn-danger btn-light');
+
+        if (window.pausedSlots[slot]) {
+            $(this).text('▶'); // resume icon
+            console.log(`Slot ${slot} paused`);
+        } else {
+            $(this).text('⏸');
+            console.log(`Slot ${slot} resumed`);
+        }
+    });
+
+    $('#pauseAllCarouselBtn').on('click', function () {
+        window.carouselPausedAll = !window.carouselPausedAll;
+
+        if (window.carouselPausedAll) {
+            $(this).text('▶ Resume All').removeClass('btn-warning').addClass('btn-success');
+            console.log('[CAROUSEL] Paused ALL');
+        } else {
+            $(this).text('⏸ Pause All').removeClass('btn-success').addClass('btn-warning');
+            console.log('[CAROUSEL] Resumed ALL');
+        }
+    });
 
     $(window).on('beforeunload unload', function () {
-        if (globalPollingId) clearTimeout(globalPollingId);
+        // stopGlobalScheduler();
         if (carouselIntervalId) clearInterval(carouselIntervalId);
     });
+
+    carouselIntervalId = setInterval(runMainCarousel, 8000);
+
+    primeCarouselSites()
+
+    setTimeout(() => {
+        runMainCarousel();
+    }, 500);
+
+    function primeCarouselSites() {
+        window.mainSiteGroups = buildMainSiteGroups();
+
+        window.mainSiteGroups.forEach(group => {
+            if (!group || !group.length) return;
+
+            group.forEach(site => {
+                if (!window.cachedChartData[site]) {
+                    enqueueChartRequest(site, false);
+                }
+            });
+        });
+    }
+
+
+    function staggerRefreshAllSites(intervalMs = 180000) {
+
+        function runCycle() {
+            const sites = getAllSites();
+            let index = 0;
+
+            function processNext() {
+                if (index >= sites.length) {
+                    console.log('[REFRESH] cycle done');
+                    setTimeout(runCycle, intervalMs);
+                    return;
+                }
+
+                const site = sites[index];
+
+                enqueueChartRequest(site, false);
+
+                index++;
+
+                // 🔥 DELAY ANTAR SITE (KUNCI ANTI BANJIR)
+                setTimeout(processNext, 400);
+            }
+
+            processNext();
+        }
+
+        runCycle();
+    }
+    setTimeout(() => {
+        staggerRefreshAllSites();
+    }, 15000);
 });
