@@ -3,8 +3,8 @@ require_once __DIR__ . '/../../includes/config.php';
 require __DIR__ . '/../../includes/header.php';
 
 $user_id = $_SESSION['user_id'] ?? 0;
-$_SESSION['halaman'] = 'report';
-$_SESSION['menu'] = 'report';
+$_SESSION['halaman'] = 'report2';
+$_SESSION['menu'] = 'report2';
 
 $stmt = $pdo->prepare("
 SELECT id, site_name, site_label 

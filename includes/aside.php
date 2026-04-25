@@ -97,7 +97,7 @@ function echoActiveClass($currentMenu, $menuName)
                         <ul class="menu-nav ">
                             <?php if ($role == "admin"): ?>
                                 <li class="menu-item <?= echoActiveClass($menu, 'monitor') ?>" aria-haspopup="true">
-                                    <a href="<?= BASE_URL . 'pages/index.html' ?>" class="menu-link ">
+                                    <a href="<?= BASE_URL . 'pages/index.php' ?>" class="menu-link ">
                                         <span class="svg-icon menu-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                     <polygon points="0 0 24 0 24 24 0 24" />
@@ -158,7 +158,7 @@ function echoActiveClass($currentMenu, $menuName)
                                     </a>
                                 </li>
 
-                                <li class="menu-item menu-item-submenu <?= echoActiveClass($menu, ['report', 'report_minmax']) ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                <li class="menu-item menu-item-submenu <?= echoActiveClass($menu, ['report', 'report2']) ?>" aria-haspopup="true" data-menu-toggle="hover">
                                     <a href="javascript:;" class="menu-link menu-toggle">
                                         <span class="svg-icon menu-icon"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Files\Selected-file.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -171,13 +171,13 @@ function echoActiveClass($currentMenu, $menuName)
                                     </a>
                                     <div class="menu-submenu "><i class="menu-arrow"></i>
                                         <ul class="menu-subnav">
-                                            <li class="menu-item <?= echoActiveClass($menu, 'standard') ?>" aria-haspopup="true">
+                                            <li class="menu-item <?= echoActiveClass($menu, 'report') ?>" aria-haspopup="true">
                                                 <a href="<?= BASE_URL . 'pages/report/' ?>" class="menu-link ">
                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>
                                                     <span class="menu-text">Standard</span>
                                                 </a>
                                             </li>
-                                            <li class="menu-item <?= echoActiveClass($menu, 'minmax') ?>" aria-haspopup="true">
+                                            <li class="menu-item <?= echoActiveClass($menu, 'report2') ?>" aria-haspopup="true">
                                                 <a href="<?= BASE_URL . 'pages/report2/' ?>" class="menu-link ">
                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>
                                                     <span class="menu-text">Min/Max</span>

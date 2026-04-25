@@ -35,8 +35,8 @@ $file_id        = (int)($_POST['file_id'] ?? 0);
 $line_id        = (int)($_POST['line_id'] ?? 0);
 $application_id = (int)($_POST['application_id'] ?? 0);
 $site_name      = $_POST['site_name'] ?? null;
+$site_label      = $_POST['site_label'] ?? null;
 $user_id        = $_SESSION['user_id'] ?? null;
-$site_label = $_POST['site_label'] ?? null;
 
 // New (range mode)
 $start_col = isset($_POST['start_col']) ? (int)$_POST['start_col'] : null;
@@ -47,39 +47,6 @@ $agg_mode  = strtolower($_POST['agg_mode'] ?? 'min'); // min | max
 if (!isset($_POST['standard_upper'], $_POST['standard_lower'], $_POST['lower_boundary'], $_POST['interval_width'])) {
     echo json_encode(['success' => false, 'message' => 'Parameter Excel tidak lengkap']);
     exit;
-}
-
-
-$cache_ttl = 300; // 5 menit
-$force = $_POST['force_refresh'] ?? false;
-
-$lockKey = "chart_" . $user_id . "_" . $site_name;
-$pdo->query("SELECT GET_LOCK('$lockKey', 5)");
-
-// ambil cache
-$stmt = $pdo->prepare("
-    SELECT payload_json, last_generated
-    FROM tbl_chart_cache_minmax
-    WHERE user_id = :user_id
-    AND site_name = :site
-    AND production_date = :date
-    LIMIT 1
-");
-
-$stmt->execute([
-    ':user_id' => $user_id,
-    ':site' => $site_name,
-    ':date' => $production_date
-]);
-
-if ($cache && !$force) {
-    $age = time() - strtotime($cache['last_generated']);
-
-    if ($age < $cache_ttl) {
-        $pdo->query("DO RELEASE_LOCK('$lockKey')");
-        echo $cache['payload_json'];
-        exit;
-    }
 }
 
 $usl = (float)$_POST['standard_upper'];
@@ -216,44 +183,9 @@ $values = $tmp_values;
 // ======================================================
 // (B) STATISTIK DASAR (TIDAK DIUBAH)
 // ======================================================
-$n = (int)($stats['cnt'] ?? 0);
-
-$min_required = 20;
-
-if ($n < $min_required) {
-
-    $output = [
-        'success' => true,
-        'insufficient_data' => true,
-        'message' => "Data belum cukup (minimal {$min_required}, sekarang {$n})",
-        'debug_total_data' => $n,
-        'series_data' => [],
-        'normal_curve' => [],
-        'cp' => null,
-        'cpk' => null,
-        'cp_status' => 'INSUFFICIENT',
-        'cpk_status' => 'INSUFFICIENT'
-    ];
-
-    $payload = json_encode($output);
-
-    // simpan ke cache juga
-    $pdo->prepare("
-        INSERT INTO tbl_chart_cache_minmax (user_id, site_name, production_date, payload_json, last_generated)
-        VALUES (:user_id, :site, :date, :payload, NOW())
-        ON DUPLICATE KEY UPDATE
-            payload_json = VALUES(payload_json),
-            last_generated = NOW()
-    ")->execute([
-        ':user_id' => $user_id,
-        ':site' => $site_name,
-        ':date' => $production_date,
-        ':payload' => $payload
-    ]);
-
-    $pdo->query("DO RELEASE_LOCK('$lockKey')");
-
-    echo $payload;
+$n = count($values);
+if ($n < 1) {
+    echo json_encode(['success' => false, 'message' => 'Data tidak cukup']);
     exit;
 }
 
@@ -435,26 +367,7 @@ $output['x_axis_max'] = max($usl, $max_val) + abs($user_interval_width);
 $output['midpoint_labels'] = array_map(fn($m) => round($m, 3), $midpoints);
 
 
-$payload = json_encode($output, JSON_UNESCAPED_UNICODE);
-
-// simpan cache
-$pdo->prepare("
-    INSERT INTO tbl_chart_cache_minmax (user_id, site_name, production_date, payload_json, last_generated)
-    VALUES (:user_id, :site, :date, :payload, NOW())
-    ON DUPLICATE KEY UPDATE
-        payload_json = VALUES(payload_json),
-        last_generated = NOW()
-")->execute([
-    ':user_id' => $user_id,
-    ':site' => $site_name,
-    ':date' => $production_date,
-    ':payload' => $payload
-]);
-
-// release lock
-$pdo->query("DO RELEASE_LOCK('$lockKey')");
-
-echo $payload;
+echo json_encode($output, JSON_UNESCAPED_UNICODE);
 exit;
 
 

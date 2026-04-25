@@ -27,7 +27,7 @@ function get_production_date($cutoff_hour = 6, $cutoff_minute = 0)
         $now->modify('-1 day');
     }
 
-    return "2026-01-08";
+    return "2026-01-09";
     // return $now->format('Y-m-d');
 }
 $production_date = get_production_date(6, 0);
@@ -47,39 +47,58 @@ if (empty($file_id) || empty($header_name)) {
 }
 
 $cache_ttl = 300; // 5 menit
-$force = $_POST['force_refresh'] ?? false;
-
-$lockKey = "chart_" . $user_id . "_" . $site_name;
-$pdo->query("SELECT GET_LOCK('$lockKey', 5)");
+$force = filter_var($_POST['force_refresh'] ?? false, FILTER_VALIDATE_BOOLEAN);
 
 // ambil cache
 $stmt = $pdo->prepare("
-    SELECT payload_json, last_generated
+    SELECT payload_json, last_generated,  next_update_at, production_date
     FROM tbl_chart_cache
     WHERE user_id = :user_id
     AND site_name = :site
-    AND production_date = :date
     LIMIT 1
 ");
 
 $stmt->execute([
     ':user_id' => $user_id,
     ':site' => $site_name,
-    ':date' => $production_date
 ]);
 
 $cache = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($cache && !$force) {
-    $age = time() - strtotime($cache['last_generated']);
 
-    if ($age < $cache_ttl) {
-        $pdo->query("DO RELEASE_LOCK('$lockKey')");
+if ($cache && !$force) {
+
+    if ($cache['production_date'] !== $production_date) {
+        // hari beda → paksa refresh
+    } else {
+        if (!empty($cache['next_update_at'])) {
+            $now = new DateTime();
+            $nextUpdate = new DateTime($cache['next_update_at']);
+
+            if ($now < $nextUpdate) {
+                echo $cache['payload_json'];
+                exit;
+            }
+        }
+    }
+}
+
+$lockKey = "chart_" . $user_id . "_" . $site_name;
+$stmtLock = $pdo->query("SELECT GET_LOCK('$lockKey', 5) as l");
+$lock = $stmtLock->fetch(PDO::FETCH_ASSOC)['l'];
+
+if (!$lock) {
+    if ($cache && $cache['production_date'] === $production_date) {
         echo $cache['payload_json'];
         exit;
     }
 }
-
+register_shutdown_function(function () use ($pdo, $lockKey) {
+    try {
+        $pdo->query("DO RELEASE_LOCK('$lockKey')");
+    } catch (Exception $e) {
+    }
+});
 
 // --- Parameter wajib sesuai Excel sheet
 if (!isset($_POST['standard_upper'], $_POST['standard_lower'], $_POST['lower_boundary'], $_POST['interval_width'])) {
@@ -210,21 +229,28 @@ if ($n < $min_required) {
     ];
 
     $payload = json_encode($output);
+    $interval = 6;
+    $random = rand(0, 60); // random 0–60 detik
 
-    // simpan ke cache juga
+    $nextUpdate = (new DateTime())
+        ->modify("+{$interval} minutes +{$random} seconds")
+        ->format('Y-m-d H:i:s');
+    // simpan cache
     $pdo->prepare("
-        INSERT INTO tbl_chart_cache (user_id, site_name, production_date, payload_json, last_generated)
-        VALUES (:user_id, :site, :date, :payload, NOW())
-        ON DUPLICATE KEY UPDATE
-            payload_json = VALUES(payload_json),
-            last_generated = NOW()
-    ")->execute([
+    INSERT INTO tbl_chart_cache 
+    (user_id, site_name, production_date, payload_json, last_generated, next_update_at)
+    VALUES (:user_id, :site, :date, :payload, NOW(), :next_update)
+    ON DUPLICATE KEY UPDATE
+        payload_json = VALUES(payload_json),
+        last_generated = NOW(),
+        next_update_at = :next_update
+")->execute([
         ':user_id' => $user_id,
         ':site' => $site_name,
         ':date' => $production_date,
-        ':payload' => $payload
+        ':payload' => $payload,
+        ':next_update' => $nextUpdate
     ]);
-
     $pdo->query("DO RELEASE_LOCK('$lockKey')");
 
     echo $payload;
@@ -374,7 +400,7 @@ $output = [
     'debug_total_data' => $n,
     'debug_bin_count' => $num_bins,
     'debug_predicted_total' => $predicted_total,
-    'line_name' => $line_name ?? null,
+    'line_name' => $line_id ?? null,
     'application_name' => $application_name ?? null,
     'file_name' => $file_name ?? null,
     'header_name' => $header_name ?? null,
@@ -423,18 +449,27 @@ $output['production_date'] = $production_date;
 
 $payload = json_encode($output, JSON_UNESCAPED_UNICODE);
 
+$interval = 6;
+$random = rand(0, 60); // random 0–60 detik
+
+$nextUpdate = (new DateTime())
+    ->modify("+{$interval} minutes +{$random} seconds")
+    ->format('Y-m-d H:i:s');
 // simpan cache
 $pdo->prepare("
-    INSERT INTO tbl_chart_cache (user_id, site_name, production_date, payload_json, last_generated)
-    VALUES (:user_id, :site, :date, :payload, NOW())
+    INSERT INTO tbl_chart_cache 
+    (user_id, site_name, production_date, payload_json, last_generated, next_update_at)
+    VALUES (:user_id, :site, :date, :payload, NOW(), :next_update)
     ON DUPLICATE KEY UPDATE
         payload_json = VALUES(payload_json),
-        last_generated = NOW()
+        last_generated = NOW(),
+        next_update_at = :next_update
 ")->execute([
     ':user_id' => $user_id,
     ':site' => $site_name,
     ':date' => $production_date,
-    ':payload' => $payload
+    ':payload' => $payload,
+    ':next_update' => $nextUpdate
 ]);
 
 // release lock

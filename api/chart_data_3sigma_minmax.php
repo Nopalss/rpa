@@ -25,7 +25,7 @@ function get_production_date($cutoff_hour = 6, $cutoff_minute = 0)
         $now->modify('-1 day');
     }
     // return $now->format('Y-m-d');
-    return "2026-01-08";
+    return "2026-01-09";
 }
 $production_date = get_production_date(6, 0);
 
@@ -49,12 +49,69 @@ if (!isset($_POST['standard_upper'], $_POST['standard_lower'], $_POST['lower_bou
     exit;
 }
 
+
+$cache_ttl = 300; // 5 menit
+$force = filter_var($_POST['force_refresh'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
+
+// ambil cache
+$stmt = $pdo->prepare("
+    SELECT payload_json, last_generated, next_update_at, production_date
+    FROM tbl_chart_cache_minmax
+    WHERE user_id = :user_id
+    AND site_name = :site
+    LIMIT 1
+");
+
+$stmt->execute([
+    ':user_id' => $user_id,
+    ':site' => $site_name,
+]);
+
+$cache = $stmt->fetch(PDO::FETCH_ASSOC); // 🔥 WAJIB
+
+
+if ($cache && !$force) {
+
+    if ($cache['production_date'] !== $production_date) {
+        // hari beda → paksa refresh
+    } else {
+        if (!empty($cache['next_update_at'])) {
+            $now = new DateTime();
+            $nextUpdate = new DateTime($cache['next_update_at']);
+
+            if ($now < $nextUpdate) {
+                echo $cache['payload_json'];
+                exit;
+            }
+        }
+    }
+}
+
+$lockKey = "chart_minmax_" . $user_id . "_" . $site_name;
+$stmtLock = $pdo->query("SELECT GET_LOCK('$lockKey', 1) as l");
+$lock = $stmtLock->fetch(PDO::FETCH_ASSOC)['l'];
+
+if (!$lock) {
+    if ($cache && $cache['production_date'] === $production_date) {
+        echo $cache['payload_json'];
+        exit;
+    }
+}
+register_shutdown_function(function () use ($pdo, $lockKey) {
+    try {
+        $pdo->query("DO RELEASE_LOCK('$lockKey')");
+    } catch (Exception $e) {
+    }
+});
+
 $usl = (float)$_POST['standard_upper'];
 $lsl = (float)$_POST['standard_lower'];
 $user_lower_boundary = (float)$_POST['lower_boundary'];
 $user_interval_width = (float)$_POST['interval_width'];
 
 if ($user_interval_width <= 0) {
+    $pdo->query("DO RELEASE_LOCK('$lockKey')");
     echo json_encode(['success' => false, 'message' => 'interval_width harus > 0']);
     exit;
 }
@@ -92,6 +149,7 @@ $tmp_values = [];
 if ($start_col !== null && $end_col !== null) {
 
     if ($start_col < 1 || $end_col > $TABLE2_MAX || $start_col > $end_col) {
+        $pdo->query("DO RELEASE_LOCK('$lockKey')");
         echo json_encode(['success' => false, 'message' => 'Range column tidak valid']);
         exit;
     }
@@ -174,6 +232,7 @@ if ($start_col !== null && $end_col !== null) {
         }
     }
 } else {
+    $pdo->query("DO RELEASE_LOCK('$lockKey')");
     echo json_encode(['success' => false, 'message' => 'Mode lama (1 header) belum diaktifkan di versi ini']);
     exit;
 }
@@ -184,8 +243,51 @@ $values = $tmp_values;
 // (B) STATISTIK DASAR (TIDAK DIUBAH)
 // ======================================================
 $n = count($values);
-if ($n < 1) {
-    echo json_encode(['success' => false, 'message' => 'Data tidak cukup']);
+
+$min_required = 20;
+
+if ($n < $min_required) {
+
+    $output = [
+        'success' => true,
+        'insufficient_data' => true,
+        'message' => "Data belum cukup (minimal {$min_required}, sekarang {$n})",
+        'debug_total_data' => $n,
+        'series_data' => [],
+        'normal_curve' => [],
+        'cp' => null,
+        'cpk' => null,
+        'cp_status' => 'INSUFFICIENT',
+        'cpk_status' => 'INSUFFICIENT'
+    ];
+
+    $payload = json_encode($output);
+    $interval = 6;
+    $random = rand(0, 60); // random 0–60 detik
+
+    $nextUpdate = (new DateTime())
+        ->modify("+{$interval} minutes +{$random} seconds")
+        ->format('Y-m-d H:i:s');
+
+    // simpan ke cache juga
+    $pdo->prepare("
+        INSERT INTO tbl_chart_cache_minmax (user_id, site_name, production_date, payload_json, last_generated, next_update_at)
+        VALUES (:user_id, :site, :date, :payload, NOW(), :next_update)
+        ON DUPLICATE KEY UPDATE
+            payload_json = VALUES(payload_json),
+            last_generated = NOW(),
+            next_update_at = :next_update
+    ")->execute([
+        ':user_id' => $user_id,
+        ':site' => $site_name,
+        ':date' => $production_date,
+        ':payload' => $payload,
+        ':next_update' => $nextUpdate
+    ]);
+
+    $pdo->query("DO RELEASE_LOCK('$lockKey')");
+
+    echo $payload;
     exit;
 }
 
@@ -321,7 +423,7 @@ $output = [
     'debug_total_data' => $n,
     'debug_bin_count' => $num_bins,
     'debug_predicted_total' => $predicted_total,
-    'line_name' => $line_name ?? null,
+    'line_name' => $line_id ?? null,
     'application_name' => $application_name ?? null,
     'file_name' => $file_name ?? null,
     'out_of_control' => $count_out > 0,
@@ -368,7 +470,36 @@ $output['x_axis_max'] = max($usl, $max_val) + abs($user_interval_width);
 $output['midpoint_labels'] = array_map(fn($m) => round($m, 3), $midpoints);
 
 
-echo json_encode($output, JSON_UNESCAPED_UNICODE);
+
+$payload = json_encode($output, JSON_UNESCAPED_UNICODE);
+$interval = 6;
+$random = rand(0, 60); // random 0–60 detik
+
+$nextUpdate = (new DateTime())
+    ->modify("+{$interval} minutes +{$random} seconds")
+    ->format('Y-m-d H:i:s');
+
+// simpan ke cache juga
+$pdo->prepare("
+        INSERT INTO tbl_chart_cache_minmax (user_id, site_name, production_date, payload_json, last_generated, next_update_at)
+        VALUES (:user_id, :site, :date, :payload, NOW(), :next_update)
+        ON DUPLICATE KEY UPDATE
+            payload_json = VALUES(payload_json),
+            last_generated = NOW(),
+            next_update_at = :next_update
+    ")->execute([
+    ':user_id' => $user_id,
+    ':site' => $site_name,
+    ':date' => $production_date,
+    ':payload' => $payload,
+    ':next_update' => $nextUpdate
+]);
+
+
+// release lock
+$pdo->query("DO RELEASE_LOCK('$lockKey')");
+
+echo $payload;
 exit;
 
 

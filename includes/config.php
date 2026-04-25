@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $host = "127.0.0.1"; // 👈 Gunakan IP langsung, bukan "localhost"
 $user = "root";
 $pass = "";
-$db = "rpa_core";
+$db = "rpa_core2";
 $charset = "utf8mb4";
 
 // Timezone & Base URL

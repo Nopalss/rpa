@@ -3,7 +3,6 @@ $(document).ready(function () {
     // ===============================
     // MAIN CAROUSEL CONFIG
     // ===============================
-    const DASHBOARD_NAMESPACE = 'minmax';
 
     const isViewer = false;
     const MAIN_SLOTS = 4;
@@ -12,11 +11,6 @@ $(document).ready(function () {
         slot: i,
         site: null
     }));
-
-
-
-
-
 
     function getCurrentProductionDate() {
         const now = new Date();
@@ -53,10 +47,22 @@ $(document).ready(function () {
             sites = sites.filter(site => {
                 const data = window.cachedChartData[site];
 
-                if (!data) return true; // biar tetap bisa fetch
+                if (!data) return true;
 
-                if (window.siteFilterMode === 'all') return true;
+                // ======================
+                // 🔥 FILTER LINE (BARU)
+                // ======================
+                if (window.selectedLines.length > 0) {
+                    const lineName = String(data.line_name);
 
+                    if (!window.selectedLines.includes(lineName)) {
+                        return false;
+                    }
+                }
+
+                // ======================
+                // FILTER NG / OK
+                // ======================
                 if (data.insufficient_data) return false;
 
                 const isOk =
@@ -102,7 +108,7 @@ $(document).ready(function () {
                 updateMainHeaderTitle(mainIdx, site);
 
             } else {
-                enqueueChartRequest(site, false);
+                enqueueChartRequest(site, true);
 
                 const hasChart =
                     window.apexChartsInstances[`main_slot_${mainIdx}`];
@@ -158,6 +164,20 @@ $(document).ready(function () {
             : ["site1", "site2", "site3", "site4", "site5"];
     }
 
+
+    function getVisibleSites() {
+        return window.mainSlots
+            .map(s => s.site)
+            .filter(Boolean);
+    }
+
+    function getBackgroundSites() {
+        const all = getAllSites();
+        const visible = getVisibleSites();
+
+        return all.filter(s => !visible.includes(s));
+    }
+
     let SITES = getAllSites();
 
     if (typeof HOST_URL === 'undefined') { console.warn('HOST_URL is not defined.'); }
@@ -191,11 +211,28 @@ $(document).ready(function () {
     window.chartApiBusy = false;
     window.siteFilterMode = 'all';
 
+    window.selectedLines = [];
+    window.inFlightRequests = window.inFlightRequests || {};
+    window.addEventListener('message', function (e) {
+
+        if (e.data?.type === 'SET_FILTER') {
+            window.siteFilterMode = e.data.mode;
+            window.mainCarouselIndex = [0, 0, 0, 0];
+        }
+
+        if (e.data?.type === 'SET_LINE_FILTER') {
+            window.selectedLines = e.data.lines || [];
+            window.mainCarouselIndex = [0, 0, 0, 0];
+        }
+
+    });
+
+
     function enqueueChartRequest(site, forceRefresh = false) {
         // 🔥 SKIP kalau sudah ada data & bukan force
-        if (!forceRefresh && window.cachedChartData[site]) {
-            return;
-        }
+        // if (!forceRefresh && window.cachedChartData[site]) {
+        //     return;
+        // }
         if (window.loadingCharts[site]) return;
 
         // 🔥 FAILSAFE RESET (WAJIB)
@@ -213,8 +250,10 @@ $(document).ready(function () {
         processChartQueue();
     }
 
+
+
     window.chartApiWorkers = 0;
-    const MAX_WORKERS = 6;
+    const MAX_WORKERS = 5;
 
     async function processChartQueue() {
         if (window.chartApiWorkers >= MAX_WORKERS) return;
@@ -864,7 +903,7 @@ $(document).ready(function () {
             }
 
             // Panggil API
-            window.loadingCharts[actual] = true;
+            // window.loadingCharts[actual] = true;
 
             const postData = {
                 site_name: actual,
@@ -880,7 +919,8 @@ $(document).ready(function () {
                 standard_lower: stdLower,
                 standard_upper: stdUpper,
                 lower_boundary: lowBoundary,
-                interval_width: intWidth
+                interval_width: intWidth,
+                force_refresh: forceRefresh ? 1 : 0
             };
 
 
@@ -975,7 +1015,7 @@ $(document).ready(function () {
                     reject(new Error('API failed'));
                 },
                 complete: function () {
-                    window.loadingCharts[actual] = false;
+                    // window.loadingCharts[actual] = false;
                     resolve(); // 🔥 INI KUNCI
                 }
             });
@@ -1065,11 +1105,19 @@ $(document).ready(function () {
     // -------------------------
     // 7. Settings & Events
     // -------------------------
+    window.savingSite = window.savingSite || {};
     function saveSiteSettings(site) {
+        if (window.isInitializingPage) return;
+        if (window.savingSite[site]) return;
+
+        window.savingSite[site] = true;
+
         const actual = resolveSite(site);
         const { $row } = safeRowForSite(actual);
-        if (!$row || $row.length === 0) return;
-
+        if (!$row || $row.length === 0) {
+            window.savingSite[site] = false;
+            return;
+        }
         const $header = $row.find('.headers');
 
         const settingsData = {
@@ -1098,7 +1146,10 @@ $(document).ready(function () {
             contentType: 'application/json',
             data: JSON.stringify(settingsData),
             dataType: 'json',
-            timeout: 10000
+            timeout: 10000,
+            complete: function () {
+                window.savingSite[site] = false;
+            }
         });
     }
 
@@ -1218,7 +1269,10 @@ $(document).ready(function () {
 
     $(document).on('change', '.limit-input', function () {
         const site = $(this).data('site');
+        window.lastCpCpkAlert = window.lastCpCpkAlert || {};
+        window.lastCpCpkAlert[site] = null;
 
+        delete window.cachedChartData[site]; // 🔥 penting juga
         saveSiteSettings(site);
         loadHistogramChart(site, false, true);
     });
@@ -1605,34 +1659,57 @@ $(document).ready(function () {
 
             group.forEach(site => {
                 if (!window.cachedChartData[site]) {
-                    enqueueChartRequest(site, false);
+                    enqueueChartRequest(site, true);
                 }
             });
         });
     }
 
 
-    function staggerRefreshAllSites(intervalMs = 180000) {
+    function staggerRefreshAllSites(intervalMs = 300000) {
 
         function runCycle() {
-            const sites = getAllSites();
+
+            const visible = getVisibleSites();
+
+            const visibleSites = visible.length
+                ? visible
+                : getAllSites().slice(0, 4);
+
+            const backgroundSites = getBackgroundSites()
+                .filter(s => !visibleSites.includes(s));
+
+            console.log('[PRIORITY] visible:', visibleSites);
+            console.log('[PRIORITY] background:', backgroundSites.length);
+
+            // 🔥 PRIORITY
+            visibleSites.forEach((site, i) => {
+                setTimeout(() => {
+                    enqueueChartRequest(site, false);
+                }, i * 500);
+            });
+
+            // 💤 BACKGROUND
             let index = 0;
 
+            const delay = backgroundSites.length
+                ? Math.max(500, intervalMs / backgroundSites.length)
+                : intervalMs;
+
             function processNext() {
-                if (index >= sites.length) {
+                if (index >= backgroundSites.length) {
                     console.log('[REFRESH] cycle done');
                     setTimeout(runCycle, intervalMs);
                     return;
                 }
 
-                const site = sites[index];
+                const site = backgroundSites[index];
 
                 enqueueChartRequest(site, false);
 
                 index++;
 
-                // 🔥 DELAY ANTAR SITE (KUNCI ANTI BANJIR)
-                setTimeout(processNext, 400);
+                setTimeout(processNext, delay);
             }
 
             processNext();
@@ -1640,7 +1717,8 @@ $(document).ready(function () {
 
         runCycle();
     }
+
     setTimeout(() => {
         staggerRefreshAllSites();
-    }, 15000);
+    }, 15000 + Math.random() * 20000);
 });
